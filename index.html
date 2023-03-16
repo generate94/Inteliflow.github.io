@@ -45,23 +45,27 @@
         const geometry = new THREE.BufferGeometry();
         const material = new THREE.PointsMaterial({ color: 0x000000, size: 0.5 });
 
-        // Function to create points
-        function createPoints(positions) {
-            geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
-            const points = new THREE.Points(geometry, material);
-            scene.add(points);
-        }
+       // Function to create points
+function createPoints(data) {
+    data.forEach(([x, y, z]) => {
+        const geometry = new THREE.SphereGeometry(0.5, 32, 32);
+        const material = new THREE.MeshBasicMaterial({ color: 0x000000 });
+        const point = new THREE.Mesh(geometry, material);
+        point.position.set(x, y, z);
+        scene.add(point);
+    });
+}
 
-        // Sample data (replace this with your data from Google Sheets)
-       const data = [
+// Sample data (replace this with your data from Google Sheets)
+const data = [
     [-5, 0, 0],
     [0, 5, 0],
     [5, 0, 0],
 ];
 
-        // Convert data to positions and create points
-        const positions = data.flat();
-        createPoints(positions);
+// Create points
+createPoints(data);
+
 
         // Line drawing functionality
         let drawLineMode = false;
