@@ -32,7 +32,7 @@
         // Set up the scene, camera, and renderer
         const scene = new THREE.Scene();
         const camera = new THREE.PerspectiveCamera(75, container.clientWidth / container.clientHeight, 0.1, 1000);
-        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+         const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
 renderer.setClearColor(0xffffff, 1);
 renderer.setClearAlpha(1);
 
@@ -46,16 +46,17 @@ renderer.setClearAlpha(1);
         const geometry = new THREE.BufferGeometry();
         const material = new THREE.PointsMaterial({ color: 0x000000, size: 0.5 });
 
-       // Function to create points
+      // Function to create points
 function createPoints(data) {
     data.forEach(([x, y, z]) => {
         const geometry = new THREE.SphereGeometry(0.5, 32, 32);
-        const material = new THREE.MeshBasicMaterial({ color: 0x000000 });
+        const material = new THREE.MeshBasicMaterial({ color: 0x0000ff });
         const point = new THREE.Mesh(geometry, material);
         point.position.set(x, y, z);
         scene.add(point);
     });
 }
+
 
 // Sample data (replace this with your data from Google Sheets)
 const data = [
@@ -120,7 +121,9 @@ createPoints(data);
         }
 
         // Set camera position and start animation
-        camera.position.z = 10;
+        camera.position.set(0, 0, 15);
+controls.target.set(0, 0, 0);
+
         animate();
     </script>
 </body>
