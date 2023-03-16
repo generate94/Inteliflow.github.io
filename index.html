@@ -43,7 +43,7 @@
 
         // Set up the geometry and material for the points
         const geometry = new THREE.BufferGeometry();
-        const material = new THREE.PointsMaterial({ color: 0x000000, size: 0.1 });
+        const material = new THREE.PointsMaterial({ color: 0x000000, size: 0.5 });
 
         // Function to create points
         function createPoints(positions) {
@@ -53,11 +53,11 @@
         }
 
         // Sample data (replace this with your data from Google Sheets)
-        const data = [
-            [1, 2, 3],
-            [4, 5, 6],
-            [7, 8, 9],
-        ];
+       const data = [
+    [-5, 0, 0],
+    [0, 5, 0],
+    [5, 0, 0],
+];
 
         // Convert data to positions and create points
         const positions = data.flat();
