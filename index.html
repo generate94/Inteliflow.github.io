@@ -12,7 +12,8 @@
 		<script type="module">
 			import * as THREE from 'https://unpkg.com/three/build/three.module.js';
 			import { OrbitControls } from 'https://unpkg.com/three/examples/jsm/controls/OrbitControls.js';
-			import { EXRLoader } from 'https://unpkg.com/three/examples/jsm/loaders/EXRLoader.js';
+			import { RGBELoader } from 'https://unpkg.com/three/examples/jsm/loaders/RGBELoader.js';
+
 
 			class CameraControl {
 			    zoomMode = false;
@@ -72,12 +73,13 @@
 			document.body.appendChild(renderer.domElement);
 
 			const pmremGenerator = new THREE.PMREMGenerator(renderer);
-			pmremGenerator.compileEquirectangularShader();
+pmremGenerator.compileEquirectangularShader();
 
-			new EXRLoader().load('https://threejs.org/examples/textures/equirectangular/piz_compressed.exr', function (texture) {
-				texture.mapping = THREE.EquirectangularReflectionMapping;
-				const cubeRenderTarget = pmremGenerator.fromEquirectangular(texture);
-				const envMap = cubeRenderTarget.texture;
+new RGBELoader().setDataType(THREE.UnsignedByteType)
+  .load('https://threejs.org/examples/textures/equirectangular/royal_esplanade_1k.hdr', function (texture) {
+    texture.mapping = THREE.EquirectangularReflectionMapping;
+    const cubeRenderTarget = pmremGenerator.fromEquirectangular(texture);
+    const envMap = cubeRenderTarget.texture;
 
 				// Sphere 1
 				const geometry1 = new THREE.SphereGeometry(0.5, 32, 32);
