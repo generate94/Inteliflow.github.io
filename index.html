@@ -9,8 +9,7 @@
 	</head>
 	<body>
 		<script type="module">
-			import * as THREE from 'https://unpkg.com/three@0.137.5/build/three.module.js';
-			import { OrbitControls } from 'https://unpkg.com/three@0.137.5/examples/jsm/controls/OrbitControls.js';
+			import * as THREE from 'https://unpkg.com/three/build/three.module.js';
 
 			const scene = new THREE.Scene();
 			const camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
@@ -33,24 +32,10 @@
 			sphere2.position.set(2, 0, 0);
 			scene.add( sphere2 );
 
-			// Grid helper
-			const gridSize = 10;
-			const gridDivisions = 10;
-			const gridHelper = new THREE.GridHelper(gridSize, gridDivisions, 0xffffff, 0xffffff);
-			scene.add(gridHelper);
-
-			camera.position.z = 15;
-
-			// OrbitControls
-			const controls = new OrbitControls(camera, renderer.domElement);
-			controls.enableDamping = true;
-			controls.dampingFactor = 0.05;
+			camera.position.z = 5;
 
 			function animate() {
 				requestAnimationFrame( animate );
-
-				controls.update();
-
 				renderer.render( scene, camera );
 			}
 
