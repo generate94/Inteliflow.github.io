@@ -1,143 +1,169 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="utf-8">
-		<title>2</title>
-		<style>
-			body { margin: 0; }
-		</style>
-	</head>
-	<body>
-		<div id="info" style="position: absolute; top: 10px; left: 10px;"></div>
-		<script type="module">
-			import * as THREE from 'https://unpkg.com/three/build/three.module.js';
+    <head>
+        <meta charset="utf-8">
+        <title>My three.js app</title>
+        <style>
+            body { margin: 0; }
+        </style>
+    </head>
+    <body>
+        <div id="info" style="position: absolute; top: 10px; left: 10px;"></div>
+        <script type="module">
+            import * as THREE from 'https://unpkg.com/three/build/three.module.js';
 
-			class CameraControl {
-			    zoomMode = false;
-			    press = false;
-			    sensitivity = 0.02;
+            class CameraControl {
+                zoomMode = false;
+                press = false;
+                sensitivity = 0.02;
 
-			    constructor(renderer, camera, updateCallback) {
-			        renderer.domElement.addEventListener('mousemove', event => {
-			            if (!this.press) { return; }
+                constructor(renderer, camera, updateCallback) {
+                    renderer.domElement.addEventListener('mousemove', event => {
+                        if (!this.press) { return; }
 
-			            if (event.button == 0) {
-			                camera.position.y -= event.movementY * this.sensitivity;
-			                camera.position.x -= event.movementX * this.sensitivity;
-			            } else if (event.button == 2) {
-			                camera.quaternion.y -= event.movementX * this.sensitivity / 10;
-			                camera.quaternion.x -= event.movementY * this.sensitivity / 10;
-			            }
+                        if (event.button == 0) {
+                            camera.position.y -= event.movementY * this.sensitivity;
+                            camera.position.x -= event.movementX * this.sensitivity;
+                        } else if (event.button == 2) {
+                            camera.quaternion.y -= event.movementX * this.sensitivity / 10;
+                            camera.quaternion.x -= event.movementY * this.sensitivity / 10;
+                        }
 
-			            updateCallback();
-			        });
+                        updateCallback();
+                    });
 
-			        renderer.domElement.addEventListener('mousedown', () => { this.press = true; });
-			        renderer.domElement.addEventListener('mouseup', () => { this.press = false; });
-			        renderer.domElement.addEventListener('mouseleave', () => { this.press = false; });
+                    renderer.domElement.addEventListener('mousedown', () => { this.press = true; });
+                    renderer.domElement.addEventListener('mouseup', () => { this.press = false; });
+                    renderer.domElement.addEventListener('mouseleave', () => { this.press = false; });
 
-			        document.addEventListener('keydown', event => {
-			            if (event.key == 'Shift') {
-			                this.zoomMode = true;
-			            }
-			        });
+                    document.addEventListener('keydown', event => {
+                        if (event.key == 'Shift') {
+                            this.zoomMode = true;
+                        }
+                    });
 
-			        document.addEventListener('keyup', event => {
-			            if (event.key == 'Shift') {
-			                this.zoomMode = false;
-			            }
-			        });
+                    document.addEventListener('keyup', event => {
+                        if (event.key == 'Shift') {
+                            this.zoomMode = false;
+                        }
+                    });
 
-			        renderer.domElement.addEventListener('mousewheel', event => {
-			            if (this.zoomMode) {
-			                camera.fov += event.wheelDelta * this.sensitivity;
-			                camera.updateProjectionMatrix();
-			            } else {
-			                camera.position.z += event.wheelDelta * this.sensitivity;
-			            }
+                    renderer.domElement.addEventListener('mousewheel', event => {
+                        if (this.zoomMode) {
+                            camera.fov += event.wheelDelta * this.sensitivity;
+                            camera.updateProjectionMatrix();
+                        } else {
+                            camera.position.z += event.wheelDelta * this.sensitivity;
+                        }
 
-			            updateCallback();
-			        });
-			    }
-			}
+                        updateCallback();
+                    });
+                }
+            }
 
-			const scene = new THREE.Scene();
-			const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-			scene.background = new THREE.Color(0xdeebed);
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            scene.background = new THREE.Color(0xdeebed);
 
-			const renderer = new THREE.WebGLRenderer();
-			renderer.setSize(window.innerWidth, window.innerHeight);
-			document.body.appendChild(renderer.domElement);
+            const renderer = new THREE.WebGLRenderer();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            document.body.appendChild(renderer.domElement);
 
-			// Add ambient light
-			const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
-			scene.add(ambientLight);
+            // Add ambient light
+            const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+            scene.add(ambientLight);
 
-			// Add point light
-			const pointLight = new THREE.PointLight(0xffffff, 1, 100);
-			pointLight.position.set(10, 10, 10);
-			scene.add(pointLight);
+            // Add point light
+            const pointLight = new THREE.PointLight(0xffffff, 1, 100);
+            pointLight.position.set(10, 10, 10);
+            scene.add(pointLight);
 
-			const sphereMaterial = new THREE.MeshPhongMaterial({ color: 0xffffff });
+            // Sphere 1
+            const geometry1 = new THREE.SphereGeometry(0.5, 32, 32);
+            const material1 = new THREE.MeshPhongMaterial({ color: 0xffffff });
+            const sphere1 = new THREE.Mesh(geometry1, material1);
+            sphere1.position.set(-2, 0, 0);
+            sphere1.userData = {
+                coords: sphere1.position,
+                inverseCoords: new THREE.Vector3(-sphere1.position.x, -sphere1.position.y, -sphere1.position.z),
+                url: "https://www.example.com",
+                title: "Placeholder Title",
+                summary: "Placeholder summary text",
+                imageUrl: "https://via.placeholder.com/150"
+            };
+            scene.add(sphere1);
 
-			// Sphere 1
-			const geometry1 = new THREE.SphereGeometry(0.5, 32, 32);
-			const sphere1 = new THREE.Mesh(geometry1, sphereMaterial);
-			sphere1.position.set(-2, 0, 0);
-			sphere1.userData = {
-			    coords: sphere1.position,
-			    inverseCoords: new THREE.Vector3(-sphere1.position.x, -sphere1.position.y, -sphere1.position.z),
-			    url: "https://www.example.com",
-			    title: "Placeholder Title",
-			    summary: "Placeholder summary text",
-			    imageUrl: "https://via.placeholder.com/150"
+            sphere1.addEventListener('click', () => {
+console.log(Coords: (${sphere1.userData.coords.x}, ${sphere1.userData.coords.y}, ${sphere1.userData.coords.z}));
+console.log(Inverse Coords: (${sphere1.userData.inverseCoords.x}, ${sphere1.userData.inverseCoords.y}, ${sphere1.userData.inverseCoords.z}));
+console.log(URL: ${sphere1.userData.url});
+console.log(Title: ${sphere1.userData.title});
+console.log(Summary: ${sphere1.userData.summary});
+console.log(Image URL: ${sphere1.userData.imageUrl});
+});
+
+// Add sphere 2 to the scene
+const sphere2 = new THREE.Mesh(geometry, sphereMaterial);
+sphere2.position.set(2, 0, 0);
+sphere2.userData = {
+coords: sphere2.position,
+inverseCoords: new THREE.Vector3(-sphere2.position.x, -sphere2.position.y, -sphere2.position.z),
+url: 'https://www.example.com',
+title: 'Example Title 2',
+summary: 'Example Summary 2',
+imageUrl: 'https://via.placeholder.com/150'
 };
-scene.add(sphere1);
-					sphere1.addEventListener('click', () => {
-		    console.log(`Coords: (${sphere1.userData.coords.x}, ${sphere1.userData.coords.y}, ${sphere1.userData.coords.z})`);
-		    console.log(`Inverse Coords: (${sphere1.userData.inverseCoords.x}, ${sphere1.userData.inverseCoords.y}, ${sphere1.userData.inverseCoords.z})`);
-		    console.log(`URL: ${sphere1.userData.url}`);
-		    console.log(`Title: ${sphere1.userData.title}`);
-		    console.log(`Summary: ${sphere1.userData.summary}`);
-		    console.log(`Image URL: ${sphere1.userData.imageUrl}`);
-		});
+scene.add(sphere2);
 
-		// Sphere 2
-		const geometry2 = new THREE.SphereGeometry(0.5, 32, 32);
-		const sphere2 = new THREE.Mesh(geometry2, sphereMaterial);
-		sphere2.position.set(2, 0, 0);
-		sphere2.userData = {
-		    coords: sphere2.position,
-		    inverseCoords: new THREE.Vector3(-sphere2.position.x, -sphere2.position.y, -sphere2.position.z),
-		    url: "https://www.example.com",
-		    title: "Placeholder Title",
-		    summary: "Placeholder summary text",
-		    imageUrl: "https://via.placeholder.com/150"
-		};
-		scene.add(sphere2);
+sphere2.addEventListener('click', () => {
+console.log(Coords: (${sphere2.userData.coords.x}, ${sphere2.userData.coords.y}, ${sphere2.userData.coords.z}));
+console.log(Inverse Coords: (${sphere2.userData.inverseCoords.x}, ${sphere2.userData.inverseCoords.y}, ${sphere2.userData.inverseCoords.z}));
+console.log(URL: ${sphere2.userData.url});
+console.log(Title: ${sphere2.userData.title});
+console.log(Summary: ${sphere2.userData.summary});
+console.log(Image URL: ${sphere2.userData.imageUrl});
+});
 
-		sphere2.addEventListener('click', () => {
-		    console.log(`Coords: (${sphere2.userData.coords.x}, ${sphere2.userData.coords.y}, ${sphere2.userData.coords.z})`);
-		    console.log(`Inverse Coords: (${sphere2.userData.inverseCoords.x}, ${sphere2.userData.inverseCoords.y}, ${sphere2.userData.inverseCoords.z})`);
-		    console.log(`URL: ${sphere2.userData.url}`);
-		    console.log(`Title: ${sphere2.userData.title}`);
-		    console.log(`Summary: ${sphere2.userData.summary}`);
-		    console.log(`Image URL: ${sphere2.userData.imageUrl}`);
-		});
+// Add an event listener for clicking on any object in the scene
+document.addEventListener('click', (event) => {
+const raycaster = new THREE.Raycaster();
+const mouse = new THREE.Vector2();
+	// Calculate mouse position in normalized device coordinates
+mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
 
-		camera.position.z = 5;
+// Cast a ray from the camera to the clicked point
+raycaster.setFromCamera(mouse, camera);
+const intersects = raycaster.intersectObjects(scene.children);
 
-		const animate = function () {
-		    requestAnimationFrame(animate);
+if (intersects.length > 0) {
+    const selectedObject = intersects[0].object;
+    const { x, y, z } = selectedObject.userData.coords;
+    const { x: ix, y: iy, z: iz } = selectedObject.userData.inverseCoords;
 
-		    sphere1.rotation.x += 0.01;
-		    sphere1.rotation.y += 0.01;
-		    sphere2.rotation.x += 0.01;
-		    sphere2.rotation.y -= 0.01;
+    console.log(`Selected object coordinates: (${x}, ${y}, ${z})`);
+    console.log(`Selected object inverse coordinates: (${ix}, ${iy}, ${iz})`);
+    console.log(`Selected object URL: ${selectedObject.userData.url}`);
+    console.log(`Selected object title: ${selectedObject.userData.title}`);
+    console.log(`Selected object summary: ${selectedObject.userData.summary}`);
+    console.log(`Selected object image URL: ${selectedObject.userData.imageUrl}`);
+}
+});
 
-		    renderer.render(scene, camera);
-		};
+camera.position.z = 5;
 
-		animate();
-	</script>
-</body>
+const cameraControl = new CameraControl(renderer, camera, () => {
+renderer.render(scene, camera);
+});
+
+function animate() {
+requestAnimationFrame(animate);
+renderer.render(scene, camera);
+}
+
+animate();
+		</script>
+	</body>
+</html>
+
+
