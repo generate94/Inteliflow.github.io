@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 	<head>
 		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+		<title>My first three.js app</title>
 		<style>
 			body { margin: 0; }
 		</style>
@@ -10,7 +10,55 @@
 	<body>
 		<script type="module">
 			import * as THREE from 'https://unpkg.com/three/build/three.module.js';
-			import { OrbitControls } from 'https://unpkg.com/three/examples/jsm/controls/OrbitControls.js';
+
+			class CameraControl {
+			    zoomMode = false;
+			    press = false;
+			    sensitivity = 0.02;
+
+			    constructor(renderer, camera, updateCallback) {
+			        renderer.domElement.addEventListener('mousemove', event => {
+			            if (!this.press) { return; }
+
+			            if (event.button == 0) {
+			                camera.position.y -= event.movementY * this.sensitivity;
+			                camera.position.x -= event.movementX * this.sensitivity;
+			            } else if (event.button == 2) {
+			                camera.quaternion.y -= event.movementX * this.sensitivity / 10;
+			                camera.quaternion.x -= event.movementY * this.sensitivity / 10;
+			            }
+
+			            updateCallback();
+			        });
+
+			        renderer.domElement.addEventListener('mousedown', () => { this.press = true; });
+			        renderer.domElement.addEventListener('mouseup', () => { this.press = false; });
+			        renderer.domElement.addEventListener('mouseleave', () => { this.press = false; });
+
+			        document.addEventListener('keydown', event => {
+			            if (event.key == 'Shift') {
+			                this.zoomMode = true;
+			            }
+			        });
+
+			        document.addEventListener('keyup', event => {
+			            if (event.key == 'Shift') {
+			                this.zoomMode = false;
+			            }
+			        });
+
+			        renderer.domElement.addEventListener('mousewheel', event => {
+			            if (this.zoomMode) {
+			                camera.fov += event.wheelDelta * this.sensitivity;
+			                camera.updateProjectionMatrix();
+			            } else {
+			                camera.position.z += event.wheelDelta * this.sensitivity;
+			            }
+
+			            updateCallback();
+			        });
+			    }
+			}
 
 			const scene = new THREE.Scene();
 			const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
@@ -38,29 +86,28 @@
 			gridHelper.position.set(0, 0, -5);
 			scene.add(gridHelper);
 
-			// Origin text
+						// Origin text
 			const loader = new THREE.FontLoader();
 			loader.load('https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/fonts/helvetiker_regular.typeface.json', font => {
 				const textGeometry = new THREE.TextGeometry('0', {
 					font: font,
-					size: 0.5,
-					height: 0.1,
-					curveSegments: 12,
+					size: 0.2,
+					height: 0.01,
 				});
-				const textMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff });
+				const textMaterial = new THREE.MeshBasicMaterial({ color: 0x000000 });
 				const textMesh = new THREE.Mesh(textGeometry, textMaterial);
-				textMesh.position.set(-0.15, -0.25, 0);
+				textMesh.position.set(-0.1, -0.1, -0.1);
 				scene.add(textMesh);
 			});
 
-			camera.position.z = 10;
+			camera.position.z = 5;
 
-			const controls = new OrbitControls(camera, renderer.domElement);
-			controls.enableDamping = true;
+			const cameraControl = new CameraControl(renderer, camera, () => {
+				renderer.render(scene, camera);
+			});
 
 			function animate() {
 				requestAnimationFrame(animate);
-				controls.update();
 				renderer.render(scene, camera);
 			}
 
@@ -68,3 +115,4 @@
 		</script>
 	</body>
 </html>
+
