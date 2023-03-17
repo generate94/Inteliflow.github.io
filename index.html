@@ -1,53 +1,94 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 	<head>
-		<title>three.js webgl - Updated Example</title>
 		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+		<title>My first three.js app</title>
 		<style>
-			body {
-				margin: 0;
-			}
-			canvas {
-				display: block;
-			}
+			body { margin: 0; }
 		</style>
 	</head>
 	<body>
 		<script type="module">
-			import * as THREE from 'https://cdn.skypack.dev/three@0.134.0';
+			import * as THREE from 'https://unpkg.com/three/build/three.module.js';
 
-			// Set up the scene, camera, and renderer
+			class CameraControl {
+			    zoomMode = false;
+			    press = false;
+			    sensitivity = 0.02;
+
+			    constructor(renderer, camera, updateCallback) {
+			        renderer.domElement.addEventListener('mousemove', event => {
+			            if (!this.press) { return; }
+
+			            if (event.button == 0) {
+			                camera.position.y -= event.movementY * this.sensitivity;
+			                camera.position.x -= event.movementX * this.sensitivity;
+			            } else if (event.button == 2) {
+			                camera.quaternion.y -= event.movementX * this.sensitivity / 10;
+			                camera.quaternion.x -= event.movementY * this.sensitivity / 10;
+			            }
+
+			            updateCallback();
+			        });
+
+			        renderer.domElement.addEventListener('mousedown', () => { this.press = true; });
+			        renderer.domElement.addEventListener('mouseup', () => { this.press = false; });
+			        renderer.domElement.addEventListener('mouseleave', () => { this.press = false; });
+
+			        document.addEventListener('keydown', event => {
+			            if (event.key == 'Shift') {
+			                this.zoomMode = true;
+			            }
+			        });
+
+			        document.addEventListener('keyup', event => {
+			            if (event.key == 'Shift') {
+			                this.zoomMode = false;
+			            }
+			        });
+
+			        renderer.domElement.addEventListener('mousewheel', event => {
+			            if (this.zoomMode) {
+			                camera.fov += event.wheelDelta * this.sensitivity;
+			                camera.updateProjectionMatrix();
+			            } else {
+			                camera.position.z += event.wheelDelta * this.sensitivity;
+			            }
+
+			            updateCallback();
+			        });
+			    }
+			}
+
 			const scene = new THREE.Scene();
 			const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+
 			const renderer = new THREE.WebGLRenderer();
 			renderer.setSize(window.innerWidth, window.innerHeight);
 			document.body.appendChild(renderer.domElement);
 
-			// Change the background color
-			scene.background = new THREE.Color(0xdeebed);
+			// Sphere 1
+			const geometry1 = new THREE.SphereGeometry(0.5, 32, 32);
+			const material1 = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+			const sphere1 = new THREE.Mesh(geometry1, material1);
+			sphere1.position.set(-2, 0, 0);
+			scene.add(sphere1);
 
-			// Add lighting
-			const pmremGenerator = new THREE.PMREMGenerator(renderer);
-			scene.environment = pmremGenerator.fromScene(new THREE.RoomEnvironment()).texture;
-
-			// Set renderer's output encoding and tone mapping
-			renderer.outputEncoding = THREE.sRGBEncoding;
-			renderer.toneMapping = THREE.ACESFilmicToneMapping;
-
-			// Add a cube to the scene
-			const geometry = new THREE.BoxGeometry();
-			const material = new THREE.MeshStandardMaterial({ color: 0x00ff00 });
-			const cube = new THREE.Mesh(geometry, material);
-			scene.add(cube);
+			// Sphere 2
+			const geometry2 = new THREE.SphereGeometry(0.5, 32, 32);
+			const material2 = new THREE.MeshBasicMaterial({ color: 0xff0000 });
+			const sphere2 = new THREE.Mesh(geometry2, material2);
+			sphere2.position.set(2, 0, 0);
+			scene.add(sphere2);
 
 			camera.position.z = 5;
 
-			// Animation loop
+			const cameraControl = new CameraControl(renderer, camera, () => {
+				renderer.render(scene, camera);
+			});
+
 			function animate() {
 				requestAnimationFrame(animate);
-				cube.rotation.x += 0.01;
-				cube.rotation.y += 0.01;
 				renderer.render(scene, camera);
 			}
 
