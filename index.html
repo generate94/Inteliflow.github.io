@@ -12,7 +12,52 @@
 			import * as THREE from 'https://unpkg.com/three/build/three.module.js';
 
 			class CameraControl {
-			    // ... (CameraControl class code remains the same)
+			    zoomMode = false;
+			    press = false;
+			    sensitivity = 0.02;
+
+			    constructor(renderer, camera, updateCallback) {
+			        renderer.domElement.addEventListener('mousemove', event => {
+			            if (!this.press) { return; }
+
+			            if (event.button == 0) {
+			                camera.position.y -= event.movementY * this.sensitivity;
+			                camera.position.x -= event.movementX * this.sensitivity;
+			            } else if (event.button == 2) {
+			                camera.quaternion.y -= event.movementX * this.sensitivity / 10;
+			                camera.quaternion.x -= event.movementY * this.sensitivity / 10;
+			            }
+
+			            updateCallback();
+			        });
+
+			        renderer.domElement.addEventListener('mousedown', () => { this.press = true; });
+			        renderer.domElement.addEventListener('mouseup', () => { this.press = false; });
+			        renderer.domElement.addEventListener('mouseleave', () => { this.press = false; });
+
+			        document.addEventListener('keydown', event => {
+			            if (event.key == 'Shift') {
+			                this.zoomMode = true;
+			            }
+			        });
+
+			        document.addEventListener('keyup', event => {
+			            if (event.key == 'Shift') {
+			                this.zoomMode = false;
+			            }
+			        });
+
+			        renderer.domElement.addEventListener('mousewheel', event => {
+			            if (this.zoomMode) {
+			                camera.fov += event.wheelDelta * this.sensitivity;
+			                camera.updateProjectionMatrix();
+			            } else {
+			                camera.position.z += event.wheelDelta * this.sensitivity;
+			            }
+
+			            updateCallback();
+			        });
+			    }
 			}
 
 			const scene = new THREE.Scene();
@@ -34,14 +79,14 @@
 
 			// Sphere 1
 			const geometry1 = new THREE.SphereGeometry(0.5, 32, 32);
-			const material1 = new THREE.MeshStandardMaterial({ color: 0x00ff00 });
+			const material1 = new THREE.MeshPhongMaterial({ color: 0x00ff00 });
 			const sphere1 = new THREE.Mesh(geometry1, material1);
 			sphere1.position.set(-2, 0, 0);
 			scene.add(sphere1);
 
 			// Sphere 2
 			const geometry2 = new THREE.SphereGeometry(0.5, 32, 32);
-			const material2 = new THREE.MeshStandardMaterial({ color: 0xff0000 });
+			const material2 = new THREE.MeshPhongMaterial({ color: 0xff0000 });
 			const sphere2 = new THREE.Mesh(geometry2, material2);
 			sphere2.position.set(2, 0, 0);
 			scene.add(sphere2);
@@ -61,3 +106,5 @@
 		</script>
 	</body>
 </html>
+
+
