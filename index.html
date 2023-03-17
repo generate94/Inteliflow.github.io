@@ -2,7 +2,7 @@
 <html>
 	<head>
 		<meta charset="utf-8">
-		<title>1.js app</title>
+		<title>2.js app</title>
 		<style>
 			body { margin: 0; }
 		</style>
@@ -11,7 +11,8 @@
 		<script type="module">
 			import * as THREE from 'https://unpkg.com/three/build/three.module.js';
 			import { OrbitControls } from 'https://unpkg.com/three/examples/jsm/controls/OrbitControls.js';
-			import { EXRLoader } from 'https://unpkg.com/three/examples/jsm/loaders/EXRLoader.js';
+			import { RGBELoader } from 'https://unpkg.com/three/examples/jsm/loaders/RGBELoader.js';
+
 
 			class CameraControl {
 			    zoomMode = false;
@@ -98,17 +99,19 @@
 			const controls = new OrbitControls(camera, renderer.domElement);
 
 			// Load environment map
-			new EXRLoader().load('textures/piz_compressed.exr', function (texture) {
-				texture.mapping = THREE.EquirectangularReflectionMapping;
-				const envMap = texture;
+			const pmremGenerator = new THREE.PMREMGenerator(renderer);
+pmremGenerator.compileEquirectangularShader();
 
-				// Apply environment map to materials
-				material1.envMap = envMap;
-				material1.needsUpdate = true;
+new RGBELoader()
+    .setDataType(THREE.UnsignedByteType)
+    .load('https://threejs.org/examples/textures/equirectangular/royal_esplanade_1k.hdr', function (texture) {
+        const envMap = pmremGenerator.fromEquirectangular(texture).texture;
+        scene.background = envMap;
+        scene.environment = envMap;
 
-				material2.envMap = envMap;
-				material2.needsUpdate = true;
-			});
+        texture.dispose();
+        pmremGenerator.dispose();
+    });
 
 			const animate = function () {
 				requestAnimationFrame(animate);
