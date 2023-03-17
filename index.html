@@ -10,95 +10,75 @@
 	<body>
 		<script type="module">
 			import * as THREE from 'https://unpkg.com/three/build/three.module.js';
+			import { OrbitControls } from 'https://unpkg.com/three@0.128.0/examples/jsm/controls/OrbitControls.js';
+			import { EXRLoader } from 'https://unpkg.com/three@0.128.0/examples/jsm/loaders/EXRLoader.js';
+			import { GUI } from 'https://unpkg.com/three@0.128.0/examples/jsm/libs/dat.gui.module.js';
 
-			class CameraControl {
-			    zoomMode = false;
-			    press = false;
-			    sensitivity = 0.02;
+			// ... CameraControl class ...
 
-			    constructor(renderer, camera, updateCallback) {
-			        renderer.domElement.addEventListener('mousemove', event => {
-			            if (!this.press) { return; }
+			const params = {
+				envMap: 'EXR',
+				roughness: 0.0,
+				metalness: 0.0,
+				exposure: 1.0,
+			};
 
-			            if (event.button == 0) {
-			                camera.position.y -= event.movementY * this.sensitivity;
-			                camera.position.x -= event.movementX * this.sensitivity;
-			            } else if (event.button == 2) {
-			                camera.quaternion.y -= event.movementX * this.sensitivity / 10;
-			                camera.quaternion.x -= event.movementY * this.sensitivity / 10;
-			            }
+			// ... rest of your code ...
 
-			            updateCallback();
-			        });
+			// Add environment maps
+			const pmremGenerator = new THREE.PMREMGenerator( renderer );
+			pmremGenerator.compileEquirectangularShader();
 
-			        renderer.domElement.addEventListener('mousedown', () => { this.press = true; });
-			        renderer.domElement.addEventListener('mouseup', () => { this.press = false; });
-			        renderer.domElement.addEventListener('mouseleave', () => { this.press = false; });
+			let exrCubeRenderTarget, pngCubeRenderTarget;
+			new EXRLoader().load( 'textures/piz_compressed.exr', function ( texture ) {
+				texture.mapping = THREE.EquirectangularReflectionMapping;
+				exrCubeRenderTarget = pmremGenerator.fromEquirectangular( texture );
+			} );
 
-			        document.addEventListener('keydown', event => {
-			            if (event.key == 'Shift') {
-			                this.zoomMode = true;
-			            }
-			        });
+			new THREE.TextureLoader().load( 'textures/equirectangular.png', function ( texture ) {
+						texture.mapping = THREE.EquirectangularReflectionMapping;
+				texture.encoding = THREE.sRGBEncoding;
+				pngCubeRenderTarget = pmremGenerator.fromEquirectangular( texture );
+			} );
 
-			        document.addEventListener('keyup', event => {
-			            if (event.key == 'Shift') {
-			                this.zoomMode = false;
-			            }
-			        });
+			renderer.toneMapping = THREE.ACESFilmicToneMapping;
+			renderer.outputEncoding = THREE.sRGBEncoding;
 
-			        renderer.domElement.addEventListener('mousewheel', event => {
-			            if (this.zoomMode) {
-			                camera.fov += event.wheelDelta * this.sensitivity;
-			                camera.updateProjectionMatrix();
-			            } else {
-			                camera.position.z += event.wheelDelta * this.sensitivity;
-			            }
+			function updateMaterials() {
+				let newEnvMap;
+				switch (params.envMap) {
+					case "EXR":
+						newEnvMap = exrCubeRenderTarget ? exrCubeRenderTarget.texture : null;
+						break;
+					case "PNG":
+						newEnvMap = pngCubeRenderTarget ? pngCubeRenderTarget.texture : null;
+						break;
+				}
 
-			            updateCallback();
-			        });
-			    }
+				sphere1.material.roughness = params.roughness;
+				sphere1.material.metalness = params.metalness;
+				sphere1.material.envMap = newEnvMap;
+				sphere1.material.needsUpdate = true;
+
+				sphere2.material.roughness = params.roughness;
+				sphere2.material.metalness = params.metalness;
+				sphere2.material.envMap = newEnvMap;
+				sphere2.material.needsUpdate = true;
 			}
 
-			const scene = new THREE.Scene();
-			const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-			scene.background = new THREE.Color(0xdeebed);
-
-			const renderer = new THREE.WebGLRenderer();
-			renderer.setSize(window.innerWidth, window.innerHeight);
-			document.body.appendChild(renderer.domElement);
-
-			// Add ambient light
-			const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
-			scene.add(ambientLight);
-
-			// Add point light
-			const pointLight = new THREE.PointLight(0xffffff, 1, 100);
-			pointLight.position.set(10, 10, 10);
-			scene.add(pointLight);
-
-			// Sphere 1
-			const geometry1 = new THREE.SphereGeometry(0.5, 32, 32);
-			const material1 = new THREE.MeshPhongMaterial({ color: 0x00ff00 });
-			const sphere1 = new THREE.Mesh(geometry1, material1);
-			sphere1.position.set(-2, 0, 0);
-			scene.add(sphere1);
-
-			// Sphere 2
-			const geometry2 = new THREE.SphereGeometry(0.5, 32, 32);
-			const material2 = new THREE.MeshPhongMaterial({ color: 0xff0000 });
-			const sphere2 = new THREE.Mesh(geometry2, material2);
-			sphere2.position.set(2, 0, 0);
-			scene.add(sphere2);
-
-			camera.position.z = 5;
-
-			const cameraControl = new CameraControl(renderer, camera, () => {
-				renderer.render(scene, camera);
-			});
+			// Set up the GUI
+			const gui = new GUI();
+			gui.add(params, "envMap", ["EXR", "PNG"]);
+			gui.add(params, "roughness", 0, 1, 0.01);
+			gui.add(params, "metalness", 0, 1, 0.01);
+			gui.add(params, "exposure", 0, 2, 0.01);
+			gui.open();
 
 			function animate() {
 				requestAnimationFrame(animate);
+
+				updateMaterials();
+				renderer.toneMappingExposure = params.exposure;
 				renderer.render(scene, camera);
 			}
 
@@ -106,5 +86,3 @@
 		</script>
 	</body>
 </html>
-
-
