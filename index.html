@@ -23,13 +23,14 @@
 			renderer.setSize(window.innerWidth, window.innerHeight);
 			document.body.appendChild(renderer.domElement);
 
-			// Add lighting
-			const pmremGenerator = new THREE.PMREMGenerator(renderer);
-			scene.environment = pmremGenerator.fromScene(new THREE.RoomEnvironment()).texture;
+			// Add ambient light
+			const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+			scene.add(ambientLight);
 
-			// Set renderer's output encoding and tone mapping
-			renderer.outputEncoding = THREE.sRGBEncoding;
-			renderer.toneMapping = THREE.ACESFilmicToneMapping;
+			// Add point light
+			const pointLight = new THREE.PointLight(0xffffff, 1, 100);
+			pointLight.position.set(10, 10, 10);
+			scene.add(pointLight);
 
 			// Sphere 1
 			const geometry1 = new THREE.SphereGeometry(0.5, 32, 32);
