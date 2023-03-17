@@ -32,7 +32,46 @@
 			sphere2.position.set(2, 0, 0);
 			scene.add( sphere2 );
 
-			camera.position.z = 5;
+			// Grid
+			const gridGeometry = new THREE.BufferGeometry();
+			const gridMaterial = new THREE.LineBasicMaterial({ color: 0xffffff });
+			const gridSize = 10;
+			const gridDivisions = 10;
+			const gridStep = gridSize / gridDivisions;
+			const gridHalfSize = gridSize / 2;
+
+			const vertices = [];
+			for (let i = 0; i <= gridDivisions; i++) {
+				const pos = -gridHalfSize + i * gridStep;
+
+				// X axis lines
+				vertices.push(pos, -gridHalfSize, -gridHalfSize);
+				vertices.push(pos, gridHalfSize, -gridHalfSize);
+
+				vertices.push(pos, -gridHalfSize, gridHalfSize);
+				vertices.push(pos, gridHalfSize, gridHalfSize);
+
+				// Y axis lines
+				vertices.push(-gridHalfSize, pos, -gridHalfSize);
+				vertices.push(gridHalfSize, pos, -gridHalfSize);
+
+				vertices.push(-gridHalfSize, pos, gridHalfSize);
+				vertices.push(gridHalfSize, pos, gridHalfSize);
+
+				// Z axis lines
+				vertices.push(-gridHalfSize, -gridHalfSize, pos);
+				vertices.push(-gridHalfSize, gridHalfSize, pos);
+
+				vertices.push(gridHalfSize, -gridHalfSize, pos);
+				vertices.push(gridHalfSize, gridHalfSize, pos);
+			}
+
+			const float32Vertices = new Float32Array(vertices);
+			gridGeometry.setAttribute('position', new THREE.BufferAttribute(float32Vertices, 3));
+			const grid = new THREE.LineSegments(gridGeometry, gridMaterial);
+			scene.add(grid);
+
+			camera.position.z = 15;
 
 			function animate() {
 				requestAnimationFrame( animate );
