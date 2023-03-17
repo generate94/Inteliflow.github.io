@@ -78,18 +78,19 @@
 			scene.add(pointLight);
 
 			// Sphere 1
-			const geometry1 = new THREE.SphereGeometry(0.5, 32, 32);
-			const material1 = new THREE.MeshPhongMaterial({ color: 0x00ff00 });
-			const sphere1 = new THREE.Mesh(geometry1, material1);
-			sphere1.position.set(-2, 0, 0);
-			scene.add(sphere1);
+const geometry1 = new THREE.SphereGeometry(0.5, 32, 32);
+const material1 = new THREE.MeshStandardMaterial({ color: 0x00ff00 });
+const sphere1 = new THREE.Mesh(geometry1, material1);
+sphere1.position.set(-2, 0, 0);
+scene.add(sphere1);
 
-			// Sphere 2
-			const geometry2 = new THREE.SphereGeometry(0.5, 32, 32);
-			const material2 = new THREE.MeshPhongMaterial({ color: 0xff0000 });
-			const sphere2 = new THREE.Mesh(geometry2, material2);
-			sphere2.position.set(2, 0, 0);
-			scene.add(sphere2);
+// Sphere 2
+const geometry2 = new THREE.SphereGeometry(0.5, 32, 32);
+const material2 = new THREE.MeshStandardMaterial({ color: 0x00ff00 });
+const sphere2 = new THREE.Mesh(geometry2, material2);
+sphere2.position.set(2, 0, 0);
+scene.add(sphere2);
+
 
 			// Line
 			const materialLine = new THREE.LineBasicMaterial({ color: 0x0000ff });
