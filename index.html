@@ -1,60 +1,53 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 	<head>
+		<title>three.js webgl - Updated Example</title>
 		<meta charset="utf-8">
-		<title>My first three.js app</title>
+		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
 		<style>
-			body { margin: 0; }
+			body {
+				margin: 0;
+			}
+			canvas {
+				display: block;
+			}
 		</style>
 	</head>
 	<body>
 		<script type="module">
-			import * as THREE from 'https://unpkg.com/three/build/three.module.js';
+			import * as THREE from 'https://cdn.skypack.dev/three@0.134.0';
 
-			class CameraControl {
-				// ... (no changes here)
-			}
-
+			// Set up the scene, camera, and renderer
 			const scene = new THREE.Scene();
 			const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-
 			const renderer = new THREE.WebGLRenderer();
 			renderer.setSize(window.innerWidth, window.innerHeight);
 			document.body.appendChild(renderer.domElement);
 
-			// Grid layer
-			const grid = new THREE.GridHelper(10, 10);
-			grid.position.set(0, 0, -5);
-			scene.add(grid);
+			// Change the background color
+			scene.background = new THREE.Color(0xdeebed);
 
-			// Sphere 1
-			// ... (no changes here)
+			// Add lighting
+			const pmremGenerator = new THREE.PMREMGenerator(renderer);
+			scene.environment = pmremGenerator.fromScene(new THREE.RoomEnvironment()).texture;
 
-			// Sphere 2
-			// ... (no changes here)
+			// Set renderer's output encoding and tone mapping
+			renderer.outputEncoding = THREE.sRGBEncoding;
+			renderer.toneMapping = THREE.ACESFilmicToneMapping;
 
-			// Origin text
-			const loader = new THREE.FontLoader();
-			loader.load('https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/fonts/helvetiker_regular.typeface.json', font => {
-				const textGeometry = new THREE.TextGeometry('0', {
-					font: font,
-					size: 0.2,
-					height: 0.01,
-				});
-				const textMaterial = new THREE.MeshBasicMaterial({ color: 0x000000 });
-				const textMesh = new THREE.Mesh(textGeometry, textMaterial);
-				textMesh.position.set(-0.1, -0.1, 0);
-				scene.add(textMesh);
-			});
+			// Add a cube to the scene
+			const geometry = new THREE.BoxGeometry();
+			const material = new THREE.MeshStandardMaterial({ color: 0x00ff00 });
+			const cube = new THREE.Mesh(geometry, material);
+			scene.add(cube);
 
 			camera.position.z = 5;
 
-			const cameraControl = new CameraControl(renderer, camera, () => {
-				renderer.render(scene, camera);
-			});
-
+			// Animation loop
 			function animate() {
 				requestAnimationFrame(animate);
+				cube.rotation.x += 0.01;
+				cube.rotation.y += 0.01;
 				renderer.render(scene, camera);
 			}
 
