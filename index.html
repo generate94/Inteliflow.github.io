@@ -9,7 +9,8 @@
 	</head>
 	<body>
 		<script type="module">
-			import * as THREE from 'https://unpkg.com/three/build/three.module.js';
+			import * as THREE from 'https://unpkg.com/three@0.137.5/build/three.module.js';
+			import { OrbitControls } from 'https://unpkg.com/three@0.137.5/examples/jsm/controls/OrbitControls.js';
 
 			const scene = new THREE.Scene();
 			const camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
@@ -19,67 +20,36 @@
 			document.body.appendChild( renderer.domElement );
 
 			// Sphere 1
-			const geometry1 = new THREE.SphereGeometry( 1, 32, 32 );
+			const geometry1 = new THREE.SphereGeometry( 0.5, 32, 32 );
 			const material1 = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
 			const sphere1 = new THREE.Mesh( geometry1, material1 );
 			sphere1.position.set(-2, 0, 0);
 			scene.add( sphere1 );
 
 			// Sphere 2
-			const geometry2 = new THREE.SphereGeometry( 1, 32, 32 );
+			const geometry2 = new THREE.SphereGeometry( 0.5, 32, 32 );
 			const material2 = new THREE.MeshBasicMaterial( { color: 0xff0000 } );
 			const sphere2 = new THREE.Mesh( geometry2, material2 );
 			sphere2.position.set(2, 0, 0);
 			scene.add( sphere2 );
 
-			// Grid
-			const gridGeometry = new THREE.BufferGeometry();
-			const gridMaterial = new THREE.LineBasicMaterial({ color: 0xffffff });
+			// Grid helper
 			const gridSize = 10;
 			const gridDivisions = 10;
-			const gridStep = gridSize / gridDivisions;
-			const gridHalfSize = gridSize / 2;
-
-			const vertices = [];
-			for (let i = 0; i <= gridDivisions; i++) {
-				const pos = -gridHalfSize + i * gridStep;
-
-				// X axis lines
-				vertices.push(pos, -gridHalfSize, -gridHalfSize);
-				vertices.push(pos, gridHalfSize, -gridHalfSize);
-
-				vertices.push(pos, -gridHalfSize, gridHalfSize);
-				vertices.push(pos, gridHalfSize, gridHalfSize);
-
-				// Y axis lines
-				vertices.push(-gridHalfSize, pos, -gridHalfSize);
-				vertices.push(gridHalfSize, pos, -gridHalfSize);
-
-				vertices.push(-gridHalfSize, pos, gridHalfSize);
-				vertices.push(gridHalfSize, pos, gridHalfSize);
-
-				// Z axis lines
-				vertices.push(-gridHalfSize, -gridHalfSize, pos);
-				vertices.push(-gridHalfSize, gridHalfSize, pos);
-
-				vertices.push(gridHalfSize, -gridHalfSize, pos);
-				vertices.push(gridHalfSize, gridHalfSize, pos);
-			}
-
-			const float32Vertices = new Float32Array(vertices);
-			gridGeometry.setAttribute('position', new THREE.BufferAttribute(float32Vertices, 3));
-			const grid = new THREE.LineSegments(gridGeometry, gridMaterial);
-			scene.add(grid);
+			const gridHelper = new THREE.GridHelper(gridSize, gridDivisions, 0xffffff, 0xffffff);
+			scene.add(gridHelper);
 
 			camera.position.z = 15;
+
+			// OrbitControls
+			const controls = new OrbitControls(camera, renderer.domElement);
+			controls.enableDamping = true;
+			controls.dampingFactor = 0.05;
 
 			function animate() {
 				requestAnimationFrame( animate );
 
-				sphere1.rotation.x += 0.01;
-				sphere1.rotation.y += 0.01;
-				sphere2.rotation.x += 0.01;
-				sphere2.rotation.y += 0.01;
+				controls.update();
 
 				renderer.render( scene, camera );
 			}
