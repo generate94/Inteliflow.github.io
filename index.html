@@ -2,7 +2,7 @@
 <html>
 	<head>
 		<meta charset="utf-8">
-		<title>Inteliflow 1</title>
+		<title>My first three.js app</title>
 		<style>
 			body { margin: 0; }
 		</style>
@@ -91,19 +91,48 @@
 			sphere2.position.set(2, 0, 0);
 			scene.add(sphere2);
 
-			camera.position.z = 5;
+			// Line
+			const materialLine = new THREE.LineBasicMaterial({ color: 0x0000ff });
+const points = [];
+const geometryLine = new THREE.BufferGeometry().setFromPoints(points);
+const line = new THREE.Line(geometryLine, materialLine);
+scene.add(line);
 
-			const cameraControl = new CameraControl(renderer, camera, () => {
-				renderer.render(scene, camera);
-			});
+// Add event listener for adding points to the line
+document.addEventListener('click', (event) => {
+// Check if line button is clicked
+if (event.target.id === 'line-btn') {
+// Get position of the click in 3D space
+const mouse = new THREE.Vector2();
+mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+	    const raycaster = new THREE.Raycaster();
+    raycaster.setFromCamera(mouse, camera);
+    const intersects = raycaster.intersectObjects(scene.children);
 
-			function animate() {
-				requestAnimationFrame(animate);
-				renderer.render(scene, camera);
-			}
+    // Add point to line if intersection found
+    if (intersects.length > 0) {
+        const point = intersects[0].point;
+        points.push(point);
+        geometryLine.setFromPoints(points);
+    }
+}
+});
 
-			animate();
-		</script>
+camera.position.z = 5;
+
+const cameraControl = new CameraControl(renderer, camera, () => {
+renderer.render(scene, camera);
+});
+
+function animate() {
+requestAnimationFrame(animate);
+renderer.render(scene, camera);
+}
+
+animate();
+			</script>
 	</body>
 </html>
+
 
