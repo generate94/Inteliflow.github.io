@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>qss app</title>
+        <title>q111 app</title>
 	<meta http-equiv="Permissions-Policy" content="geolocation=(self 'https://trusted-site.example')">
   </head>
         <style>
@@ -117,12 +117,7 @@ fetch(`https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${sheetRa
       imageUrl: row[10],
     };
     scene.add(sphere);
-  })
-  .catch(error => {
-    console.error('Error fetching data:', error);
-  });
-
-// Create the info div
+	// Create the info div
 const infoDiv = document.createElement('div');
 infoDiv.style.cssText = `
   position: absolute;
@@ -195,6 +190,10 @@ canvas.addEventListener('click', (event) => {
   } else {
     infoDiv.style.display = 'none';
   }
+  })
+  .catch(error => {
+    console.error('Error fetching data:', error);
+  });
 });
             // Sphere 1
 const geometry1 = new THREE.SphereGeometry(0.5, 32, 32);
