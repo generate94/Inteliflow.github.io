@@ -95,12 +95,15 @@
             scene.add(sphere1);
 
             sphere1.addEventListener('click', () => {
-    console.log(`Coords: (${sphere1.userData.coords.x}, ${sphere1.userData.coords.y}, ${sphere1.userData.coords.z})`);
-    console.log(`Inverse Coords: (${sphere1.userData.inverseCoords.x}, ${sphere1.userData.inverseCoords.y}, ${sphere1.userData.inverseCoords.z})`);
-    console.log(`URL: ${sphere1.userData.url}`);
-    console.log(`Title: ${sphere1.userData.title}`);
-    console.log(`Summary: ${sphere1.userData.summary}`);
-    console.log(`Image URL: ${sphere1.userData.imageUrl}`);
+    const infoDiv = document.getElementById('info');
+    infoDiv.innerHTML = `<p>Coords: (${sphere1.userData.coords.x}, ${sphere1.userData.coords.y}, ${sphere1.userData.coords.z})</p>
+                          <p>Inverse Coords: (${sphere1.userData.inverseCoords.x}, ${sphere1.userData.inverseCoords.y}, ${sphere1.userData.inverseCoords.z})</p>
+                          <p>URL: ${sphere1.userData.url}</p>
+                          <p>Title: ${sphere1.userData.title}</p>
+                          <p>Summary: ${sphere1.userData.summary}</p>
+                          <img src="${sphere1.userData.imageUrl}" alt="Sphere 1 Image" width="150" height="150">`;
+});
+
 });
 
 // Add sphere 2 to the scene
