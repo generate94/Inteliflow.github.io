@@ -93,6 +93,8 @@ sphere1.userData = {
     inverseCoords: new THREE.Vector3(-sphere1.position.x, -sphere1.position.y, -sphere1.position.z),
     url: "https://www.example.com",
     title: "Placeholder Title",
+    keywords: "keyword1, keyword2",
+    actionWords: "click, visit",
     summary: "Placeholder summary text",
     imageUrl: "https://via.placeholder.com/150"
 };
@@ -111,47 +113,38 @@ infoDiv.style.cssText = `
 `;
 infoDiv.style.display = "none";
 
-const title = document.createElement('h3');
-title.textContent = "Sphere 1";
-infoDiv.appendChild(title);
-
 const coords = document.createElement('p');
 coords.textContent = `Coords: (${sphere1.userData.coords.x}, ${sphere1.userData.coords.y}, ${sphere1.userData.coords.z})`;
 infoDiv.appendChild(coords);
 
 const inverseCoords = document.createElement('p');
-inverseCoords.textContent = `Inverse Coords: (${sphere1.userData.inverseCoords.x}, ${sphere1.userData.inverseCoords.y}, ${sphere1.userData.inverseCoords.z})`;
+inverseCoords.textContent = `Inverse: [${sphere1.userData.inverseCoords.x},${sphere1.userData.inverseCoords.y},${sphere1.userData.inverseCoords.z}]`;
 infoDiv.appendChild(inverseCoords);
 
+const title = document.createElement('p');
+title.textContent = `Title: ${sphere1.userData.title}`;
+infoDiv.appendChild(title);
+
+const keywords = document.createElement('p');
+keywords.textContent = `Keywords: ${sphere1.userData.keywords}`;
+infoDiv.appendChild(keywords);
+
+const actionWords = document.createElement('p');
+actionWords.textContent = `Action Words: ${sphere1.userData.actionWords}`;
+infoDiv.appendChild(actionWords);
+
 const summary = document.createElement('p');
-summary.textContent = "This is a fake summary.";
+summary.textContent = `Summary: ${sphere1.userData.summary}`;
 infoDiv.appendChild(summary);
 
 const image = document.createElement('img');
-image.src = "https://via.placeholder.com/150";
+image.src = sphere1.userData.imageUrl;
 image.alt = 'Sphere 1 Image';
 image.width = 150;
 image.height = 150;
 infoDiv.appendChild(image);
 
 document.body.appendChild(infoDiv);
-
-const canvas = document.querySelector('canvas');
-canvas.addEventListener('click', (event) => {
-    event.preventDefault();
-    const raycaster = new THREE.Raycaster();
-    const mouse = new THREE.Vector2();
-    mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
-    mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
-    raycaster.setFromCamera(mouse, camera);
-    const intersects = raycaster.intersectObjects(scene.children);
-    if (intersects.length > 0 && intersects[0].object === sphere1) {
-        console.log("Sphere 1 clicked!");
-        infoDiv.style.display = "block";
-    } else {
-        infoDiv.style.display = "none";
-    }
-});
 
 sphere1.addEventListener('mouseover', () => {
     infoDiv.style.display = "block";
@@ -160,7 +153,6 @@ sphere1.addEventListener('mouseover', () => {
 sphere1.addEventListener('mouseout', () => {
     infoDiv.style.display = "none";
 });
-
 
 
 // Add sphere 2 to the scene
