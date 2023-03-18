@@ -2,9 +2,8 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>2222r app</title>
+        <title>ddddr app</title>
 	<meta http-equiv="Permissions-Policy" content="geolocation=(self 'https://trusted-site.example')">
-  </head>
         <style>
 		canvas {
     width: 100%;
@@ -91,137 +90,7 @@ const sheetId = '1JHX3ghJYFD2DbbZI0Af5H1Urd1lg238j6lWbK23EFMc';
 const sheetRange = 'Sheet1!A2:K';
 const apiKey = 'AIzaSyB4WCgKCsz13xzw13Ln2kP1ZWuBWQYTj24';
 		
-		function createInfoDiv(sphere) {
-const infoDiv = document.createElement('div');
-infoDiv.style.cssText = `
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  background-color: rgba(255, 255, 255, 0.8);
-  padding: 10px;
-  border-radius: 10px;
-  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
-  z-index: 100;
-  max-width: 300px;
-  max-height: 400px;
-  overflow: auto;
-`;
-
-infoDiv.style.display = "none";
-
-const coords = document.createElement('p');
-const inverseCoords = document.createElement('p');
-const url = document.createElement('p');
-const title = document.createElement('p');
-const keywords = document.createElement('p');
-const actionWords = document.createElement('p');
-const summary = document.createElement('p');
-const image = document.createElement('img');
-
-infoDiv.appendChild(coords);
-infoDiv.appendChild(inverseCoords);
-infoDiv.appendChild(url);
-infoDiv.appendChild(title);
-infoDiv.appendChild(keywords);
-infoDiv.appendChild(actionWords);
-infoDiv.appendChild(summary);
-infoDiv.appendChild(image);
-
-document.body.appendChild(infoDiv);
-
-const canvas = document.querySelector('canvas');
-canvas.addEventListener('click', (event) => {
-  event.preventDefault();
-  const raycaster = new THREE.Raycaster();
-  const mouse = new THREE.Vector2();
-  mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
-  mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
-  raycaster.setFromCamera(mouse, camera);
-  const intersects = raycaster.intersectObjects(scene.children);
-  if (intersects.length > 0) {
-    const selectedSphere = intersects[0].object;
-    if (selectedSphere.userData) {
-      coords.textContent = `(${selectedSphere.userData.coords.x}, ${selectedSphere.userData.coords.y}, ${selectedSphere.userData.coords.z})`;
-      inverseCoords.textContent = `Inverse: [${selectedSphere.userData.inverseCoords.x},${selectedSphere.userData.inverseCoords.y},${selectedSphere.userData.inverseCoords.z}]`;
-      url.textContent = `${selectedSphere.userData.url}`;
-      url.style.wordWrap = 'break-word';
-      title.textContent = `Title: ${selectedSphere.userData.title}`;
-      keywords.textContent = `Keywords: ${selectedSphere.userData.keywords}`;
-      actionWords.textContent = `Action Words: ${selectedSphere.userData.actionWords}`;
-      summary.textContent = `Summary: ${selectedSphere.userData.summary}`;
-      summary.style.overflowWrap = "break-word";
-      image.src = selectedSphere.userData.imageUrl;
-      image.alt = `Sphere Image`;
-      image.width = 150;
-      image.height = 150;
-      infoDiv.style.display = "block";
-    }
-  } else {
-    infoDiv.style.display = "none";
-  }
-});
-			// Loop through all spheres in the scene
-scene.children.forEach((child) => {
-  // Only add event listeners to spheres (ignore other objects in the scene)
-  if (child instanceof THREE.Mesh && child.userData.type === 'sphere') {
-    // Add mouseover event listener
-    child.addEventListener('mouseover', () => {
-      infoDiv.style.display = "block";
-    });
-
-    // Add mouseout event listener
-    child.addEventListener('mouseout', () => {
-      infoDiv.style.display = "none";
-    });
-
-    // Add click event listener
-    child.addEventListener('click', () => {
-      // Display info for the clicked sphere
-      const coords = document.createElement('p');
-      coords.textContent = `(${child.userData.coords.x}, ${child.userData.coords.y}, ${child.userData.coords.z})`;
-      infoDiv.appendChild(coords);
-
-      const inverseCoords = document.createElement('p');
-      inverseCoords.textContent = `Inverse: [${child.userData.inverseCoords.x},${child.userData.inverseCoords.y},${child.userData.inverseCoords.z}]`;
-      infoDiv.appendChild(inverseCoords);
-
-      const url = document.createElement('p');
-      url.textContent = `${child.userData.url}`;
-      url.style.wordWrap = 'break-word';
-      infoDiv.appendChild(url);
-
-      const title = document.createElement('p');
-      title.textContent = `Title: ${child.userData.title}`;
-      infoDiv.appendChild(title);
-
-      const keywords = document.createElement('p');
-      keywords.textContent = `Keywords: ${child.userData.keywords}`;
-      infoDiv.appendChild(keywords);
-
-      const actionWords = document.createElement('p');
-      actionWords.textContent = `Action Words: ${child.userData.actionWords}`;
-      infoDiv.appendChild(actionWords);
-
-      const summary = document.createElement('p');
-      summary.textContent = `Summary: ${child.userData.summary}`;
-      summary.style.overflowWrap = "break-word";
-      infoDiv.appendChild(summary);
-
-      const image = document.createElement('img');
-      image.src = child.userData.imageUrl;
-      image.alt = `Sphere ${child.userData.id} Image`;
-      image.width = 150;
-      image.height = 150;
-      infoDiv.appendChild(image);
-
-      infoDiv.style.display = "block";
-    });
-  }
-});
-
-
-
-
+		
 fetch(`https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${sheetRange}?key=${apiKey}`)
   .then(response => response.json())
   .then(data => {
