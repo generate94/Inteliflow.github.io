@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>rrrr app</title>
+        <title>11wq2r app</title>
 	<meta http-equiv="Permissions-Policy" content="geolocation=(self 'https://trusted-site.example')">
   </head>
         <style>
@@ -90,6 +90,82 @@
 const sheetId = '1JHX3ghJYFD2DbbZI0Af5H1Urd1lg238j6lWbK23EFMc';
 const sheetRange = 'Sheet1!A2:K';
 const apiKey = 'AIzaSyB4WCgKCsz13xzw13Ln2kP1ZWuBWQYTj24';
+		
+		function createInfoDiv(sphere) {
+  const infoDiv = document.createElement('div');
+  infoDiv.style.cssText = `
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+    z-index: 100;
+    max-width: 300px;
+    max-height: 400px;
+    overflow: auto;
+  `;
+
+  infoDiv.style.display = "none";
+
+  const coords = document.createElement('p');
+  coords.textContent = `(${sphere.userData.coords.x}, ${sphere.userData.coords.y}, ${sphere.userData.coords.z})`;
+  infoDiv.appendChild(coords);
+
+  const inverseCoords = document.createElement('p');
+  inverseCoords.textContent = `Inverse: [${sphere.userData.inverseCoords.x},${sphere.userData.inverseCoords.y},${sphere.userData.inverseCoords.z}]`;
+  infoDiv.appendChild(inverseCoords);
+
+  const url = document.createElement('p');
+  url.textContent = `${sphere.userData.url}`;
+  url.style.wordWrap = 'break-word';
+  infoDiv.appendChild(url);
+
+  const title = document.createElement('p');
+  title.textContent = `Title: ${sphere.userData.title}`;
+  infoDiv.appendChild(title);
+
+  const keywords = document.createElement('p');
+  keywords.textContent = `Keywords: ${sphere.userData.keywords}`;
+  infoDiv.appendChild(keywords);
+
+  const actionWords = document.createElement('p');
+  actionWords.textContent = `Action Words: ${sphere.userData.actionWords}`;
+  infoDiv.appendChild(actionWords);
+
+  const summary = document.createElement('p');
+  summary.textContent = `Summary: ${sphere.userData.summary}`;
+  summary.style.overflowWrap = "break-word";
+  infoDiv.appendChild(summary);
+
+  const image = document.createElement('img');
+  image.src = sphere.userData.imageUrl;
+  image.alt = `Sphere ${i + 1} Image`;
+  image.width = 150;
+  image.height = 150;
+  infoDiv.appendChild(image);
+
+  document.body.appendChild(infoDiv);
+
+  const canvas = document.querySelector('canvas');
+  canvas.addEventListener('click', (event) => {
+    event.preventDefault();
+    const raycaster = new THREE.Raycaster();
+    const mouse = new THREE.Vector2();
+    mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
+    mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
+    raycaster.setFromCamera(mouse, camera);
+    const intersects = raycaster.intersectObjects(scene.children);
+    if (intersects.length > 0 && intersects[0].object === sphere) {
+      console.log(`Sphere ${i + 1} clicked!`);
+      infoDiv.style.display = "block";
+    } else {
+      infoDiv.style.display = "none";
+    }
+  });
+}
+
 
 fetch(`https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${sheetRange}?key=${apiKey}`)
   .then(response => response.json())
@@ -115,22 +191,7 @@ fetch(`https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${sheetRa
       actionWords: row[6],
       imageUrl: row[10],
     };
-
-    // Create the info div
-    const infoDiv = document.createElement('div');
-    infoDiv.classList.add('info');
-    infoDiv.innerHTML = `
-      <h2>${row[1]}</h2>
-      <p>${row[4]}</p>
-    `;
-
-    // Add click event listener to show info div on sphere click
-    sphere.addEventListener('click', () => {
-      if (!infoDiv.parentNode) {
-        document.body.appendChild(infoDiv);
-      }
-    });
-
+	
     scene.add(sphere);
   })
   .catch(error => {
