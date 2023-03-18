@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>444 app</title>
+        <title>554 app</title>
         <style>
             body { margin: 0; }
         </style>
@@ -81,20 +81,20 @@
 
             // Sphere 1
             const geometry1 = new THREE.SphereGeometry(0.5, 32, 32);
-            const material1 = new THREE.MeshPhongMaterial({ color: 0xffffff });
-            const sphere1 = new THREE.Mesh(geometry1, material1);
-            sphere1.position.set(-2, 0, 0);
-            sphere1.userData = {
-                coords: sphere1.position,
-                inverseCoords: new THREE.Vector3(-sphere1.position.x, -sphere1.position.y, -sphere1.position.z),
-                url: "https://www.example.com",
-                title: "Placeholder Title",
-                summary: "Placeholder summary text",
-                imageUrl: "https://via.placeholder.com/150"
-            };
-            scene.add(sphere1);
+const material1 = new THREE.MeshPhongMaterial({ color: 0xffffff });
+const sphere1 = new THREE.Mesh(geometry1, material1);
+sphere1.position.set(-2, 0, 0);
+sphere1.userData = {
+    coords: sphere1.position,
+    inverseCoords: new THREE.Vector3(-sphere1.position.x, -sphere1.position.y, -sphere1.position.z),
+    url: "https://www.example.com",
+    title: "Placeholder Title",
+    summary: "Placeholder summary text",
+    imageUrl: "https://via.placeholder.com/150"
+};
+scene.add(sphere1);
 
-           const infoDiv = document.createElement('div');
+const infoDiv = document.createElement('div');
 infoDiv.style.cssText = `
     position: absolute;
     top: 10px;
@@ -103,35 +103,41 @@ infoDiv.style.cssText = `
     padding: 10px;
     border-radius: 10px;
     box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
-    z-index: 9999; /* Set the z-index value to a high number */
+    z-index: 100;
 `;
+infoDiv.style.display = "none";
 
-sphere1.addEventListener('click', () => {
+const title = document.createElement('h3');
+title.textContent = "Sphere 1";
+infoDiv.appendChild(title);
 
-    const title = document.createElement('h3');
-    title.textContent = "Sphere 1";
-    infoDiv.appendChild(title);
+const coords = document.createElement('p');
+coords.textContent = `Coords: (${sphere1.userData.coords.x}, ${sphere1.userData.coords.y}, ${sphere1.userData.coords.z})`;
+infoDiv.appendChild(coords);
 
-    const coords = document.createElement('p');
-    coords.textContent = `Coords: (${sphere1.userData.coords.x}, ${sphere1.userData.coords.y}, ${sphere1.userData.coords.z})`;
-    infoDiv.appendChild(coords);
+const inverseCoords = document.createElement('p');
+inverseCoords.textContent = `Inverse Coords: (${sphere1.userData.inverseCoords.x}, ${sphere1.userData.inverseCoords.y}, ${sphere1.userData.inverseCoords.z})`;
+infoDiv.appendChild(inverseCoords);
 
-    const inverseCoords = document.createElement('p');
-    inverseCoords.textContent = `Inverse Coords: (${sphere1.userData.inverseCoords.x}, ${sphere1.userData.inverseCoords.y}, ${sphere1.userData.inverseCoords.z})`;
-    infoDiv.appendChild(inverseCoords);
+const summary = document.createElement('p');
+summary.textContent = "This is a fake summary.";
+infoDiv.appendChild(summary);
 
-    const summary = document.createElement('p');
-    summary.textContent = "This is a fake summary.";
-    infoDiv.appendChild(summary);
+const image = document.createElement('img');
+image.src = "https://via.placeholder.com/150";
+image.alt = 'Sphere 1 Image';
+image.width = 150;
+image.height = 150;
+infoDiv.appendChild(image);
 
-    const image = document.createElement('img');
-    image.src = "https://via.placeholder.com/150";
-    image.alt = 'Sphere 1 Image';
-    image.width = 150;
-    image.height = 150;
-    infoDiv.appendChild(image);
+document.body.appendChild(infoDiv);
 
-    document.body.appendChild(infoDiv);
+sphere1.addEventListener('mouseover', () => {
+    infoDiv.style.display = "block";
+});
+
+sphere1.addEventListener('mouseout', () => {
+    infoDiv.style.display = "none";
 });
 
 
