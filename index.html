@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>3434 app</title>
+        <title>222234 app</title>
         <style>
 		canvas {
     width: 100%;
@@ -123,6 +123,11 @@ const inverseCoords = document.createElement('p');
 inverseCoords.textContent = `Inverse: [${sphere1.userData.inverseCoords.x},${sphere1.userData.inverseCoords.y},${sphere1.userData.inverseCoords.z}]`;
 infoDiv.appendChild(inverseCoords);
 
+const url = document.createElement('p');
+url.textContent = `URL: ${sphere1.userData.url}`;
+url.style.wordWrap = 'break-word';
+infoDiv.appendChild(url);
+
 const title = document.createElement('p');
 title.textContent = `Title: ${sphere1.userData.title}`;
 infoDiv.appendChild(title);
@@ -137,7 +142,9 @@ infoDiv.appendChild(actionWords);
 
 const summary = document.createElement('p');
 summary.textContent = `Summary: ${sphere1.userData.summary}`;
+summary.style.cssText = "word-wrap: break-word;";
 infoDiv.appendChild(summary);
+
 
 const image = document.createElement('img');
 image.src = sphere1.userData.imageUrl;
