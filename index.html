@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>232 app</title>
+        <title>332 app</title>
         <style>
             body { margin: 0; }
         </style>
@@ -95,6 +95,11 @@
             scene.add(sphere1);
 
            sphere1.addEventListener('click', () => {
+    console.log('Click event triggered on sphere 1');
+    const infoDiv = document.createElement('div');
+    console.log('Created new infoDiv:', infoDiv);
+   
+
     const infoDiv = document.createElement('div');
     infoDiv.style.cssText = `
         position: absolute;
