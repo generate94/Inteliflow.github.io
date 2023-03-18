@@ -97,6 +97,7 @@ fetch(`https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${sheetRa
     // Parse the data
     const row = data.values[0];
     const coords = row[8].split(',').map((coord) => parseFloat(coord));
+    console.log('coords:', coords);
     const inverseCoords = new THREE.Vector3(-coords[0], -coords[1], -coords[2]);
 
     // Create the sphere
