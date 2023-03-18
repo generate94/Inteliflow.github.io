@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>132 app</title>
+        <title>232 app</title>
         <style>
             body { margin: 0; }
         </style>
@@ -108,7 +108,7 @@
     `;
 
     const title = document.createElement('h3');
-    title.textContent = sphere1.userData.title;
+    title.textContent = "Sphere 1";
     infoDiv.appendChild(title);
 
     const coords = document.createElement('p');
@@ -120,11 +120,11 @@
     infoDiv.appendChild(inverseCoords);
 
     const summary = document.createElement('p');
-    summary.textContent = sphere1.userData.summary;
+    summary.textContent = "This is a fake summary.";
     infoDiv.appendChild(summary);
 
     const image = document.createElement('img');
-    image.src = sphere1.userData.imageUrl;
+    image.src = "https://via.placeholder.com/150";
     image.alt = 'Sphere 1 Image';
     image.width = 150;
     image.height = 150;
@@ -132,6 +132,7 @@
 
     document.body.appendChild(infoDiv);
 });
+
 
 
 // Add sphere 2 to the scene
