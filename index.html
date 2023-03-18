@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>224 app</title>
+        <title>3334 app</title>
         <style>
 		canvas {
     width: 100%;
@@ -146,6 +146,23 @@ infoDiv.appendChild(image);
 
 document.body.appendChild(infoDiv);
 
+const canvas = document.querySelector('canvas');
+canvas.addEventListener('click', (event) => {
+    event.preventDefault();
+    const raycaster = new THREE.Raycaster();
+    const mouse = new THREE.Vector2();
+    mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
+    mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
+    raycaster.setFromCamera(mouse, camera);
+    const intersects = raycaster.intersectObjects(scene.children);
+    if (intersects.length > 0 && intersects[0].object === sphere1) {
+        console.log("Sphere 1 clicked!");
+        infoDiv.style.display = "block";
+    } else {
+        infoDiv.style.display = "none";
+    }
+});
+
 sphere1.addEventListener('mouseover', () => {
     infoDiv.style.display = "block";
 });
@@ -153,6 +170,7 @@ sphere1.addEventListener('mouseover', () => {
 sphere1.addEventListener('mouseout', () => {
     infoDiv.style.display = "none";
 });
+
 
 
 // Add sphere 2 to the scene
