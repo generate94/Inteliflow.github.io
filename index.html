@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>22v app</title>
+        <title>332v app</title>
 	<meta http-equiv="Permissions-Policy" content="geolocation=(self 'https://trusted-site.example')">
   </head>
         <style>
@@ -93,37 +93,38 @@ const sheetRange = 'Sheet1!A2:K';
 
 // Load the Google Sheets API
 gapi.load('client', () => {
-  gapi.client.init({
-    discoveryDocs: ['https://sheets.googleapis.com/$discovery/rest?version=v4'],
-  }).then(() => {
-    // Get the data from the sheet
-    return gapi.client.sheets.spreadsheets.values.get({
-      spreadsheetId: sheetId,
-      range: sheetRange,
-    });
-  }).then((response) => {
-    // Parse the data
-    const rows = response.result.values;
-    rows.forEach((row) => {
-      const coords = row[8].split(',').map((coord) => parseFloat(coord));
-      const inverseCoords = new THREE.Vector3(-coords[0], -coords[1], -coords[2]);
+ gapi.client.init({
+  discoveryDocs: ['https://sheets.googleapis.com/$discovery/rest?version=v4'],
+}).then(() => {
+  // Get the data from the sheet
+  return gapi.client.sheets.spreadsheets.values.get({
+    spreadsheetId: sheetId,
+    range: sheetRange,
+  });
+}).then((response) => {
+  // Parse the data
+  const row = response.result.values[0];
+  const coords = row[8].split(',').map((coord) => parseFloat(coord));
+  const inverseCoords = new THREE.Vector3(-coords[0], -coords[1], -coords[2]);
 
-      // Create the sphere
-      const geometry = new THREE.SphereGeometry(0.5, 32, 32);
-      const material = new THREE.MeshPhongMaterial({ color: 0xffffff });
-      const sphere = new THREE.Mesh(geometry, material);
-      sphere.position.set(...coords);
-      sphere.userData = {
-        coords: coords,
-        inverseCoords: inverseCoords,
-        url: row[0],
-        title: row[1],
-        summary: row[4],
-        keywords: row[5],
-        actionWords: row[6],
-        imageUrl: row[10],
-      };
-      scene.add(sphere);
+  // Create the sphere
+  const geometry = new THREE.SphereGeometry(0.5, 32, 32);
+  const material = new THREE.MeshPhongMaterial({ color: 0xffffff });
+  const sphere = new THREE.Mesh(geometry, material);
+  sphere.position.set(...coords);
+  sphere.userData = {
+    coords: coords,
+    inverseCoords: inverseCoords,
+    url: row[0],
+    title: row[1],
+    summary: row[4],
+    keywords: row[5],
+    actionWords: row[6],
+    imageUrl: row[10],
+  };
+  scene.add(sphere);
+});
+sphere);
     });
   });
 });
