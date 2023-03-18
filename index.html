@@ -95,7 +95,7 @@ sphere1.userData = {
     title: "Placeholder Title",
     keywords: "keyword1, keyword2",
     actionWords: "click, visit",
-    summary: "Placeholder summary text",
+    summary: "Placeholder summary text but I'm making it longer to see what happens",
     imageUrl: "https://via.placeholder.com/150"
 };
 scene.add(sphere1);
@@ -114,7 +114,7 @@ infoDiv.style.cssText = `
 infoDiv.style.display = "none";
 
 const coords = document.createElement('p');
-coords.textContent = `Coords: (${sphere1.userData.coords.x}, ${sphere1.userData.coords.y}, ${sphere1.userData.coords.z})`;
+coords.textContent = `(${sphere1.userData.coords.x}, ${sphere1.userData.coords.y}, ${sphere1.userData.coords.z})`;
 infoDiv.appendChild(coords);
 
 const inverseCoords = document.createElement('p');
