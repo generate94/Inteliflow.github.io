@@ -84,7 +84,7 @@
             scene.add(pointLight);
 
             // Sphere 1
-            const geometry1 = new THREE.SphereGeometry(0.5, 32, 32);
+const geometry1 = new THREE.SphereGeometry(0.5, 32, 32);
 const material1 = new THREE.MeshPhongMaterial({ color: 0xffffff });
 const sphere1 = new THREE.Mesh(geometry1, material1);
 sphere1.position.set(-2, 0, 0);
@@ -107,7 +107,7 @@ infoDiv.style.cssText = `
     padding: 10px;
     border-radius: 10px;
     box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
-    z-index: 999;
+    z-index: 100;
 `;
 infoDiv.style.display = "none";
 
@@ -136,13 +136,28 @@ infoDiv.appendChild(image);
 
 document.body.appendChild(infoDiv);
 
+const canvas = document.querySelector('canvas');
+canvas.addEventListener('click', (event) => {
+    event.preventDefault();
+    const raycaster = new THREE.Raycaster();
+    const mouse = new THREE.Vector2();
+    mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
+    mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
+    raycaster.setFromCamera(mouse, camera);
+    const intersects = raycaster.intersectObjects(scene.children);
+    if (intersects.length > 0 && intersects[0].object === sphere1) {
+        console.log("Sphere 1 clicked!");
+        infoDiv.style.display = "block";
+    } else {
+        infoDiv.style.display = "none";
+    }
+});
+
 sphere1.addEventListener('mouseover', () => {
-    console.log("Mouse over sphere1");
     infoDiv.style.display = "block";
 });
 
 sphere1.addEventListener('mouseout', () => {
-    console.log("Mouse out of sphere1");
     infoDiv.style.display = "none";
 });
 
