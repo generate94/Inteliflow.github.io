@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>554 app</title>
+        <title>224 app</title>
         <style>
             body { margin: 0; }
         </style>
@@ -103,7 +103,7 @@ infoDiv.style.cssText = `
     padding: 10px;
     border-radius: 10px;
     box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
-    z-index: 100;
+    z-index: 999;
 `;
 infoDiv.style.display = "none";
 
@@ -133,10 +133,12 @@ infoDiv.appendChild(image);
 document.body.appendChild(infoDiv);
 
 sphere1.addEventListener('mouseover', () => {
+    console.log("Mouse over sphere1");
     infoDiv.style.display = "block";
 });
 
 sphere1.addEventListener('mouseout', () => {
+    console.log("Mouse out of sphere1");
     infoDiv.style.display = "none";
 });
 
