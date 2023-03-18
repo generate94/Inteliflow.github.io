@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>632 app</title>
+        <title>732 app</title>
         <style>
             body { margin: 0; }
         </style>
@@ -95,13 +95,8 @@
             scene.add(sphere1);
 
             sphere1.addEventListener('click', () => {
-    const infoDiv = document.getElementById('info');
-    infoDiv.innerHTML = `<p>Coords: (${sphere1.userData.coords.x}, ${sphere1.userData.coords.y}, ${sphere1.userData.coords.z})</p>
-                          <p>Inverse Coords: (${sphere1.userData.inverseCoords.x}, ${sphere1.userData.inverseCoords.y}, ${sphere1.userData.inverseCoords.z})</p>
-                          <p>URL: ${sphere1.userData.url}</p>
-                          <p>Title: ${sphere1.userData.title}</p>
-                          <p>Summary: ${sphere1.userData.summary}</p>
-                          <img src="${sphere1.userData.imageUrl}" alt="Sphere 1 Image" width="150" height="150">`;
+const infoDiv = document.getElementById('info');
+infoDiv.innerHTML = <p>Coords: (${sphere1.userData.coords.x}, ${sphere1.userData.coords.y}, ${sphere1.userData.coords.z})</p> <p>Inverse Coords: (${sphere1.userData.inverseCoords.x}, ${sphere1.userData.inverseCoords.y}, ${sphere1.userData.inverseCoords.z})</p> <p>URL: ${sphere1.userData.url}</p> <p>Title: ${sphere1.userData.title}</p> <p>Summary: ${sphere1.userData.summary}</p> <img src="${sphere1.userData.imageUrl}" alt="Sphere 1 Image" width="150" height="150">;
 });
 
 // Add sphere 2 to the scene
