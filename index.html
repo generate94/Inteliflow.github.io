@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>732 app</title>
+        <title>132 app</title>
         <style>
             body { margin: 0; }
         </style>
@@ -95,9 +95,44 @@
             scene.add(sphere1);
 
             sphere1.addEventListener('click', () => {
-const infoDiv = document.getElementById('info');
-infoDiv.innerHTML = <p>Coords: (${sphere1.userData.coords.x}, ${sphere1.userData.coords.y}, ${sphere1.userData.coords.z})</p> <p>Inverse Coords: (${sphere1.userData.inverseCoords.x}, ${sphere1.userData.inverseCoords.y}, ${sphere1.userData.inverseCoords.z})</p> <p>URL: ${sphere1.userData.url}</p> <p>Title: ${sphere1.userData.title}</p> <p>Summary: ${sphere1.userData.summary}</p> <img src="${sphere1.userData.imageUrl}" alt="Sphere 1 Image" width="150" height="150">;
+    const infoDiv = document.createElement('div');
+    infoDiv.style.cssText = `
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background-color: rgba(255, 255, 255, 0.8);
+        padding: 10px;
+        border-radius: 10px;
+        box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+        z-index: 100;
+    `;
+
+    const title = document.createElement('h3');
+    title.textContent = sphere1.userData.title;
+    infoDiv.appendChild(title);
+
+    const coords = document.createElement('p');
+    coords.textContent = `Coords: (${sphere1.userData.coords.x}, ${sphere1.userData.coords.y}, ${sphere1.userData.coords.z})`;
+    infoDiv.appendChild(coords);
+
+    const inverseCoords = document.createElement('p');
+    inverseCoords.textContent = `Inverse Coords: (${sphere1.userData.inverseCoords.x}, ${sphere1.userData.inverseCoords.y}, ${sphere1.userData.inverseCoords.z})`;
+    infoDiv.appendChild(inverseCoords);
+
+    const summary = document.createElement('p');
+    summary.textContent = sphere1.userData.summary;
+    infoDiv.appendChild(summary);
+
+    const image = document.createElement('img');
+    image.src = sphere1.userData.imageUrl;
+    image.alt = 'Sphere 1 Image';
+    image.width = 150;
+    image.height = 150;
+    infoDiv.appendChild(image);
+
+    document.body.appendChild(infoDiv);
 });
+
 
 // Add sphere 2 to the scene
 const sphere2 = new THREE.Mesh(geometry1, material1);
