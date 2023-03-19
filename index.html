@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>qqlow app</title>
+        <title>12low app</title>
 	<meta http-equiv="Permissions-Policy" content="geolocation=(self 'https://trusted-site.example')">
         <style>
 		canvas {
@@ -191,10 +191,7 @@ fetch(`https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${sheetRa
     const infoDiv = createInfoDiv(sphere);
     document.body.appendChild(infoDiv);
   })
-  .catch(error => {
-    console.error('Error fetching data:', error);
-  });
-
+  
   }
 }
 
