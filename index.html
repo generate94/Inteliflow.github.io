@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>3Inteliflow app</title>
+        <title>4Inteliflow app</title>
 	<meta http-equiv="Permissions-Policy" content="geolocation=(self 'https://trusted-site.example')">
         <style>
 		canvas {
@@ -205,9 +205,9 @@ document.addEventListener('click', (event) => {
     setInfoDivData(selectedObject);
   }
 });
-camera.position.x = 0;
-camera.position.y = 13;
-camera.position.z = 0;
+
+camera.position.x = 13;
+
 
 const cameraControl = new CameraControl(renderer, camera, () => {
 renderer.render(scene, camera);
