@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>441 app</title>
+        <title>eee app</title>
 	<meta http-equiv="Permissions-Policy" content="geolocation=(self 'https://trusted-site.example')">
         <style>
 		canvas {
@@ -96,43 +96,54 @@
             pointLight.position.set(10, 10, 10);
             scene.add(pointLight);
 		
-		function setInfoDivData(sphere) {
-  const coords = document.getElementById('coords');
-  const inverseCoords = document.getElementById('inverseCoords');
-  const url = document.getElementById('url');
-  const title = document.getElementById('title');
-  const keywords = document.getElementById('keywords');
-  const actionWords = document.getElementById('actionWords');
-  const summary = document.getElementById('summary');
-  const image = document.getElementById('image');
+		function setInfoDivData(clickedObject) {
+  // Find the Mesh with userData by checking the clicked object and its ancestors
+  let mesh;
+  let object = clickedObject;
+  while (object && !mesh) {
+    if (object.type === 'Mesh' && object.userData) {
+      mesh = object;
+    } else {
+      object = object.parent;
+    }
+  }
 
-  coords.textContent = `Coords: (${sphere.userData.coords.x}, ${sphere.userData.coords.y}, ${sphere.userData.coords.z})`;
-  inverseCoords.textContent = `Inverse: [${sphere.userData.inverseCoords.x}, ${sphere.userData.inverseCoords.y}, ${sphere.userData.inverseCoords.z}]`;
-  url.innerHTML = `URL: <a href="${sphere.userData.url}" target="_blank">${sphere.userData.url}</a>`;
-  title.textContent = `Title: ${sphere.userData.title}`;
-  keywords.textContent = `Keywords: ${sphere.userData.keywords}`;
-  actionWords.textContent = `Action Words: ${sphere.userData.actionWords}`;
-  summary.textContent = `Summary: ${sphere.userData.summary}`;
-  image.src = sphere.userData.imageUrl;
-  image.style.width = '300px';
-  image.style.height = 'auto';
-			
-			  // Set the style for the infoDiv element
-  const infoDiv = document.getElementById('info');
-  infoDiv.style.position = 'absolute';
-  infoDiv.style.top = '10px';
-  infoDiv.style.left = '50%';
-  infoDiv.style.transform = 'translateX(-150px)';
-  infoDiv.style.maxWidth = '300px';
-  infoDiv.style.maxHeight = '500px';
-  infoDiv.style.overflow = 'auto';
-  infoDiv.style.backgroundColor = 'rgba(255, 255, 255, 0.8)';
-  infoDiv.style.padding = '10px';
-  infoDiv.style.borderRadius = '10px';
-  infoDiv.style.boxShadow = '2px 2px 5px rgba(0, 0, 0, 0.3)';
-  infoDiv.style.zIndex = '100';
-  infoDiv.style.display = 'block';
+  if (mesh) {
+    const coords = document.getElementById('coords');
+    const inverseCoords = document.getElementById('inverseCoords');
+    const url = document.getElementById('url');
+    const title = document.getElementById('title');
+    const keywords = document.getElementById('keywords');
+    const actionWords = document.getElementById('actionWords');
+    const summary = document.getElementById('summary');
+    const image = document.getElementById('image');
+
+    coords.textContent = `Coords: (${mesh.userData.coords.x}, ${mesh.userData.coords.y}, ${mesh.userData.coords.z})`;
+    inverseCoords.textContent = `Inverse: [${mesh.userData.inverseCoords.x}, ${mesh.userData.inverseCoords.y}, ${mesh.userData.inverseCoords.z}]`;
+    url.innerHTML = `URL: <a href="${mesh.userData.url}" target="_blank">${mesh.userData.url}</a>`;
+    title.textContent = `Title: ${mesh.userData.title}`;
+    keywords.textContent = `Keywords: ${mesh.userData.keywords}`;
+    actionWords.textContent = `Action Words: ${mesh.userData.actionWords}`;
+    summary.textContent = `Summary: ${mesh.userData.summary}`;
+    image.src = mesh.userData.imageUrl;
+
+    // Set the style for the infoDiv element
+    const infoDiv = document.getElementById('info');
+    infoDiv.style.position = 'absolute';
+    infoDiv.style.top = '10px';
+    infoDiv.style.right = '10px';
+    infoDiv.style.maxWidth = '300px';
+    infoDiv.style.maxHeight = '400px';
+    infoDiv.style.overflow = 'auto';
+    infoDiv.style.backgroundColor = 'rgba(255, 255, 255, 0.8)';
+    infoDiv.style.padding = '10px';
+    infoDiv.style.borderRadius = '10px';
+    infoDiv.style.boxShadow = '2px 2px 5px rgba(0, 0, 0, 0.3)';
+    infoDiv.style.zIndex = '100';
+    infoDiv.style.display = 'block';
+  }
 }
+
 
 
 
