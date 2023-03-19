@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>eee app</title>
+        <title>xxx app</title>
 	<meta http-equiv="Permissions-Policy" content="geolocation=(self 'https://trusted-site.example')">
         <style>
 		canvas {
@@ -131,7 +131,7 @@
     const infoDiv = document.getElementById('info');
     infoDiv.style.position = 'absolute';
     infoDiv.style.top = '10px';
-    infoDiv.style.right = '10px';
+    infoDiv.style.right = '100px';
     infoDiv.style.maxWidth = '300px';
     infoDiv.style.maxHeight = '400px';
     infoDiv.style.overflow = 'auto';
@@ -156,7 +156,11 @@ fetch(`https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${sheetRa
   .then(response => response.json())
   .then(data => {
     data.values.forEach(row => {
-      const coords = row[8].split(',').map((coord) => parseFloat(coord));
+      const coords = {
+  x: parseFloat(row[8].split(',')[0]),
+  y: parseFloat(row[8].split(',')[1]),
+  z: parseFloat(row[8].split(',')[2])
+};
       console.log('coords:', coords);
       const inverseCoords = new THREE.Vector3(-coords[0], -coords[1], -coords[2]);
 
