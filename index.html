@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>44 app</title>
+        <title>222 app</title>
         <meta http-equiv="Permissions-Policy" content="geolocation=(self 'https://trusted-site.example')">
         <style>
             canvas {
@@ -169,6 +169,16 @@ fetch(`https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${sheetRa
 const [headerRow, ...rowData] = data.values;
 	rows = rowData;
 
+function createSpheres(coordsList) {
+  const spheres = [];
+  for (let i = 0; i < coordsList.length; i++) {
+    const [x, y, z] = coordsList[i];
+    const sphere = new THREE.Mesh(new THREE.SphereGeometry(0.5, 32, 32), new THREE.MeshPhongMaterial({ color: 0xff0000 }));
+    sphere.position.set(x, y, z);
+    spheres.push(sphere);
+  }
+  return spheres;
+}
 
 const sphere = rows.map(row => {
   const [id, x, y, z, title, summary, url, imageUrl, keywords, actionWords] = row;
