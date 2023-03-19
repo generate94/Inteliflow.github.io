@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>777 app</title>
+        <title>00 app</title>
         <meta http-equiv="Permissions-Policy" content="geolocation=(self 'https://trusted-site.example')">
         <style>
             canvas {
@@ -92,6 +92,7 @@
 const sheetRange = 'Sheet1!A2:K';
 const apiKey = 'AIzaSyB4WCgKCsz13xzw13Ln2kP1ZWuBWQYTj24';
 let rows = [];
+let spheres = [];
 		
 		 function createInfoDiv(sphere) {
   const infoDiv = document.createElement('div');
@@ -174,14 +175,14 @@ const spheres = rows.map(row => {
   const sphere = new THREE.Mesh(new THREE.SphereGeometry(0.5, 32, 32), new THREE.MeshPhongMaterial({ color: 0xff0000 }));
   sphere.position.set(Number(x), Number(y), Number(z));
   sphere.userData = {
-    id,
-    coords: { x: Number(x), y: Number(y), z: Number(z) },
-    title,
-    summary,
-    url,
-    imageUrl,
-    keywords,
-    actionWords,
+    coords: coords,
+      inverseCoords: inverseCoords,
+      url: row[0],
+      title: row[1],
+      summary: row[4],
+      keywords: row[5],
+      actionWords: row[6],
+      imageUrl: row[10],
   };
   scene.add(sphere); // Add the sphere to the scene
   return sphere.userData;
@@ -193,6 +194,13 @@ document.body.appendChild(infoDiv);
 .catch(error => {
 console.error(error);
 });
+			 for (let i = 0; i < spheres.length; i++) {
+  const { x, y, z } = spheres[i].coords;
+  const inverseX = -1 * x;
+  const inverseY = -1 * y;
+  const inverseZ = -1 * z;
+  spheres[i].inverseCoords = { x: inverseX, y: inverseY, z: inverseZ };
+}
 	        scene.add(sphere); // Add the sphere to the scene
       return sphere.userData;
     };
