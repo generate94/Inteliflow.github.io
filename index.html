@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>ccc app</title>
+        <title>vvv app</title>
 	<meta http-equiv="Permissions-Policy" content="geolocation=(self 'https://trusted-site.example')">
         <style>
 		canvas {
@@ -118,7 +118,7 @@
     const summary = document.getElementById('summary');
     const image = document.getElementById('image');
 
-    coords.textContent = `Coords: (${position.x.toFixed(2)}, ${position.y.toFixed(2)}, ${position.z.toFixed(2)})`;
+    coords.textContent = `Coords: (${mesh.position.x.toFixed(2)}, ${mesh.position.y.toFixed(2)}, ${mesh.position.z.toFixed(2)})`;
     inverseCoords.textContent = `Inverse: [${mesh.userData.inverseCoords.x}, ${mesh.userData.inverseCoords.y}, ${mesh.userData.inverseCoords.z}]`;
     url.innerHTML = `URL: <a href="${mesh.userData.url}" target="_blank">${mesh.userData.url}</a>`;
     title.textContent = `Title: ${mesh.userData.title}`;
