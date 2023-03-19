@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>ddddr app</title>
+        <title>qqqq app</title>
 	<meta http-equiv="Permissions-Policy" content="geolocation=(self 'https://trusted-site.example')">
         <style>
 		canvas {
@@ -89,38 +89,106 @@
 const sheetId = '1JHX3ghJYFD2DbbZI0Af5H1Urd1lg238j6lWbK23EFMc';
 const sheetRange = 'Sheet1!A2:K';
 const apiKey = 'AIzaSyB4WCgKCsz13xzw13Ln2kP1ZWuBWQYTj24';
-		
-		
 fetch(`https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${sheetRange}?key=${apiKey}`)
   .then(response => response.json())
   .then(data => {
-    // Parse the data
-    const row = data.values[0];
-    const coords = row[8].split(',').map((coord) => parseFloat(coord));
-    console.log('coords:', coords);
-    const inverseCoords = new THREE.Vector3(-coords[0], -coords[1], -coords[2]);
+   function createInfoDiv(sphere) {
+  const infoDiv = document.createElement('div');
+  infoDiv.style.cssText = `
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+    z-index: 100;
+    max-width: 300px;
+    max-height: 400px;
+    overflow: auto;
+  `;
 
-    // Create the sphere
-    const geometry = new THREE.SphereGeometry(0.5, 32, 32);
-    const material = new THREE.MeshPhongMaterial({ color: 0xffffff });
-    const sphere = new THREE.Mesh(geometry, material);
-    sphere.position.set(...coords);
-    sphere.userData = {
-      coords: coords,
-      inverseCoords: inverseCoords,
-      url: row[0],
-      title: row[1],
-      summary: row[4],
-      keywords: row[5],
-      actionWords: row[6],
-      imageUrl: row[10],
-    };
-	
-    scene.add(sphere);
+  infoDiv.style.display = "none";
+
+  const coords = document.createElement('p');
+  const inverseCoords = document.createElement('p');
+  const url = document.createElement('p');
+  const title = document.createElement('p');
+  const keywords = document.createElement('p');
+  const actionWords = document.createElement('p');
+  const summary = document.createElement('p');
+  const image = document.createElement('img');
+
+  infoDiv.appendChild(coords);
+  infoDiv.appendChild(inverseCoords);
+  infoDiv.appendChild(url);
+  infoDiv.appendChild(title);
+  infoDiv.appendChild(keywords);
+  infoDiv.appendChild(actionWords);
+  infoDiv.appendChild(summary);
+  infoDiv.appendChild(image);
+
+  document.body.appendChild(infoDiv);
+
+  const canvas = document.querySelector('canvas');
+
+  function handleSphereClick(event) {
+    event.preventDefault();
+    const raycaster = new THREE.Raycaster();
+    const mouse = new THREE.Vector2();
+    mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
+    mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
+    raycaster.setFromCamera(mouse, camera);
+    const intersects = raycaster.intersectObjects(scene.children);
+    if (intersects.length > 0) {
+      const selectedSphere = intersects[0].object;
+      if (selectedSphere.userData) {
+        coords.textContent = `(${selectedSphere.userData.coords.x}, ${selectedSphere.userData.coords.y}, ${selectedSphere.userData.coords.z})`;
+        inverseCoords.textContent = `Inverse: [${selectedSphere.userData.inverseCoords.x},${selectedSphere.userData.inverseCoords.y},${selectedSphere.userData.inverseCoords.z}]`;
+        url.textContent = `${selectedSphere.userData.url}`;
+        url.style.wordWrap = 'break-word';
+        title.textContent = `Title: ${selectedSphere.userData.title}`;
+        keywords.textContent = `Keywords: ${selectedSphere.userData.keywords}`;
+        actionWords.textContent = `Action Words: ${selectedSphere.userData.actionWords}`;
+        summary.textContent = `Summary: ${selectedSphere.userData.summary}`;
+        summary.style.overflowWrap = "break-word";
+        image.src = selectedSphere.userData.imageUrl;
+        image.alt = `Sphere Image`;
+        image.width = 150;
+        image.height = 150;
+        infoDivimage.alt = `Sphere Image`;
+        image.width = 150;
+        image.height = 150;
+        infoDiv.appendChild(image);
+  infoDiv.style.display = "block";
+});
+}
+});
+
+return infoDiv;
+}
+
+    const [headerRow, ...rows] = data.values;
+    const spheres = rows.map(row => {
+      const [id, x, y, z, title, summary, url, imageUrl, keywords, actionWords] = row;
+      return {
+        id,
+        coords: { x: Number(x), y: Number(y), z: Number(z) },
+        title,
+        summary,
+        url,
+        imageUrl,
+        keywords,
+        actionWords,
+        type: 'sphere',
+      };
+    });
+    addSpheresToScene(spheres);
   })
   .catch(error => {
     console.error('Error fetching data:', error);
   });
+
 
 
 // Add an event listener for clicking on any object in the scene
