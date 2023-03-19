@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>222q app</title>
+        <title>444q app</title>
 	<meta http-equiv="Permissions-Policy" content="geolocation=(self 'https://trusted-site.example')">
   </head>
         <style>
@@ -88,11 +88,17 @@
             scene.add(pointLight);
 		
 		function setInfoDivData(sphere) {
-  const coords = sphere.userData.coords;
-  const inverseCoords = sphere.userData.inverseCoords;
+  const coordsDiv = document.querySelector('#coords');
+  const inverseCoordsDiv = document.querySelector('#inverse-coords');
+  const urlDiv = document.querySelector('#url');
+  const titleDiv = document.querySelector('#title');
+  const keywordsDiv = document.querySelector('#keywords');
+  const actionWordsDiv = document.querySelector('#action-words');
+  const summaryDiv = document.querySelector('#summary');
+  const imageDiv = document.querySelector('#image');
 
-  coordsDiv.textContent = `Coords: (${coords.x}, ${coords.y}, ${coords.z})`;
-  inverseCoordsDiv.textContent = `Inverse: [${inverseCoords.x}, ${inverseCoords.y}, ${inverseCoords.z}]`;
+  coordsDiv.textContent = `Coords: (${sphere.userData.coords.x}, ${sphere.userData.coords.y}, ${sphere.userData.coords.z})`;
+  inverseCoordsDiv.textContent = `Inverse: [${sphere.userData.inverseCoords.x}, ${sphere.userData.inverseCoords.y}, ${sphere.userData.inverseCoords.z}]`;
   urlDiv.innerHTML = `URL: <a href="${sphere.userData.url}" target="_blank">${sphere.userData.url}</a>`;
   titleDiv.textContent = `Title: ${sphere.userData.title}`;
   keywordsDiv.textContent = `Keywords: ${sphere.userData.keywords}`;
@@ -100,6 +106,7 @@
   summaryDiv.textContent = `Summary: ${sphere.userData.summary}`;
   imageDiv.src = sphere.userData.imageUrl;
 }
+
 
 
 const sheetId = '1JHX3ghJYFD2DbbZI0Af5H1Urd1lg238j6lWbK23EFMc';
