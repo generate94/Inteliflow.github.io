@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>3Inteliflow app</title>
+        <title>2Inteliflow app</title>
 	<meta http-equiv="Permissions-Policy" content="geolocation=(self 'https://trusted-site.example')">
         <style>
 		canvas {
@@ -200,23 +200,6 @@ document.addEventListener('click', (event) => {
     const selectedObject = intersects[0].object;
 
     setInfoDivData(selectedObject);
-  }
-});
-
-		document.addEventListener('click', (event) => {
-  const infoDiv = document.getElementById('info');
-  const targetElement = event.target; // clicked element
-
-  // Check if the clicked element is an infoDiv or a descendant of an infoDiv
-  if (infoDiv.contains(targetElement)) {
-    // Do nothing
-    return;
-  } else {
-    // Close all open infoDivs
-    const openInfoDivs = document.querySelectorAll('.info-div');
-    openInfoDivs.forEach((div) => {
-      div.style.display = 'none';
-    });
   }
 });
 
