@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>cccInteliflow app</title>
+        <title>nteliflow app</title>
 	<meta http-equiv="Permissions-Policy" content="geolocation=(self 'https://trusted-site.example')">
         <style>
 		canvas {
@@ -205,20 +205,16 @@ document.addEventListener('click', (event) => {
 });
 
 		
-fetch(`https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/IA%20Calc!A8,D2?key=${apiKey}`)
+fetch(`https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/IA%20Calc!A8?key=${apiKey}`)
   .then(response => response.json())
   .then(data => {
     const coords = data.values[0][0].split(',').map(parseFloat);
-    const text = data.values[1][0];
 
     // Create the cube
     const geometry = new THREE.BoxGeometry(1, 1, 1);
     const material = new THREE.MeshPhongMaterial({ color: 0x0000ff });
     const cube = new THREE.Mesh(geometry, material);
     cube.position.set(...coords);
-    cube.userData = {
-      text: text,
-    };
     scene.add(cube);
   })
   .catch(error => {
