@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>6Inteliflow app</title>
+        <title>7Inteliflow app</title>
 	<meta http-equiv="Permissions-Policy" content="geolocation=(self 'https://trusted-site.example')">
         <style>
 		canvas {
@@ -116,7 +116,7 @@
     const keywords = document.getElementById('keywords');
     const actionWords = document.getElementById('actionWords');
     const summary = document.getElementById('summary');
-    const image = document.getElementById('image');
+    
 
 coords.innerHTML = `<strong>[${mesh.position.x.toFixed(2)}, ${mesh.position.y.toFixed(2)}, ${mesh.position.z.toFixed(2)}]</strong>`;
 inverseCoords.innerHTML = `<strong>Inverse:</strong> [${mesh.userData.inverseCoords.x}, ${mesh.userData.inverseCoords.y}, ${mesh.userData.inverseCoords.z}]`;
@@ -125,10 +125,6 @@ title.innerHTML = `<strong>Title:</strong> ${mesh.userData.title}`;
 keywords.innerHTML = `<strong>Keywords:</strong> ${mesh.userData.keywords}`;
 actionWords.innerHTML = `<strong>Action Words:</strong> ${mesh.userData.actionWords}`;
 summary.innerHTML = `<strong>Summary:</strong> ${mesh.userData.summary}`;
-
-image.src = mesh.userData.imageUrl;
-image.style.width = '300px';
-image.style.height = 'auto';
 
 
     // Set the style for the infoDiv element
@@ -208,6 +204,31 @@ document.addEventListener('click', (event) => {
 });
 
 camera.position.z = 5;
+		// Create the div for displaying the camera position
+const cameraPositionDiv = document.createElement('div');
+cameraPositionDiv.style.position = 'fixed';
+cameraPositionDiv.style.bottom = '10px';
+cameraPositionDiv.style.right = '10px';
+cameraPositionDiv.style.backgroundColor = 'rgba(255, 255, 255, 0.8)';
+cameraPositionDiv.style.padding = '10px';
+cameraPositionDiv.style.borderRadius = '10px';
+cameraPositionDiv.style.boxShadow = '2px 2px 5px rgba(0, 0, 0, 0.3)';
+cameraPositionDiv.style.zIndex = '100';
+
+// Add the camera position div to the document body
+document.body.appendChild(cameraPositionDiv);
+
+// Update the camera position div whenever the camera moves
+function updateCameraPositionDiv() {
+  const cameraPosition = camera.position;
+  cameraPositionDiv.textContent = `Camera Position: (${cameraPosition.x.toFixed(2)}, ${cameraPosition.y.toFixed(2)}, ${cameraPosition.z.toFixed(2)})`;
+}
+
+// Call the updateCameraPositionDiv function once to initialize the div with the current camera position
+updateCameraPositionDiv();
+
+// Add an event listener to the camera so that the camera position div updates whenever the camera moves
+camera.addEventListener('move', updateCameraPositionDiv);
 
 
 const cameraControl = new CameraControl(renderer, camera, () => {
