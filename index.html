@@ -198,8 +198,8 @@ console.error(error);
     };
 
     // Loop through all the spheres in the scene and calculate their inverse coordinates
-    for (let i = 0; i < spheres.length; i++) {
-      const { x, y, z } = spheres[i].coords;
+    for (let i = 0; i < sphere.length; i++) {
+      const { x, y, z } = sphere[i].coords;
       const inverseX = -1 * x;
       const inverseY = -1 * y;
       const inverseZ = -1 * z;
