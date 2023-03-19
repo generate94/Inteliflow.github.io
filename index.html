@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>AAAInteliflow app</title>
+        <title>bbbInteliflow app</title>
 	<meta http-equiv="Permissions-Policy" content="geolocation=(self 'https://trusted-site.example')">
         <style>
 		canvas {
@@ -207,7 +207,7 @@ document.addEventListener('click', (event) => {
 fetch(`https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${cubeSheetRange}?key=${apiKey}`)
   .then(response => response.json())
   .then(data => {
-    const coords = data.values[7][0].split(',').map(parseFloat);
+    const coords = data.values[7][0].split(',').map((coord) => parseFloat(coord));
     const text = data.values[1][3]; // get text from D2 cell
 
     // Create the cube
