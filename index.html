@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>8Inteliflow app</title>
+        <title>9Inteliflow app</title>
 	<meta http-equiv="Permissions-Policy" content="geolocation=(self 'https://trusted-site.example')">
         <style>
 		canvas {
@@ -16,6 +16,7 @@
     </head>
     <body>
          <div id="info" style="position: absolute; top: 10px; left: 10px;">
+      <button id="closeBtn">X</button>
       <div id="coords"></div>
       <div id="inverseCoords"></div>
       <div id="url"></div>
@@ -133,7 +134,7 @@ summary.innerHTML = `<strong>Summary:</strong> ${mesh.userData.summary}`;
     infoDiv.style.top = '10px';
     infoDiv.style.right = '100px';
     infoDiv.style.maxWidth = '300px';
-    infoDiv.style.maxHeight = '500px';
+    infoDiv.style.maxHeight = '550px';
     infoDiv.style.overflow = 'auto';
     infoDiv.style.backgroundColor = 'rgba(255, 255, 255, 0.8)';
     infoDiv.style.padding = '10px';
@@ -141,6 +142,17 @@ summary.innerHTML = `<strong>Summary:</strong> ${mesh.userData.summary}`;
     infoDiv.style.boxShadow = '2px 2px 5px rgba(0, 0, 0, 0.3)';
     infoDiv.style.zIndex = '100';
     infoDiv.style.display = 'block';
+	  
+	  #closeBtn {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  font-size: 16px;
+  font-weight: bold;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
   }
 }
 
@@ -182,7 +194,12 @@ fetch(`https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${sheetRa
     console.error('Error fetching data:', error);
   });
 
-
+const closeBtn = document.getElementById('closeBtn');
+closeBtn.addEventListener('click', () => {
+  const infoDiv = document.getElementById('info');
+  infoDiv.style.display = 'none';
+});
+		
 // Add an event listener for clicking on any object in the scene
 document.addEventListener('click', (event) => {
   const raycaster = new THREE.Raycaster();
@@ -201,6 +218,7 @@ document.addEventListener('click', (event) => {
 
     setInfoDivData(selectedObject);
   }
+}
 });
 
 camera.position.set(0, 0, 20)
