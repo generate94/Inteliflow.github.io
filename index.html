@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>qqqq app</title>
+        <title>qef app</title>
 	<meta http-equiv="Permissions-Policy" content="geolocation=(self 'https://trusted-site.example')">
         <style>
 		canvas {
@@ -115,13 +115,13 @@
   summary.textContent = `Summary: ${sphere.userData.summary}`;
   image.src = sphere.userData.imageUrl;
   image.style.width = '300px';
-  image.style.height = '300px';
+  image.style.height = 'auto';
 			
 			  // Set the style for the infoDiv element
   const infoDiv = document.getElementById('info');
   infoDiv.style.position = 'absolute';
   infoDiv.style.top = '10px';
-  infoDiv.style.right = '10px';
+  infoDiv.style.left = 'calc(100% - 310px)';
   infoDiv.style.maxWidth = '300px';
   infoDiv.style.maxHeight = '700px';
   infoDiv.style.overflow = 'auto';
