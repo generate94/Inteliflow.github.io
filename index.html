@@ -1,45 +1,91 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8">
-        <title>4Inteliflow app</title>
-	<meta http-equiv="Permissions-Policy" content="geolocation=(self 'https://trusted-site.example')">
-        <style>
-		canvas {
-            width: 100%;
-            height: 100%;
-            display: block;
-        }
-		body { margin: 0; }
-        #fixed-element {
-            position: fixed;
-            top: 10px;
-            right: 10px;
-            z-index: 1000;
-            background-color: rgba(255, 255, 255, 0.8);
-            padding: 10px;
-            border-radius: 10px;
-            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
-        }
-        </style>
-	    <script src="https://apis.google.com/js/api.js"></script>
-    </head>
-    <body>
-        <div id="fixed-element">
-            This is a fixed element.
-        </div>
-        <div id="info" style="position: absolute; top: 10px; left: 10px;">
-            <div id="coords"></div>
-            <div id="inverseCoords"></div>
-            <div id="url"></div>
-            <div id="title"></div>
-            <div id="keywords"></div>
-            <div id="actionWords"></div>
-            <div id="summary"></div>
-            <img id="image" />
-        </div>
+  <head>
+    <meta charset="utf-8">
+    <title>5Inteliflow app</title>
+    <style>
+      canvas {
+        width: 100%;
+        height: 100%;
+        display: block;
+      }
+      body { margin: 0; }
+      #fixed-element {
+        position: fixed;
+        top: 10px;
+        right: 10px;
+        width: 200px;
+        height: auto;
+        background-color: #fff;
+        padding: 10px;
+        border-radius: 10px;
+        box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+      }
+    </style>
+  </head>
+  <body>
+    <div id="info" style="position: absolute; top: 10px; left: 10px;">
+      <div id="coords"></div>
+      <div id="inverseCoords"></div>
+      <div id="url"></div>
+      <div id="title"></div>
+      <div id="keywords"></div>
+      <div id="actionWords"></div>
+      <div id="summary"></div>
+      <img id="image" />
+    </div>
+    <div id="fixed-element">
+      <h2>Center of 2 points</h2>
+      <form>
+        <label for="x1">Sphere 1 x:</label>
+        <input type="number" id="x1" name="x1"><br>
 
-        <script type="module">
+        <label for="y1">Sphere 1 y:</label>
+        <input type="number" id="y1" name="y1"><br>
+
+        <label for="z1">Sphere 1 z:</label>
+        <input type="number" id="z1" name="z1"><br>
+
+        <label for="x2">Sphere 2 x:</label>
+        <input type="number" id="x2" name="x2"><br>
+
+        <label for="y2">Sphere 2 y:</label>
+        <input type="number" id="y2" name="y2"><br>
+
+        <label for="z2">Sphere 2 z:</label>
+        <input type="number" id="z2" name="z2"><br>
+
+        <button type="button" id="calculate">Calculate</button>
+      </form>
+      <div id="result"></div>
+    </div>
+
+    <script type="module">
+      // Helper function to calculate the midpoint between two vectors
+      function calculateMidpoint(v1, v2) {
+        return new THREE.Vector3(
+          (v1.x + v2.x) / 2,
+          (v1.y + v2.y) / 2,
+          (v1.z + v2.z) / 2
+        );
+      }
+
+      import * as THREE from 'https://unpkg.com/three/build/three.module.js';
+
+      class CameraControl {
+        zoomMode = false;
+        press = false;
+        sensitivity = 0.01;
+
+        constructor(renderer, camera, updateCallback) {
+          renderer.domElement.addEventListener('mousemove', event => {
+            if (!this.press) { return; }
+
+            if (event.button == 0) {
+              camera.position.y -= event.movementY * this.sensitivity;
+              camera.position.x -= event.movementX * this.sensitivity;
+            } else if
+
             import * as THREE from 'https://unpkg.com/three/build/three.module.js';
 
             class CameraControl {
