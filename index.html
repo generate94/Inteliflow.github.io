@@ -222,30 +222,6 @@ sphere1.addEventListener('mouseout', () => {
 });
 
 
-
-// Add sphere 2 to the scene
-const sphere2 = new THREE.Mesh(geometry1, material1);
-
-sphere2.position.set(2, 0, 0);
-sphere2.userData = {
-coords: sphere2.position,
-inverseCoords: new THREE.Vector3(-sphere2.position.x, -sphere2.position.y, -sphere2.position.z),
-url: 'https://www.example.com',
-title: 'Example Title 2',
-summary: 'Example Summary 2',
-imageUrl: 'https://via.placeholder.com/150'
-};
-scene.add(sphere2);
-
-sphere2.addEventListener('click', () => {
-    console.log(`Coords: (${sphere2.userData.coords.x}, ${sphere2.userData.coords.y}, ${sphere2.userData.coords.z})`);
-    console.log(`Inverse Coords: (${sphere2.userData.inverseCoords.x}, ${sphere2.userData.inverseCoords.y}, ${sphere2.userData.inverseCoords.z})`);
-    console.log(`URL: ${sphere2.userData.url}`);
-    console.log(`Title: ${sphere2.userData.title}`);
-    console.log(`Summary: ${sphere2.userData.summary}`);
-    console.log(`Image URL: ${sphere2.userData.imageUrl}`);
-});
-
 // Add an event listener for clicking on any object in the scene
 document.addEventListener('click', (event) => {
 const raycaster = new THREE.Raycaster();
