@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>4Inteliflow app</title>
+        <title>5Inteliflow app</title>
 	<meta http-equiv="Permissions-Policy" content="geolocation=(self 'https://trusted-site.example')">
         <style>
 		canvas {
@@ -118,7 +118,7 @@
     const summary = document.getElementById('summary');
     const image = document.getElementById('image');
 
-coords.textContent = `<strong>[${mesh.position.x.toFixed(2)}, ${mesh.position.y.toFixed(2)}, ${mesh.position.z.toFixed(2)}]</strong>`;
+coords.textContent = `<strong><p>[${mesh.position.x.toFixed(2)}, ${mesh.position.y.toFixed(2)}, ${mesh.position.z.toFixed(2)}]<p></strong>`;
 inverseCoords.textContent = `<strong>Inverse:</strong> [${mesh.userData.inverseCoords.x}, ${mesh.userData.inverseCoords.y}, ${mesh.userData.inverseCoords.z}]`;
 url.innerHTML = `<strong>url:</strong> <a href="${mesh.userData.url}" target="_blank">${mesh.userData.url}</a>`;
 title.textContent = `<strong>Title:</strong> ${mesh.userData.title}`;
