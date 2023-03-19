@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>uuu6</title>
+        <title>iuiuiu</title>
         <meta http-equiv="Permissions-Policy" content="geolocation=(self 'https://trusted-site.example')">
         <style>
             canvas {
@@ -168,10 +168,12 @@ function createSpheres(coordsList) {
     const [x, y, z] = coordsList[i];
     const sphere = new THREE.Mesh(new THREE.SphereGeometry(0.5, 32, 32), new THREE.MeshPhongMaterial({ color: 0xff0000 }));
     sphere.position.set(x, y, z);
+    sphere.addEventListener('click', handleSphereClick); // add event listener to each sphere
     spheres.push(sphere);
   }
   return spheres;
 }
+
 
 const coordsList = [  [0, 0, 0],
   [1, 1, 1],
