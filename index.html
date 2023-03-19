@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>aaaccq app</title>
+        <title>vvv app</title>
 	<meta http-equiv="Permissions-Policy" content="geolocation=(self 'https://trusted-site.example')">
         <style>
 		canvas {
@@ -133,38 +133,35 @@ fetch(`https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${sheetRa
   const canvas = document.querySelector('canvas');
 
   function handleSphereClick(event) {
-    event.preventDefault();
-    const raycaster = new THREE.Raycaster();
-    const mouse = new THREE.Vector2();
-    mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
-    mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
-    raycaster.setFromCamera(mouse, camera);
-    const intersects = raycaster.intersectObjects(scene.children);
-    if (intersects.length > 0) {
-      const selectedSphere = intersects[0].object;
-      if (selectedSphere.userData) {
-        coords.textContent = `(${selectedSphere.userData.coords.x}, ${selectedSphere.userData.coords.y}, ${selectedSphere.userData.coords.z})`;
-        inverseCoords.textContent = `Inverse: [${selectedSphere.userData.inverseCoords.x},${selectedSphere.userData.inverseCoords.y},${selectedSphere.userData.inverseCoords.z}]`;
-        url.textContent = `${selectedSphere.userData.url}`;
-        url.style.wordWrap = 'break-word';
-        title.textContent = `Title: ${selectedSphere.userData.title}`;
-        keywords.textContent = `Keywords: ${selectedSphere.userData.keywords}`;
-        actionWords.textContent = `Action Words: ${selectedSphere.userData.actionWords}`;
-        summary.textContent = `Summary: ${selectedSphere.userData.summary}`;
-        summary.style.overflowWrap = "break-word";
-        image.src = selectedSphere.userData.imageUrl;
-        image.alt = `Sphere Image`;
-        image.width = 150;
-        image.height = 150;
-        infoDivimage.alt = `Sphere Image`;
-        image.width = 150;
-        image.height = 150;
-        infoDiv.appendChild(image);
-  infoDiv.style.display = "block";
-      }
+  event.preventDefault();
+  const raycaster = new THREE.Raycaster();
+  const mouse = new THREE.Vector2();
+  mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+  mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+  raycaster.setFromCamera(mouse, camera);
+  const intersects = raycaster.intersectObjects(scene.children);
+  if (intersects.length > 0) {
+    const selectedSphere = intersects[0].object;
+    if (selectedSphere.userData) {
+      coords.textContent = `(${selectedSphere.userData.coords.x}, ${selectedSphere.userData.coords.y}, ${selectedSphere.userData.coords.z})`;
+      inverseCoords.textContent = `Inverse: [${selectedSphere.userData.inverseCoords.x},${selectedSphere.userData.inverseCoords.y},${selectedSphere.userData.inverseCoords.z}]`;
+      url.textContent = `${selectedSphere.userData.url}`;
+      url.style.wordWrap = "break-word";
+      title.textContent = `Title: ${selectedSphere.userData.title}`;
+      keywords.textContent = `Keywords: ${selectedSphere.userData.keywords}`;
+      actionWords.textContent = `Action Words: ${selectedSphere.userData.actionWords}`;
+      summary.textContent = `Summary: ${selectedSphere.userData.summary}`;
+      summary.style.overflowWrap = "break-word";
+      image.src = selectedSphere.userData.imageUrl;
+      image.alt = `Sphere Image`;
+      image.width = 150;
+      image.height = 150;
+      infoDiv.appendChild(image);
+      infoDiv.style.display = "block";
     }
+  }
 }
-};
+
 
 return infoDiv;
 }
