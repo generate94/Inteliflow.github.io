@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>xxx app</title>
+        <title>bbb app</title>
 	<meta http-equiv="Permissions-Policy" content="geolocation=(self 'https://trusted-site.example')">
         <style>
 		canvas {
@@ -118,7 +118,7 @@
     const summary = document.getElementById('summary');
     const image = document.getElementById('image');
 
-    coords.textContent = `Coords: (${mesh.userData.coords.x}, ${mesh.userData.coords.y}, ${mesh.userData.coords.z})`;
+    coords.textContent = `Coords: (${(-inverseCoords.x).toFixed(2)}, ${(-inverseCoords.y).toFixed(2)}, ${(-inverseCoords.z).toFixed(2)})`;
     inverseCoords.textContent = `Inverse: [${mesh.userData.inverseCoords.x}, ${mesh.userData.inverseCoords.y}, ${mesh.userData.inverseCoords.z}]`;
     url.innerHTML = `URL: <a href="${mesh.userData.url}" target="_blank">${mesh.userData.url}</a>`;
     title.textContent = `Title: ${mesh.userData.title}`;
@@ -156,11 +156,7 @@ fetch(`https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${sheetRa
   .then(response => response.json())
   .then(data => {
     data.values.forEach(row => {
-      const coords = {
-  x: parseFloat(row[8].split(',')[0]),
-  y: parseFloat(row[8].split(',')[1]),
-  z: parseFloat(row[8].split(',')[2])
-};
+      const coords = row[8].split(',').map((coord) => parseFloat(coord));
       console.log('coords:', coords);
       const inverseCoords = new THREE.Vector3(-coords[0], -coords[1], -coords[2]);
 
