@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>0Inteliflow app</title>
+        <title>1Inteliflow app</title>
 	<meta http-equiv="Permissions-Policy" content="geolocation=(self 'https://trusted-site.example')">
         <style>
 		canvas {
@@ -120,7 +120,7 @@
 
 coords.innerHTML = `<strong>[${mesh.position.x.toFixed(2)}, ${mesh.position.y.toFixed(2)}, ${mesh.position.z.toFixed(2)}]</strong>`;
 inverseCoords.innerHTML = `<strong>Inverse:</strong> [${mesh.userData.inverseCoords.x}, ${mesh.userData.inverseCoords.y}, ${mesh.userData.inverseCoords.z}]`;
-url.innerHTML = `<strong>url:</strong> <a href="${mesh.userData.url}" target="_blank">${mesh.userData.url}</a>`;
+url.innerHTML = `<a href="${mesh.userData.url}" target="_blank">${mesh.userData.url}</a>`;
 title.innerHTML = `<strong>Title:</strong> ${mesh.userData.title}`;
 keywords.innerHTML = `<strong>Keywords:</strong> ${mesh.userData.keywords}`;
 actionWords.innerHTML = `<strong>Action Words:</strong> ${mesh.userData.actionWords}`;
@@ -202,6 +202,13 @@ document.addEventListener('click', (event) => {
     setInfoDivData(selectedObject);
   }
 });
+		document.addEventListener('click', function(event) {
+  var infoDiv = document.getElementById('info');
+  if (event.target !== infoDiv && !infoDiv.contains(event.target)) {
+    infoDiv.style.display = 'none';
+  }
+});
+
 
 camera.position.set(0, 0, 20)
 		const cameraControl = new CameraControl(renderer, camera, () => {
