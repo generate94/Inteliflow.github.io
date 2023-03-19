@@ -2,17 +2,19 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>22low app</title>
-	<meta http-equiv="Permissions-Policy" content="geolocation=(self 'https://trusted-site.example')">
+        <title>3333 app</title>
+        <meta http-equiv="Permissions-Policy" content="geolocation=(self 'https://trusted-site.example')">
         <style>
-		canvas {
-    width: 100%;
-    height: 100%;
-    display: block;
-}
-		body { margin: 0; }
+            canvas {
+                width: 100%;
+                height: 100%;
+                display: block;
+            }
+            body { 
+                margin: 0; 
+            }
         </style>
-	    <script src="https://apis.google.com/js/api.js"></script>
+        <script src="https://apis.google.com/js/api.js"></script>
     </head>
     <body>
         <div id="info" style="position: absolute; top: 10px; left: 10px;"></div>
@@ -20,24 +22,24 @@
             import * as THREE from 'https://unpkg.com/three/build/three.module.js';
 
             class CameraControl {
-			    zoomMode = false;
-			    press = false;
-			    sensitivity = 0.01;
+                zoomMode = false;
+                press = false;
+                sensitivity = 0.01;
 
-			    constructor(renderer, camera, updateCallback) {
-			        renderer.domElement.addEventListener('mousemove', event => {
-			            if (!this.press) { return; }
+                constructor(renderer, camera, updateCallback) {
+                    renderer.domElement.addEventListener('mousemove', event => {
+                        if (!this.press) { return; }
 
-			            if (event.button == 0) {
-			                camera.position.y -= event.movementY * this.sensitivity;
-			                camera.position.x -= event.movementX * this.sensitivity;
-			            } else if (event.button == 2) {
-			                camera.quaternion.y -= event.movementX * this.sensitivity / 10;
-			                camera.quaternion.x -= event.movementY * this.sensitivity / 10;
-			            }
+                        if (event.button == 0) {
+                            camera.position.y -= event.movementY * this.sensitivity;
+                            camera.position.x -= event.movementX * this.sensitivity;
+                        } else if (event.button == 2) {
+                            camera.quaternion.y -= event.movementX * this.sensitivity / 10;
+                            camera.quaternion.x -= event.movementY * this.sensitivity / 10;
+                        }
 
-			            updateCallback();
-			        });
+                        updateCallback();
+                    });
 
 
                     renderer.domElement.addEventListener('mousedown', () => { this.press = true; });
@@ -86,7 +88,7 @@
             pointLight.position.set(10, 10, 10);
             scene.add(pointLight);
 
-const sheetId = '1JHX3ghJYFD2DbbZI0Af5H1Urd1lg238j6lWbK23EFMc';
+            const sheetId = '1JHX3ghJYFD2DbbZI0Af5H1Urd1lg238j6lWbK23EFMc';
 const sheetRange = 'Sheet1!A2:K';
 const apiKey = 'AIzaSyB4WCgKCsz13xzw13Ln2kP1ZWuBWQYTj24';
 let rows = [];
@@ -158,106 +160,88 @@ let rows = [];
       infoDiv.appendChild(image);
       infoDiv.style.display = "block";
     }
+	  
+	  fetch(https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${sheetRange}?key=${apiKey})
+.then(response => response.json())
+.then(data => {
+const [headerRow, ...rowData] = data.values;
+	rows = rowData;
 
-fetch(`https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${sheetRange}?key=${apiKey}`)
-  .then(response => response.json())
-  .then(data => {
-    const [headerRow, ...rowData] = data.values;
-
-    rows = rowData;
-
-    const spheres = rows.map(row => {
-      const [id, x, y, z, title, summary, url, imageUrl, keywords, actionWords] = row;
-      const geometry = new THREE.SphereGeometry(0.5, 32, 32);
-      const material = new THREE.MeshPhongMaterial({ color: 0xff0000 });
-      const sphere = new THREE.Mesh(geometry, material);
-      sphere.position.set(Number(x), Number(y), Number(z));
-      sphere.userData = {
-      id: dataRow[0],
-      coords: { x: Number(dataRow[1]), y: Number(dataRow[2]), z: Number(dataRow[3]) },
-      title: dataRow[4],
-      summary: dataRow[5],
-      url: dataRow[6],
-      imageUrl: dataRow[7],
-      keywords: dataRow[8],
-      actionWords: dataRow[9],
-      type: 'sphere',
-    };
-
-scene.add(sphere); // Add the sphere to the scene
-      return sphere.userData;
-  });
-
-    const infoDiv = createInfoDiv(sphere);
-    document.body.appendChild(infoDiv);
-  })
-  
-  }
-}
-
-
-return infoDiv;
-}
-
-    const spheres = rows.map(row => {
-      const [id, x, y, z, title, summary, url, imageUrl, keywords, actionWords] = row;
-      const sphere = new THREE.Mesh(new THREE.SphereGeometry(0.5, 32, 32), new THREE.MeshPhongMaterial({ color: 0xff0000 }));
-      sphere.position.set(Number(x), Number(y), Number(z));
-      sphere.userData = {
-        id,
-        coords: { x: Number(x), y: Number(y), z: Number(z) },
-        title,
-        summary,
-        url,
-        imageUrl,
-        keywords,
-        actionWords,
-      };
-      scene.add(sphere); // Add the sphere to the scene
-      return sphere.userData;
-  
-  });
-
-
-// Add an event listener for clicking on any object in the scene
-document.addEventListener('click', (event) => {
-const raycaster = new THREE.Raycaster();
-const mouse = new THREE.Vector2();
-	// Calculate mouse position in normalized device coordinates
-mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
-
-// Cast a ray from the camera to the clicked point
-raycaster.setFromCamera(mouse, camera);
-const intersects = raycaster.intersectObjects(scene.children);
-
-if (intersects.length > 0) {
-    const selectedObject = intersects[0].object;
-    const { x, y, z } = selectedObject.userData.coords;
-    const { x: ix, y: iy, z: iz } = selectedObject.userData.inverseCoords;
-
-    console.log(`Selected object coordinates: (${x}, ${y}, ${z})`);
-    console.log(`Selected object inverse coordinates: (${ix}, ${iy}, ${iz})`);
-    console.log(`Selected object URL: ${selectedObject.userData.url}`);
-    console.log(`Selected object title: ${selectedObject.userData.title}`);
-    console.log(`Selected object summary: ${selectedObject.userData.summary}`);
-    console.log(`Selected object image URL: ${selectedObject.userData.imageUrl}`);
-}
+const spheres = rows.map(row => {
+  const [id, x, y, z, title, summary, url, imageUrl, keywords, actionWords] = row;
+  const sphere = new THREE.Mesh(new THREE.SphereGeometry(0.5, 32, 32), new THREE.MeshPhongMaterial({ color: 0xff0000 }));
+  sphere.position.set(Number(x), Number(y), Number(z));
+  sphere.userData = {
+    id,
+    coords: { x: Number(x), y: Number(y), z: Number(z) },
+    title,
+    summary,
+    url,
+    imageUrl,
+    keywords,
+    actionWords,
+  };
+  scene.add(sphere); // Add the sphere to the scene
+  return sphere.userData;
 });
 
-camera.position.z = 5;
-
-const cameraControl = new CameraControl(renderer, camera, () => {
-renderer.render(scene, camera);
+const infoDiv = createInfoDiv(spheres[0]);
+document.body.appendChild(infoDiv);
+})
+.catch(error => {
+console.error(error);
 });
+	        scene.add(sphere); // Add the sphere to the scene
+      return sphere.userData;
+    });
 
-function animate() {
-requestAnimationFrame(animate);
-renderer.render(scene, camera);
-}
+    // Loop through all the spheres in the scene and calculate their inverse coordinates
+    for (let i = 0; i < spheres.length; i++) {
+      const { x, y, z } = spheres[i].coords;
+      const inverseX = -1 * x;
+      const inverseY = -1 * y;
+      const inverseZ = -1 * z;
+      spheres[i].inverseCoords = { x: inverseX, y: inverseY, z: inverseZ };
+    }
 
-animate();
-		</script>
-	</body>
+    // Add an event listener for clicking on any object in the scene
+    document.addEventListener('click', (event) => {
+      const raycaster = new THREE.Raycaster();
+      const mouse = new THREE.Vector2();
+      // Calculate mouse position in normalized device coordinates
+      mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+      mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+
+      // Cast a ray from the camera to the clicked point
+      raycaster.setFromCamera(mouse, camera);
+      const intersects = raycaster.intersectObjects(scene.children);
+
+      if (intersects.length > 0) {
+        const selectedObject = intersects[0].object;
+        const { x, y, z } = selectedObject.userData.coords;
+        const { x: ix, y: iy, z: iz } = selectedObject.userData.inverseCoords;
+
+        console.log(`Selected object coordinates: (${x}, ${y}, ${z})`);
+        console.log(`Selected object inverse coordinates: (${ix}, ${iy}, ${iz})`);
+        console.log(`Selected object URL: ${selectedObject.userData.url}`);
+        console.log(`Selected object title: ${selectedObject.userData.title}`);
+        console.log(`Selected object summary: ${selectedObject.userData.summary}`);
+        console.log(`Selected object image URL: ${selectedObject.userData.imageUrl}`);
+      }
+    });
+
+    camera.position.z = 5;
+
+    const cameraControl = new CameraControl(renderer, camera, () => {
+      renderer.render(scene, camera);
+    });
+
+    function animate() {
+      requestAnimationFrame(animate);
+      renderer.render(scene, camera);
+    }
+
+    animate();
+  </script>
+  </body>
 </html>
-
