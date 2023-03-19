@@ -1,23 +1,21 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <title>2Inteliflow app</title>
-    <meta http-equiv="Permissions-Policy" content="geolocation=(self 'https://trusted-site.example')">
-    <style>
-      canvas {
-        width: 100%;
-        height: 100%;
-        display: block;
-      }
-      body {
-        margin: 0;
-      }
-    </style>
-    <script src="https://apis.google.com/js/api.js"></script>
-  </head>
-  <body>
-    <div id="info" style="position: absolute; top: 10px; left: 10px;">
+    <head>
+        <meta charset="utf-8">
+        <title>Inteliflow app</title>
+	<meta http-equiv="Permissions-Policy" content="geolocation=(self 'https://trusted-site.example')">
+        <style>
+		canvas {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+		body { margin: 0; }
+        </style>
+	    <script src="https://apis.google.com/js/api.js"></script>
+    </head>
+    <body>
+         <div id="info" style="position: absolute; top: 10px; left: 10px;">
       <div id="coords"></div>
       <div id="inverseCoords"></div>
       <div id="url"></div>
@@ -27,9 +25,6 @@
       <div id="summary"></div>
       <img id="image" />
     </div>
-
-    <button id="averageButton">Average</button>
-    <div id="averageCoords"></div>
 
         <script type="module">
             import * as THREE from 'https://unpkg.com/three/build/three.module.js';
