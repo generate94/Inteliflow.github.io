@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>22low app</title>
+        <title>66low app</title>
 	<meta http-equiv="Permissions-Policy" content="geolocation=(self 'https://trusted-site.example')">
         <style>
 		canvas {
@@ -184,12 +184,12 @@ fetch(`https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${sheetRa
       type: 'sphere',
     };
 
-    const geometry = new THREE.Mesh(new THREE.SphereGeometry(0.5, 32, 32), 
-    const material = new THREE.MeshPhongMaterial({ color: 0xff0000 }));
-     const sphere = new THREE.Mesh(geometry, material);
-    sphere.position.set(sphereData.coords.x, sphereData.coords.y, sphereData.coords.z);
-    sphere.userData = sphereData;
-    scene.add(sphere); // Add the sphere to the scene
+const geometry = new THREE.SphereGeometry(0.5, 32, 32);
+const material = new THREE.MeshPhongMaterial({ color: 0xff0000 });
+const sphere = new THREE.Mesh(geometry, material);
+sphere.position.set(sphereData.coords.x, sphereData.coords.y, sphereData.coords.z);
+sphere.userData = sphereData;
+scene.add(sphere); // Add the sphere to the scene
 
     const infoDiv = createInfoDiv(sphere);
     document.body.appendChild(infoDiv);
