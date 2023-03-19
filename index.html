@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>eee app</title>
+        <title>inteliflow app</title>
 	<meta http-equiv="Permissions-Policy" content="geolocation=(self 'https://trusted-site.example')">
         <style>
 		canvas {
@@ -92,6 +92,14 @@ const apiKey = 'AIzaSyB4WCgKCsz13xzw13Ln2kP1ZWuBWQYTj24';
 fetch(`https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${sheetRange}?key=${apiKey}`)
   .then(response => response.json())
   .then(data => {
+    const [headerRow, ...rows] = data.values;
+    const dataRow = rows.find(row => row.some(cell => cell !== ""));
+    
+    // If there's no data, exit early
+    if (!dataRow) {
+      console.error('No data found');
+      return;
+    }
    function createInfoDiv(sphere) {
   const infoDiv = document.createElement('div');
   infoDiv.style.cssText = `
