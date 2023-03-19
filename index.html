@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>444q app</title>
+        <title>111q app</title>
 	<meta http-equiv="Permissions-Policy" content="geolocation=(self 'https://trusted-site.example')">
   </head>
         <style>
@@ -88,24 +88,25 @@
             scene.add(pointLight);
 		
 		function setInfoDivData(sphere) {
-  const coordsDiv = document.querySelector('#coords');
-  const inverseCoordsDiv = document.querySelector('#inverse-coords');
-  const urlDiv = document.querySelector('#url');
-  const titleDiv = document.querySelector('#title');
-  const keywordsDiv = document.querySelector('#keywords');
-  const actionWordsDiv = document.querySelector('#action-words');
-  const summaryDiv = document.querySelector('#summary');
-  const imageDiv = document.querySelector('#image');
+  const coords = document.getElementById('coords');
+  const inverseCoords = document.getElementById('inverseCoords');
+  const url = document.getElementById('url');
+  const title = document.getElementById('title');
+  const keywords = document.getElementById('keywords');
+  const actionWords = document.getElementById('actionWords');
+  const summary = document.getElementById('summary');
+  const image = document.getElementById('image');
 
-  coordsDiv.textContent = `Coords: (${sphere.userData.coords.x}, ${sphere.userData.coords.y}, ${sphere.userData.coords.z})`;
-  inverseCoordsDiv.textContent = `Inverse: [${sphere.userData.inverseCoords.x}, ${sphere.userData.inverseCoords.y}, ${sphere.userData.inverseCoords.z}]`;
-  urlDiv.innerHTML = `URL: <a href="${sphere.userData.url}" target="_blank">${sphere.userData.url}</a>`;
-  titleDiv.textContent = `Title: ${sphere.userData.title}`;
-  keywordsDiv.textContent = `Keywords: ${sphere.userData.keywords}`;
-  actionWordsDiv.textContent = `Action Words: ${sphere.userData.actionWords}`;
-  summaryDiv.textContent = `Summary: ${sphere.userData.summary}`;
-  imageDiv.src = sphere.userData.imageUrl;
+  coords.textContent = `Coords: (${sphere.userData.coords.x}, ${sphere.userData.coords.y}, ${sphere.userData.coords.z})`;
+  inverseCoords.textContent = `Inverse: [${sphere.userData.inverseCoords.x}, ${sphere.userData.inverseCoords.y}, ${sphere.userData.inverseCoords.z}]`;
+  url.innerHTML = `URL: <a href="${sphere.userData.url}" target="_blank">${sphere.userData.url}</a>`;
+  title.textContent = `Title: ${sphere.userData.title}`;
+  keywords.textContent = `Keywords: ${sphere.userData.keywords}`;
+  actionWords.textContent = `Action Words: ${sphere.userData.actionWords}`;
+  summary.textContent = `Summary: ${sphere.userData.summary}`;
+  image.src = sphere.userData.imageUrl;
 }
+
 
 
 
