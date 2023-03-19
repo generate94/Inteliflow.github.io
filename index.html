@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>nteliflow app</title>
+        <title>wwwnteliflow app</title>
 	<meta http-equiv="Permissions-Policy" content="geolocation=(self 'https://trusted-site.example')">
         <style>
 		canvas {
@@ -208,6 +208,7 @@ document.addEventListener('click', (event) => {
 fetch(`https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/IA%20Calc!A8?key=${apiKey}`)
   .then(response => response.json())
   .then(data => {
+    console.log('coords:', coords);
     const coords = data.values[0][0].split(',').map(parseFloat);
 
     // Create the cube
