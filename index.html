@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>01low app</title>
+        <title>88low app</title>
 	<meta http-equiv="Permissions-Policy" content="geolocation=(self 'https://trusted-site.example')">
         <style>
 		canvas {
@@ -163,7 +163,8 @@ fetch(`https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${sheetRa
   .then(response => response.json())
   .then(data => {
     const [headerRow, ...rows] = data.values;
-    const dataRow = rows.find(row => row.some(cell => cell !== ""));
+   const dataRow = rowData.find(cell => cell !== "");
+
 
     // If there's no data, exit early
     if (!dataRow) {
