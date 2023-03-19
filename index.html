@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>111q app</title>
+        <title>321q app</title>
 	<meta http-equiv="Permissions-Policy" content="geolocation=(self 'https://trusted-site.example')">
         <style>
 		canvas {
@@ -114,6 +114,8 @@
   actionWords.textContent = `Action Words: ${sphere.userData.actionWords}`;
   summary.textContent = `Summary: ${sphere.userData.summary}`;
   image.src = sphere.userData.imageUrl;
+  image.style.width = '100px';
+  image.style.height = 'auto';
 			
 			  // Set the style for the infoDiv element
   const infoDiv = document.getElementById('info');
