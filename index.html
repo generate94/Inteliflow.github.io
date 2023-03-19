@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>vvv app</title>
+        <title>1inteliflow app</title>
 	<meta http-equiv="Permissions-Policy" content="geolocation=(self 'https://trusted-site.example')">
         <style>
 		canvas {
@@ -118,13 +118,13 @@
     const summary = document.getElementById('summary');
     const image = document.getElementById('image');
 
-    coords.textContent = `Coords: (${mesh.position.x.toFixed(2)}, ${mesh.position.y.toFixed(2)}, ${mesh.position.z.toFixed(2)})`;
-    inverseCoords.textContent = `Inverse: [${mesh.userData.inverseCoords.x}, ${mesh.userData.inverseCoords.y}, ${mesh.userData.inverseCoords.z}]`;
-    url.innerHTML = `URL: <a href="${mesh.userData.url}" target="_blank">${mesh.userData.url}</a>`;
-    title.textContent = `Title: ${mesh.userData.title}`;
-    keywords.textContent = `Keywords: ${mesh.userData.keywords}`;
-    actionWords.textContent = `Action Words: ${mesh.userData.actionWords}`;
-    summary.textContent = `Summary: ${mesh.userData.summary}`;
+    coords.textContent = `<b>[${mesh.position.x.toFixed(2)}, ${mesh.position.y.toFixed(2)}, ${mesh.position.z.toFixed(2)}]<b>`;
+    inverseCoords.textContent = `<b>Inverse:<b> [${mesh.userData.inverseCoords.x}, ${mesh.userData.inverseCoords.y}, ${mesh.userData.inverseCoords.z}]`;
+    url.innerHTML = `<b>url:<b> <a href="${mesh.userData.url}" target="_blank">${mesh.userData.url}</a>`;
+    title.textContent = `<b>Title:<b> ${mesh.userData.title}`;
+    keywords.textContent = `<b>Keywords:<b> ${mesh.userData.keywords}`;
+    actionWords.textContent = `<b>Action Words:<b> ${mesh.userData.actionWords}`;
+    summary.textContent = `<b>Summary:<b> ${mesh.userData.summary}`;
     image.src = mesh.userData.imageUrl;
     image.style.width = '300px';
     image.style.height = 'auto';
@@ -204,8 +204,9 @@ document.addEventListener('click', (event) => {
     setInfoDivData(selectedObject);
   }
 });
-
-camera.position.z = 8;
+camera.position.x = 11;
+camera.position.y = 11;
+camera.position.z = 11;
 
 const cameraControl = new CameraControl(renderer, camera, () => {
 renderer.render(scene, camera);
