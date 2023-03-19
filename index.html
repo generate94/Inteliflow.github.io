@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>cccInteliflow app</title>
+        <title>222Inteliflow app</title>
 	<meta http-equiv="Permissions-Policy" content="geolocation=(self 'https://trusted-site.example')">
         <style>
 		canvas {
@@ -204,7 +204,7 @@ document.addEventListener('click', (event) => {
   }
 });
 
-fetch(`https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/IA%20Calc!A2:D?key=${apiKey}`)
+fetch(`https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${cubeSheetRange}?key=${apiKey}`)
   .then(response => response.json())
   .then(data => {
     const coords = data.values[6][0].split(',').map(parseFloat); // get coords from A8 cell
