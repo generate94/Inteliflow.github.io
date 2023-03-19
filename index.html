@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>7Inteliflow app</title>
+        <title>8Inteliflow app</title>
 	<meta http-equiv="Permissions-Policy" content="geolocation=(self 'https://trusted-site.example')">
         <style>
 		canvas {
@@ -133,7 +133,7 @@ summary.innerHTML = `<strong>Summary:</strong> ${mesh.userData.summary}`;
     infoDiv.style.top = '10px';
     infoDiv.style.right = '100px';
     infoDiv.style.maxWidth = '300px';
-    infoDiv.style.maxHeight = '400px';
+    infoDiv.style.maxHeight = '500px';
     infoDiv.style.overflow = 'auto';
     infoDiv.style.backgroundColor = 'rgba(255, 255, 255, 0.8)';
     infoDiv.style.padding = '10px';
@@ -203,35 +203,8 @@ document.addEventListener('click', (event) => {
   }
 });
 
-camera.position.z = 5;
-		// Create the div for displaying the camera position
-const cameraPositionDiv = document.createElement('div');
-cameraPositionDiv.style.position = 'fixed';
-cameraPositionDiv.style.bottom = '10px';
-cameraPositionDiv.style.right = '10px';
-cameraPositionDiv.style.backgroundColor = 'rgba(255, 255, 255, 0.8)';
-cameraPositionDiv.style.padding = '10px';
-cameraPositionDiv.style.borderRadius = '10px';
-cameraPositionDiv.style.boxShadow = '2px 2px 5px rgba(0, 0, 0, 0.3)';
-cameraPositionDiv.style.zIndex = '100';
-
-// Add the camera position div to the document body
-document.body.appendChild(cameraPositionDiv);
-
-// Update the camera position div whenever the camera moves
-function updateCameraPositionDiv() {
-  const cameraPosition = camera.position;
-  cameraPositionDiv.textContent = `Camera Position: (${cameraPosition.x.toFixed(2)}, ${cameraPosition.y.toFixed(2)}, ${cameraPosition.z.toFixed(2)})`;
-}
-
-// Call the updateCameraPositionDiv function once to initialize the div with the current camera position
-updateCameraPositionDiv();
-
-// Add an event listener to the camera so that the camera position div updates whenever the camera moves
-camera.addEventListener('move', updateCameraPositionDiv);
-
-
-const cameraControl = new CameraControl(renderer, camera, () => {
+camera.position.set(0, 0, 20)
+		const cameraControl = new CameraControl(renderer, camera, () => {
 renderer.render(scene, camera);
 });
 
