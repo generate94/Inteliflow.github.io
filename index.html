@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>qqq app</title>
+        <title>222244 app</title>
 	<meta http-equiv="Permissions-Policy" content="geolocation=(self 'https://trusted-site.example')">
   </head>
         <style>
@@ -87,13 +87,12 @@
             pointLight.position.set(10, 10, 10);
             scene.add(pointLight);
 
-const sheetId = '1JHX3ghJYFD2DbbZI0Af5H1Urd1lg238j6lWbK23EFMc';
-const sheetRange = 'Sheet1!A2:K';
-const apiKey = 'AIzaSyB4WCgKCsz13xzw13Ln2kP1ZWuBWQYTj24';
+            const sheetId = "1JHX3ghJYFD2DbbZI0Af5H1Urd1lg238j6lWbK23EFMc";
+            const sheetRange = "Sheet1!A2:K";
+            const apiKey = "YOUR_API_KEY";
 
-fetch(`https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${sheetRange}?key=${apiKey}`)
-  .then(response => response.json())
-  .then(data => {
+            fetch(`https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${sheetRange}?key=${apiKey}`)
+               .then(data => {
     // Parse the data
     const row = data.values[0];
     const coords = row[8].split(',').map((coord) => parseFloat(coord));
@@ -182,14 +181,13 @@ actionWords.textContent = `Action Words: ${sphere1.userData.actionWords}`;
 infoDiv.appendChild(actionWords);
 
 const summary = document.createElement('p');
-summary.textContent = `Summary: ${sphere1.userData.summary}`;
+summary.textContent = Summary: ${sphere.userData.summary};
 summary.style.overflowWrap = "break-word";
 infoDiv.appendChild(summary);
 
-
 const image = document.createElement('img');
-image.src = sphere1.userData.imageUrl;
-image.alt = 'Sphere 1 Image';
+image.src = sphere.userData.imageUrl;
+image.alt = 'Sphere Image';
 image.width = 150;
 image.height = 150;
 infoDiv.appendChild(image);
@@ -198,35 +196,34 @@ document.body.appendChild(infoDiv);
 
 const canvas = document.querySelector('canvas');
 canvas.addEventListener('click', (event) => {
-    event.preventDefault();
-    const raycaster = new THREE.Raycaster();
-    const mouse = new THREE.Vector2();
-    mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
-    mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
-    raycaster.setFromCamera(mouse, camera);
-    const intersects = raycaster.intersectObjects(scene.children);
-    if (intersects.length > 0 && intersects[0].object === sphere1) {
-        console.log("Sphere 1 clicked!");
-        infoDiv.style.display = "block";
-    } else {
-        infoDiv.style.display = "none";
-    }
+event.preventDefault();
+const raycaster = new THREE.Raycaster();
+const mouse = new THREE.Vector2();
+mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
+mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
+raycaster.setFromCamera(mouse, camera);
+const intersects = raycaster.intersectObjects(scene.children);
+if (intersects.length > 0 && intersects[0].object === sphere) {
+console.log("Sphere clicked!");
+infoDiv.style.display = "block";
+} else {
+infoDiv.style.display = "none";
+}
 });
 
-sphere1.addEventListener('mouseover', () => {
-    infoDiv.style.display = "block";
+sphere.addEventListener('mouseover', () => {
+infoDiv.style.display = "block";
 });
 
-sphere1.addEventListener('mouseout', () => {
-    infoDiv.style.display = "none";
+sphere.addEventListener('mouseout', () => {
+infoDiv.style.display = "none";
 });
-
 
 // Add an event listener for clicking on any object in the scene
 document.addEventListener('click', (event) => {
 const raycaster = new THREE.Raycaster();
 const mouse = new THREE.Vector2();
-	// Calculate mouse position in normalized device coordinates
+// Calculate mouse position in normalized device coordinates
 mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
 mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
 
@@ -235,17 +232,17 @@ raycaster.setFromCamera(mouse, camera);
 const intersects = raycaster.intersectObjects(scene.children);
 
 if (intersects.length > 0) {
-    const selectedObject = intersects[0].object;
-    const { x, y, z } = selectedObject.userData.coords;
-    const { x: ix, y: iy, z: iz } = selectedObject.userData.inverseCoords;
+const selectedObject = intersects[0].object;
+const { x, y, z } = selectedObject.userData.coords;
+const { x: ix, y: iy, z: iz } = selectedObject.userData.inverseCoords;
+	console.log(`Selected object coordinates: (${x}, ${y}, ${z})`);
+console.log(`Selected object inverse coordinates: (${ix}, ${iy}, ${iz})`);
+console.log(`Selected object URL: ${selectedObject.userData.url}`);
+console.log(`Selected object title: ${selectedObject.userData.title}`);
+console.log(`Selected object summary: ${selectedObject.userData.summary}`);
+console.log(`Selected object image URL: ${selectedObject.userData.imageUrl}`);
 
-    console.log(`Selected object coordinates: (${x}, ${y}, ${z})`);
-    console.log(`Selected object inverse coordinates: (${ix}, ${iy}, ${iz})`);
-    console.log(`Selected object URL: ${selectedObject.userData.url}`);
-    console.log(`Selected object title: ${selectedObject.userData.title}`);
-    console.log(`Selected object summary: ${selectedObject.userData.summary}`);
-    console.log(`Selected object image URL: ${selectedObject.userData.imageUrl}`);
-}
+	}
 });
 
 camera.position.z = 5;
@@ -260,7 +257,7 @@ renderer.render(scene, camera);
 }
 
 animate();
-		</script>
-	</body>
-</html>
+</script>
+</body>
 
+</html>
