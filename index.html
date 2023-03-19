@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>rriflow app</title>
+        <title>aaaiflow app</title>
 	<meta http-equiv="Permissions-Policy" content="geolocation=(self 'https://trusted-site.example')">
         <style>
 		canvas {
@@ -89,56 +89,43 @@
 const sheetId = '1JHX3ghJYFD2DbbZI0Af5H1Urd1lg238j6lWbK23EFMc';
 const sheetRange = 'Sheet1!A2:K';
 const apiKey = 'AIzaSyB4WCgKCsz13xzw13Ln2kP1ZWuBWQYTj24';
+
 fetch(`https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${sheetRange}?key=${apiKey}`)
   .then(response => response.json())
   .then(data => {
-    const headerRow = data.values[0];
-    const [, ...rows] = data.values;
-
-    // Find the first row with data and use that to create a sphere
+    const [headerRow, ...rows] = data.values;
     const dataRow = rows.find(row => row.some(cell => cell !== ""));
-    if (dataRow) {
-      const [id, x, y, z, title, summary, url, imageUrl, keywords, actionWords] = dataRow;
-      const sphere = new THREE.Mesh(new THREE.SphereGeometry(0.5, 32, 32), new THREE.MeshPhongMaterial({ color: 0xff0000 }));
-      sphere.position.set(Number(x), Number(y), Number(z));
-      sphere.userData = {
-        id,
-        coords: { x: Number(x), y: Number(y), z: Number(z) },
-        title,
-        summary,
-        url,
-        imageUrl,
-        keywords,
-        actionWords,
-      };
-      scene.add(sphere);
-    }
-    else {
+
+    // If there's no data, exit early
+    if (!dataRow) {
       console.error('No data found');
+      return;
     }
 
-    const spheres = rows.map(row => {
-      const [id, x, y, z, title, summary, url, imageUrl, keywords, actionWords] = row;
-      const sphere = new THREE.Mesh(new THREE.SphereGeometry(0.5, 32, 32), new THREE.MeshPhongMaterial({ color: 0xff0000 }));
-      sphere.position.set(Number(x), Number(y), Number(z));
-      sphere.userData = {
-        id,
-        coords: { x: Number(x), y: Number(y), z: Number(z) },
-        title,
-        summary,
-        url,
-        imageUrl,
-        keywords,
-        actionWords,
-      };
-      scene.add(sphere); // Add the sphere to the scene
-      return sphere.userData;
-    });
+    const sphereData = {
+      id: dataRow[0],
+      coords: { x: Number(dataRow[1]), y: Number(dataRow[2]), z: Number(dataRow[3]) },
+      title: dataRow[4],
+      summary: dataRow[5],
+      url: dataRow[6],
+      imageUrl: dataRow[7],
+      keywords: dataRow[8],
+      actionWords: dataRow[9],
+      type: 'sphere',
+    };
 
+    const sphere = new THREE.Mesh(new THREE.SphereGeometry(0.5, 32, 32), new THREE.MeshPhongMaterial({ color: 0xff0000 }));
+    sphere.position.set(sphereData.coords.x, sphereData.coords.y, sphereData.coords.z);
+    sphere.userData = sphereData;
+    scene.add(sphere); // Add the sphere to the scene
+
+    const infoDiv = createInfoDiv(sphere);
+    document.body.appendChild(infoDiv);
   })
   .catch(error => {
     console.error('Error fetching data:', error);
   });
+
 
    function createInfoDiv(sphere) {
   const infoDiv = document.createElement('div');
