@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>9Inteliflow app</title>
+        <title>0Inteliflow app</title>
 	<meta http-equiv="Permissions-Policy" content="geolocation=(self 'https://trusted-site.example')">
         <style>
 		canvas {
@@ -16,7 +16,6 @@
     </head>
     <body>
          <div id="info" style="position: absolute; top: 10px; left: 10px;">
-      <button id="closeBtn">X</button>
       <div id="coords"></div>
       <div id="inverseCoords"></div>
       <div id="url"></div>
@@ -143,16 +142,6 @@ summary.innerHTML = `<strong>Summary:</strong> ${mesh.userData.summary}`;
     infoDiv.style.zIndex = '100';
     infoDiv.style.display = 'block';
 	  
-	  #closeBtn {
-  position: absolute;
-  top: 5px;
-  right: 5px;
-  font-size: 16px;
-  font-weight: bold;
-  background-color: transparent;
-  border: none;
-  cursor: pointer;
-}
   }
 }
 
@@ -193,12 +182,6 @@ fetch(`https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${sheetRa
   .catch(error => {
     console.error('Error fetching data:', error);
   });
-
-const closeBtn = document.getElementById('closeBtn');
-closeBtn.addEventListener('click', () => {
-  const infoDiv = document.getElementById('info');
-  infoDiv.style.display = 'none';
-});
 		
 // Add an event listener for clicking on any object in the scene
 document.addEventListener('click', (event) => {
@@ -218,7 +201,6 @@ document.addEventListener('click', (event) => {
 
     setInfoDivData(selectedObject);
   }
-}
 });
 
 camera.position.set(0, 0, 20)
