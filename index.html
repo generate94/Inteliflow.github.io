@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>fffInteliflow app</title>
+        <title>cccInteliflow app</title>
 	<meta http-equiv="Permissions-Policy" content="geolocation=(self 'https://trusted-site.example')">
         <style>
 		canvas {
@@ -205,7 +205,7 @@ document.addEventListener('click', (event) => {
 });
 
 		
-fetch(`https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${cubeSheetRange}?key=${apiKey}`)
+fetch(`https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/IA%20Calc!A8,D2?key=${apiKey}`)
   .then(response => response.json())
   .then(data => {
     const coords = data.values[0][0].split(',').map(parseFloat);
