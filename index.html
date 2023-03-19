@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>eliflow app</title>
+        <title>iflow app</title>
 	<meta http-equiv="Permissions-Policy" content="geolocation=(self 'https://trusted-site.example')">
         <style>
 		canvas {
@@ -93,7 +93,7 @@ fetch(`https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${sheetRa
   .then(response => response.json())
   .then(data => {
      const headerRow = data.values[0];
-    const [-, ...rows] = data.values;
+    const [, ...rows] = data.values;
     const dataRow = rows.find(row => row.some(cell => cell !== ""));
     
     // If there's no data, exit early
