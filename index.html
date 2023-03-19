@@ -2,63 +2,72 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>2Inteliflow app</title>
+    <title>3Inteliflow app</title>
+    <meta http-equiv="Permissions-Policy" content="geolocation=(self 'https://trusted-site.example')">
     <style>
       canvas {
         width: 100%;
         height: 100%;
         display: block;
       }
-      body { margin: 0; }
-      #fixed-element {
+      body { 
+        margin: 0; 
+      }
+      #calculator {
         position: fixed;
         top: 10px;
-        right: 10px;
-        width: 200px;
-        height: auto;
-        background-color: #fff;
+        left: 10px;
+        background-color: rgba(255, 255, 255, 0.8);
         padding: 10px;
         border-radius: 10px;
         box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 10px;
+      }
+      #calculator label {
+        font-size: 14px;
+        font-weight: bold;
+      }
+      #calculator input[type="number"] {
+        width: 50px;
+        font-size: 14px;
+        padding: 5px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+      }
+      #calculator button {
+        font-size: 14px;
+        font-weight: bold;
+        padding: 5px 10px;
+        border-radius: 5px;
+        border: none;
+        background-color: #2d68ff;
+        color: white;
+        cursor: pointer;
+      }
+      #result {
+        margin-left: 10px;
+        font-size: 14px;
+        font-weight: bold;
       }
     </style>
   </head>
   <body>
-    <div id="info" style="position: absolute; top: 10px; left: 10px;">
-      <div id="coords"></div>
-      <div id="inverseCoords"></div>
-      <div id="url"></div>
-      <div id="title"></div>
-      <div id="keywords"></div>
-      <div id="actionWords"></div>
-      <div id="summary"></div>
-      <img id="image" />
-    </div>
-    <div id="fixed-element">
-      <h2>Center of 2 points</h2>
-      <form>
-        <label for="x1">Sphere 1 x:</label>
-        <input type="number" id="x1" name="x1"><br>
-
-        <label for="y1">Sphere 1 y:</label>
-        <input type="number" id="y1" name="y1"><br>
-
-        <label for="z1">Sphere 1 z:</label>
-        <input type="number" id="z1" name="z1"><br>
-
-        <label for="x2">Sphere 2 x:</label>
-        <input type="number" id="x2" name="x2"><br>
-
-        <label for="y2">Sphere 2 y:</label>
-        <input type="number" id="y2" name="y2"><br>
-
-        <label for="z2">Sphere 2 z:</label>
-        <input type="number" id="z2" name="z2"><br>
-
-        <button type="button" id="calculate">Calculate</button>
-      </form>
+    <div id="calculator">
+      <label>Point 1:</label>
+      <input type="number" id="x1" placeholder="x">
+      <input type="number" id="y1" placeholder="y">
+      <input type="number" id="z1" placeholder="z">
+      <label>Point 2:</label>
+      <input type="number" id="x2" placeholder="x">
+      <input type="number" id="y2" placeholder="y">
+      <input type="number" id="z2" placeholder="z">
+      <button id="calculateBtn">Calculate</button>
       <div id="result"></div>
     </div>
+
 
     <script type="module">
       // Helper function to calculate the midpoint between two vectors
