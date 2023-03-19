@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>vvv app</title>
+        <title>aaav app</title>
 	<meta http-equiv="Permissions-Policy" content="geolocation=(self 'https://trusted-site.example')">
         <style>
 		canvas {
@@ -181,7 +181,7 @@ return infoDiv;
         type: 'sphere',
       };
     });
-    addSpheresToScene(spheres);
+    spheres.forEach(sphere => scene.add(sphere));
   })
   .catch(error => {
     console.error('Error fetching data:', error);
