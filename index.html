@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>iflow app</title>
+        <title>rriflow app</title>
 	<meta http-equiv="Permissions-Policy" content="geolocation=(self 'https://trusted-site.example')">
         <style>
 		canvas {
@@ -92,15 +92,54 @@ const apiKey = 'AIzaSyB4WCgKCsz13xzw13Ln2kP1ZWuBWQYTj24';
 fetch(`https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${sheetRange}?key=${apiKey}`)
   .then(response => response.json())
   .then(data => {
-     const headerRow = data.values[0];
+    const headerRow = data.values[0];
     const [, ...rows] = data.values;
+
+    // Find the first row with data and use that to create a sphere
     const dataRow = rows.find(row => row.some(cell => cell !== ""));
-    
-    // If there's no data, exit early
-    if (!dataRow) {
-      console.error('No data found');
-      return;
+    if (dataRow) {
+      const [id, x, y, z, title, summary, url, imageUrl, keywords, actionWords] = dataRow;
+      const sphere = new THREE.Mesh(new THREE.SphereGeometry(0.5, 32, 32), new THREE.MeshPhongMaterial({ color: 0xff0000 }));
+      sphere.position.set(Number(x), Number(y), Number(z));
+      sphere.userData = {
+        id,
+        coords: { x: Number(x), y: Number(y), z: Number(z) },
+        title,
+        summary,
+        url,
+        imageUrl,
+        keywords,
+        actionWords,
+      };
+      scene.add(sphere);
     }
+    else {
+      console.error('No data found');
+    }
+
+    const spheres = rows.map(row => {
+      const [id, x, y, z, title, summary, url, imageUrl, keywords, actionWords] = row;
+      const sphere = new THREE.Mesh(new THREE.SphereGeometry(0.5, 32, 32), new THREE.MeshPhongMaterial({ color: 0xff0000 }));
+      sphere.position.set(Number(x), Number(y), Number(z));
+      sphere.userData = {
+        id,
+        coords: { x: Number(x), y: Number(y), z: Number(z) },
+        title,
+        summary,
+        url,
+        imageUrl,
+        keywords,
+        actionWords,
+      };
+      scene.add(sphere); // Add the sphere to the scene
+      return sphere.userData;
+    });
+
+  })
+  .catch(error => {
+    console.error('Error fetching data:', error);
+  });
+
    function createInfoDiv(sphere) {
   const infoDiv = document.createElement('div');
   infoDiv.style.cssText = `
