@@ -20,26 +20,25 @@
         <script type="module">
             import * as THREE from 'https://unpkg.com/three/build/three.module.js';
 
-
             class CameraControl {
-                zoomMode = false;
-                press = false;
-                sensitivity = 0.01;
+			    zoomMode = false;
+			    press = false;
+			    sensitivity = 0.01;
 
-                constructor(renderer, camera, updateCallback) {
-                    renderer.domElement.addEventListener('mousemove', event => {
-                        if (!this.press) { return; }
+			    constructor(renderer, camera, updateCallback) {
+			        renderer.domElement.addEventListener('mousemove', event => {
+			            if (!this.press) { return; }
 
-                        if (event.button == 0) {
-                            camera.position.y -= event.movementY * this.sensitivity;
-                            camera.position.x -= event.movementX * this.sensitivity;
-                        } else if (event.button == 2) {
-                            camera.quaternion.y -= event.movementX * this.sensitivity / 10;
-                            camera.quaternion.x -= event.movementY * this.sensitivity / 10;
-                        }
+			            if (event.button == 0) {
+			                camera.position.y -= event.movementY * this.sensitivity;
+			                camera.position.x -= event.movementX * this.sensitivity;
+			            } else if (event.button == 2) {
+			                camera.quaternion.y -= event.movementX * this.sensitivity / 10;
+			                camera.quaternion.x -= event.movementY * this.sensitivity / 10;
+			            }
 
-                        updateCallback();
-                    });
+			            updateCallback();
+			        });
 
 
                     renderer.domElement.addEventListener('mousedown', () => { this.press = true; });
@@ -88,296 +87,204 @@
             pointLight.position.set(10, 10, 10);
             scene.add(pointLight);
 
-            const sheetId = '1JHX3ghJYFD2DbbZI0Af5H1Urd1lg238j6lWbK23EFMc';
+const sheetId = '1JHX3ghJYFD2DbbZI0Af5H1Urd1lg238j6lWbK23EFMc';
 const sheetRange = 'Sheet1!A2:K';
-const apiKey = '<your-api-key>';
-let rows = [];
-let spheres = [];
+const apiKey = 'AIzaSyB4WCgKCsz13xzw13Ln2kP1ZWuBWQYTj24';
 
-function createInfoDiv(sphere) {
-  const infoDiv = document.createElement('div');
-  infoDiv.style.cssText = `
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    background-color: rgba(255, 255, 255, 0.8);
-    padding: 10px;
-    border-radius: 10px;
-    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
-    z-index: 100;
-    max-width: 300px;
-    max-height: 400px;
-    overflow: auto;
-  `;
-
-  infoDiv.style.display = "none";
-
-  const coords = document.createElement('p');
-  const inverseCoords = document.createElement('p');
-  const url = document.createElement('p');
-  const title = document.createElement('p');
-  const keywords = document.createElement('p');
-  const actionWords = document.createElement('p');
-  const summary = document.createElement('p');
-  const image = document.createElement('img');
-
-  infoDiv.appendChild(coords);
-  infoDiv.appendChild(inverseCoords);
-  infoDiv.appendChild(url);
-  infoDiv.appendChild(title);
-  infoDiv.appendChild(keywords);
-	infoDiv.appendChild(actionWords);
-  infoDiv.appendChild(summary);
-  infoDiv.appendChild(image);
-	
-	document.body.appendChild(infoDiv);
-
-  const canvas = document.querySelector('canvas');
-	
-	function handleSphereClick(event) {
-  event.preventDefault();
-  const raycaster = new THREE.Raycaster();
-  const mouse = new THREE.Vector2();
-  mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-  mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
-  raycaster.setFromCamera(mouse, camera);
-  const intersects = raycaster.intersectObjects(scene.children);
-  if (intersects.length > 0) {
-    const selectedSphere = intersects[0].object;
-    if (selectedSphere.userData) {
-      coords.textContent = `(${selectedSphere.userData.coords.x}, ${selectedSphere.userData.coords.y}, ${selectedSphere.userData.coords.z})`;
-      inverseCoords.textContent = `Inverse: [${selectedSphere.userData.inverseCoords.x},${selectedSphere.userData.inverseCoords.y},${selectedSphere.userData.inverseCoords.z}]`;
-      url.textContent = `${selectedSphere.userData.url}`;
-      url.style.wordWrap = "break-word";
-      title.textContent = `Title: ${selectedSphere.userData.title}`;
-      keywords.textContent = `Keywords: ${selectedSphere.userData.keywords}`;
-      actionWords.textContent = `Action Words: ${selectedSphere.userData.actionWords}`;
-      summary.textContent = `Summary: ${selectedSphere.userData.summary}`;
-      summary.style.overflowWrap = "break-word";
-      image.src = selectedSphere.userData.imageUrl;
-      image.alt = `Sphere Image`;
-      image.width = 150;
-      image.height = 150;
-      infoDiv.appendChild(image);
-      infoDiv.style.display = "block";
-    }
-  }
-function createSpheres(coordsList) {
-  const spheres = [];
-  for (let i = 0; i < coordsList.length; i++) {
-    const [x, y, z] = coordsList[i];
-    const sphere = new THREE.Mesh(new THREE.SphereGeometry(0.5, 32, 32), new THREE.MeshPhongMaterial({ color: 0xff0000 }));
-    sphere.position.set(x, y, z);
-    sphere.addEventListener('click', handleSphereClick); // add event listener to each sphere
-    spheres.push(sphere);
-  }
-  return spheres;
-}
-
-
-const coordsList = [  [0, 0, 0],
-  [1, 1, 1],
-  [-1, -1, -1]
-];
-
-const spheres = createSpheres(coordsList);
-spheres.forEach(sphere => {
-  scene.add(sphere);
-});
-
-	  fetch(`https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${sheetRange}?key=${apiKey}`)
+fetch(`https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${sheetRange}?key=${apiKey}`)
   .then(response => response.json())
   .then(data => {
-    const [headerRow, ...rowData] = data.values;
-    rows = rowData;
+    // Parse the data
+    const row = data.values[0];
+    const coords = row[8].split(',').map((coord) => parseFloat(coord));
+    console.log('coords:', coords);
+    const inverseCoords = new THREE.Vector3(-coords[0], -coords[1], -coords[2]);
 
-    const coordsList = rows.map(row => [Number(row[1]), Number(row[2]), Number(row[3])]);
-    const spheres = createSpheres(coordsList);
-    sphere = rows.map((row, i) => {
-      spheres[i].userData = {
-        coords: { x: Number(row[1]), y: Number(row[2]), z: Number(row[3]) },
-        inverseCoords: {},
-        url: row[6],
-        title: row[4],
-        summary: row[5],
-        keywords: row[7],
-        actionWords: row[8],
-        imageUrl: row[9],
-      };
-      spheres[i].position.set(...coordsList[i]);
-      scene.add(spheres[i]);
-      return spheres[i];
-    });
-
-    const infoDiv = createInfoDiv(sphere[0]);
-    document.body.appendChild(infoDiv);
-
-    for (let i = 0; i < sphere.length; i++) {
-      const { x, y, z } = sphere[i].userData.coords;
-      const inverseX = -1 * x;
-      const inverseY = -1 * y;
-      const inverseZ = -1 * z;
-      sphere[i].userData.inverseCoords = { x: inverseX, y: inverseY, z: inverseZ };
-    }
+    // Create the sphere
+    const geometry = new THREE.SphereGeometry(0.5, 32, 32);
+    const material = new THREE.MeshPhongMaterial({ color: 0xffffff });
+    const sphere = new THREE.Mesh(geometry, material);
+    sphere.position.set(...coords);
+    sphere.userData = {
+      coords: coords,
+      inverseCoords: inverseCoords,
+      url: row[0],
+      title: row[1],
+      summary: row[4],
+      keywords: row[5],
+      actionWords: row[6],
+      imageUrl: row[10],
+    };
+    scene.add(sphere);
   })
   .catch(error => {
-    console.error(error);
+    console.error('Error fetching data:', error);
   });
 
-	  const sphereMesh = new THREE.Mesh(
-  new THREE.SphereGeometry(0.5, 32, 32),
-  new THREE.MeshPhongMaterial({ color: 0xff0000 })
-);
-sphereMesh.position.set(-1, 0, 0);
-scene.add(sphereMesh);
 
-const cubeMesh = new THREE.Mesh(
-  new THREE.BoxGeometry(1, 1, 1),
-  new THREE.MeshPhongMaterial({ color: 0x00ff00 })
-);
-cubeMesh.position.set(1, 0, 0);
-scene.add(cubeMesh);
+            // Sphere 1
+const geometry1 = new THREE.SphereGeometry(0.5, 32, 32);
+const material1 = new THREE.MeshPhongMaterial({ color: 0xffffff });
+const sphere1 = new THREE.Mesh(geometry1, material1);
+sphere1.position.set(-2, 0, 0);
+sphere1.userData = {
+    coords: sphere1.position,
+    inverseCoords: new THREE.Vector3(-sphere1.position.x, -sphere1.position.y, -sphere1.position.z),
+    url: "https://www.example.com",
+    title: "Placeholder Title",
+    keywords: "keyword1, keyword2",
+    actionWords: "click, visit",
+    summary: "Placeholder summary text but I'm making it longer to see what happens and now I'm adding even more.",
+    imageUrl: "https://via.placeholder.com/150"
+};
+scene.add(sphere1);
 
-const coneMesh = new THREE.Mesh(
-  new THREE.ConeGeometry(0.5, 1, 32),
-  new THREE.MeshPhongMaterial({ color: 0x0000ff })
-);
-coneMesh.position.set(0, 1, 0);
-scene.add(coneMesh);
+const infoDiv = document.createElement('div');
+infoDiv.style.cssText = `
+    position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: rgba(255, 255, 255, 0.8);
+  padding: 10px;
+  border-radius: 10px;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+  z-index: 100;
+  max-width: 300px;
+  max-height: 400px;
+  overflow: auto;
+`;
 
-const cylinderMesh = new THREE.Mesh(
-  new THREE.CylinderGeometry(0.5, 0.5, 1, 32),
-  new THREE.MeshPhongMaterial({ color: 0xffff00 })
-);
-cylinderMesh.position.set(0, -1, 0);
-scene.add(cylinderMesh);
+infoDiv.style.display = "none";
 
-	  const spherePromises = rows.map(row => {
-  const [id, x, y, z, title, summary, url, imageUrl, keywords, actionWords] = row;
-  const coords = { x: Number(x), y: Number(y), z: Number(z) };
-  const inverseCoords = { x: -coords.x, y: -coords.y, z: -coords.z };
-  const userData = {
-    coords: coords,
-    inverseCoords: inverseCoords,
-    url: url,
-    title: title,
-    summary: summary,
-    keywords: keywords,
-    actionWords: actionWords,
-    imageUrl: imageUrl,
-  };
-  return new Promise((resolve, reject) => {
-    const loader = new THREE.TextureLoader();
-    loader.load(imageUrl, texture => {
-      const sphere = new THREE.Mesh(
-        new THREE.SphereGeometry(0.5, 32, 32),
-        new THREE.MeshPhongMaterial({ map: texture })
-      );
-      sphere.position.set(coords.x, coords.y, coords.z);
-      sphere.userData = userData;
-      scene.add(sphere);
-      resolve(sphere.userData);
-    }, undefined, reject);
-  });
+const coords = document.createElement('p');
+coords.textContent = `(${sphere1.userData.coords.x}, ${sphere1.userData.coords.y}, ${sphere1.userData.coords.z})`;
+infoDiv.appendChild(coords);
+
+const inverseCoords = document.createElement('p');
+inverseCoords.textContent = `Inverse: [${sphere1.userData.inverseCoords.x},${sphere1.userData.inverseCoords.y},${sphere1.userData.inverseCoords.z}]`;
+infoDiv.appendChild(inverseCoords);
+
+const url = document.createElement('p');
+url.textContent = `${sphere1.userData.url}`;
+url.style.wordWrap = 'break-word';
+infoDiv.appendChild(url);
+
+const title = document.createElement('p');
+title.textContent = `Title: ${sphere1.userData.title}`;
+infoDiv.appendChild(title);
+
+const keywords = document.createElement('p');
+keywords.textContent = `Keywords: ${sphere1.userData.keywords}`;
+infoDiv.appendChild(keywords);
+
+const actionWords = document.createElement('p');
+actionWords.textContent = `Action Words: ${sphere1.userData.actionWords}`;
+infoDiv.appendChild(actionWords);
+
+const summary = document.createElement('p');
+summary.textContent = `Summary: ${sphere1.userData.summary}`;
+summary.style.overflowWrap = "break-word";
+infoDiv.appendChild(summary);
+
+
+const image = document.createElement('img');
+image.src = sphere1.userData.imageUrl;
+image.alt = 'Sphere 1 Image';
+image.width = 150;
+image.height = 150;
+infoDiv.appendChild(image);
+
+document.body.appendChild(infoDiv);
+
+const canvas = document.querySelector('canvas');
+canvas.addEventListener('click', (event) => {
+    event.preventDefault();
+    const raycaster = new THREE.Raycaster();
+    const mouse = new THREE.Vector2();
+    mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
+    mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
+    raycaster.setFromCamera(mouse, camera);
+    const intersects = raycaster.intersectObjects(scene.children);
+    if (intersects.length > 0 && intersects[0].object === sphere1) {
+        console.log("Sphere 1 clicked!");
+        infoDiv.style.display = "block";
+    } else {
+        infoDiv.style.display = "none";
+    }
 });
 
-Promise.all(spherePromises)
-  .then(spheres => {
-    const infoDiv = createInfoDiv(spheres[0]);
-    document.body.appendChild(infoDiv);
-    for (let i = 0; i < spheres.length; i++) {
-      const { x, y, z } = spheres[i].coords;
-      const inverseX = -1 * x;
-      const inverseY = -1 * y;
-      const inverseZ = -1 * z;
-      spheres[i].inverseCoords = { x: inverseX, y: inverseY, z: inverseZ };
-    }
-  })
-  .catch(error => {
-    console.error(error);
-  });
+sphere1.addEventListener('mouseover', () => {
+    infoDiv.style.display = "block";
+});
 
-	    const sheetId = '1JHX3ghJYFD2DbbZI0Af5H1Urd1lg238j6lWbK23EFMc';
-  const sheetRange = 'Sheet1!A2:K';
-  const apiKey = 'AIzaSyB4WCgKCsz13xzw13Ln2kP1ZWuBWQYTj24';
-  let rows = [];
+sphere1.addEventListener('mouseout', () => {
+    infoDiv.style.display = "none";
+});
 
-  fetch(`https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${sheetRange}?key=${apiKey}`)
-    .then(response => response.json())
-    .then(data => {
-      const [headerRow, ...rowData] = data.values;
-      rows = rowData;
 
-      // Create spheres from the rows data
-      const spheres = createSpheres(rows.map(row => [Number(row[1]), Number(row[2]), Number(row[3])]));
 
-      // Add an event listener for clicking on any object in the scene
-      document.addEventListener('click', (event) => {
-        const raycaster = new THREE.Raycaster();
-        const mouse = new THREE.Vector2();
-        // Calculate mouse position in normalized device coordinates
-        mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-        mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+// Add sphere 2 to the scene
+const sphere2 = new THREE.Mesh(geometry1, material1);
 
-        // Cast a ray from the camera to the clicked point
-        raycaster.setFromCamera(mouse, camera);
-        const intersects = raycaster.intersectObjects(scene.children);
+sphere2.position.set(2, 0, 0);
+sphere2.userData = {
+coords: sphere2.position,
+inverseCoords: new THREE.Vector3(-sphere2.position.x, -sphere2.position.y, -sphere2.position.z),
+url: 'https://www.example.com',
+title: 'Example Title 2',
+summary: 'Example Summary 2',
+imageUrl: 'https://via.placeholder.com/150'
+};
+scene.add(sphere2);
 
-        if (intersects.length > 0) {
-          const selectedObject = intersects[0].object;
-          const { x, y, z } = selectedObject.userData.coords;
-          const { x: ix, y: iy, z: iz } = selectedObject.userData.inverseCoords;
+sphere2.addEventListener('click', () => {
+    console.log(`Coords: (${sphere2.userData.coords.x}, ${sphere2.userData.coords.y}, ${sphere2.userData.coords.z})`);
+    console.log(`Inverse Coords: (${sphere2.userData.inverseCoords.x}, ${sphere2.userData.inverseCoords.y}, ${sphere2.userData.inverseCoords.z})`);
+    console.log(`URL: ${sphere2.userData.url}`);
+    console.log(`Title: ${sphere2.userData.title}`);
+    console.log(`Summary: ${sphere2.userData.summary}`);
+    console.log(`Image URL: ${sphere2.userData.imageUrl}`);
+});
 
-          console.log(`Selected object coordinates: (${x}, ${y}, ${z})`);
-          console.log(`Selected object inverse coordinates: (${ix}, ${iy}, ${iz})`);
-          console.log(`Selected object URL: ${selectedObject.userData.url}`);
-          console.log(`Selected object title: ${selectedObject.userData.title}`);
-          console.log(`Selected object summary: ${selectedObject.userData.summary}`);
-          console.log(`Selected object image URL: ${selectedObject.userData.imageUrl}`);
-        }
-      });
-    })
-    .catch(error => {
-      console.error(error);
-    });
-	  
-	      // Add an event listener for clicking on any object in the scene
-    document.addEventListener('click', (event) => {
-      const raycaster = new THREE.Raycaster();
-      const mouse = new THREE.Vector2();
-      // Calculate mouse position in normalized device coordinates
-      mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-      mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+// Add an event listener for clicking on any object in the scene
+document.addEventListener('click', (event) => {
+const raycaster = new THREE.Raycaster();
+const mouse = new THREE.Vector2();
+	// Calculate mouse position in normalized device coordinates
+mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
 
-      // Cast a ray from the camera to the clicked point
-      raycaster.setFromCamera(mouse, camera);
-      const intersects = raycaster.intersectObjects(scene.children);
+// Cast a ray from the camera to the clicked point
+raycaster.setFromCamera(mouse, camera);
+const intersects = raycaster.intersectObjects(scene.children);
 
-      if (intersects.length > 0) {
-        const selectedObject = intersects[0].object;
-        const { x, y, z } = selectedObject.userData.coords;
-        const { x: ix, y: iy, z: iz } = selectedObject.userData.inverseCoords;
+if (intersects.length > 0) {
+    const selectedObject = intersects[0].object;
+    const { x, y, z } = selectedObject.userData.coords;
+    const { x: ix, y: iy, z: iz } = selectedObject.userData.inverseCoords;
 
-        console.log(`Selected object coordinates: (${x}, ${y}, ${z})`);
-        console.log(`Selected object inverse coordinates: (${ix}, ${iy}, ${iz})`);
-        console.log(`Selected object URL: ${selectedObject.userData.url}`);
-        console.log(`Selected object title: ${selectedObject.userData.title}`);
-        console.log(`Selected object summary: ${selectedObject.userData.summary}`);
-        console.log(`Selected object image URL: ${selectedObject.userData.imageUrl}`);
-      }
-    });
+    console.log(`Selected object coordinates: (${x}, ${y}, ${z})`);
+    console.log(`Selected object inverse coordinates: (${ix}, ${iy}, ${iz})`);
+    console.log(`Selected object URL: ${selectedObject.userData.url}`);
+    console.log(`Selected object title: ${selectedObject.userData.title}`);
+    console.log(`Selected object summary: ${selectedObject.userData.summary}`);
+    console.log(`Selected object image URL: ${selectedObject.userData.imageUrl}`);
+}
+});
 
-    camera.position.z = 5;
+camera.position.z = 5;
 
-    const cameraControl = new CameraControl(renderer, camera, () => {
-      renderer.render(scene, camera);
-    });
+const cameraControl = new CameraControl(renderer, camera, () => {
+renderer.render(scene, camera);
+});
 
-    function animate() {
-      requestAnimationFrame(animate);
-      renderer.render(scene, camera);
-    }
+function animate() {
+requestAnimationFrame(animate);
+renderer.render(scene, camera);
+}
 
-    animate();
+animate();
+		</script>
 	</body>
 </html>
+
