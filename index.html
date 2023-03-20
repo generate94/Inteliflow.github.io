@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>ssteliflow app</title>
+        <title>eliflow app</title>
 	<meta http-equiv="Permissions-Policy" content="geolocation=(self 'https://trusted-site.example')">
         <style>
 		canvas {
@@ -207,11 +207,11 @@ document.addEventListener('click', (event) => {
 		
 let coords;
 
-fetch(`https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/IA%20Calc!A8?key=${apiKey}`)
+fetch(`https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/IA%20Calc!A8,D2?key=${apiKey}`)
   .then(response => response.json())
   .then(data => {
-    coords = data.values[0][0].split(',').map(parseFloat);
-    console.log('coords:', coords);
+    const coords = data.values[0][0].split(',').map(parseFloat);
+    const url = data.values[1][0];
 
     // Create the cube
     const geometry = new THREE.BoxGeometry(1, 1, 1);
@@ -219,20 +219,21 @@ fetch(`https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/IA%20Calc
     const cube = new THREE.Mesh(geometry, material);
     cube.position.set(...coords);
     cube.userData = {
-        coords: coords,
-        inverseCoords: '',
-        url: '',
-        title: '',
-        summary: '',
-        keywords: '',
-        actionWords: '',
-        imageUrl: ''
-      };
+      coords: coords,
+      inverseCoords: coords.map(coord => -coord),
+      url: url,
+      title: '',
+      summary: '',
+      keywords: '',
+      actionWords: '',
+      imageUrl: ''
+    };
     scene.add(cube);
   })
   .catch(error => {
     console.error('Error fetching data:', error);
   });
+
 
 
 
