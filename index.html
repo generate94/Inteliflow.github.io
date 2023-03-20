@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>sssInteliflow app</title>
+        <title>1Inteliflow app</title>
 	<meta http-equiv="Permissions-Policy" content="geolocation=(self 'https://trusted-site.example')">
         <style>
 		canvas {
@@ -213,7 +213,7 @@ fetch(`https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/IA%20Calc
     console.log('coords:', coords);
     const inverseCoords = new THREE.Vector3(-coords[0], -coords[1], -coords[2]);
     const title = data.values[0][3];
-    console.log('url:', url);
+    console.log('title:', title);
 
     // Create the cube
     const geometry = new THREE.BoxGeometry(1, 1, 1);
@@ -225,7 +225,7 @@ fetch(`https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/IA%20Calc
       inverseCoords: inverseCoords,
       url: '',
       title: title,
-      summary: "This story is made up by AI to represent the content of an article fitting the inverse average of the other spheres.",
+      summary: "This story is made up by AI to represent the content of an article fitting the inverse average of the other stories.",
       keywords: '',
       actionWords: '',
       imageUrl: '',
