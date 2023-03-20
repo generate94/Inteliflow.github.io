@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>teliflow app</title>
+        <title>ssteliflow app</title>
 	<meta http-equiv="Permissions-Policy" content="geolocation=(self 'https://trusted-site.example')">
         <style>
 		canvas {
@@ -218,15 +218,15 @@ fetch(`https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/IA%20Calc
     const material = new THREE.MeshPhongMaterial({ color: 0x0000ff });
     const cube = new THREE.Mesh(geometry, material);
     cube.position.set(...coords);
-	cube.userData = {
+    cube.userData = {
         coords: coords,
-        inverseCoords: 
-        url: 
-        title: 
-        summary: 
-        keywords: 
-        actionWords: 
-        imageUrl:
+        inverseCoords: '',
+        url: '',
+        title: '',
+        summary: '',
+        keywords: '',
+        actionWords: '',
+        imageUrl: ''
       };
     scene.add(cube);
   })
