@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>44Inteliflow app</title>
+        <title>Inteliflow app</title>
 	<meta http-equiv="Permissions-Policy" content="geolocation=(self 'https://trusted-site.example')">
         <style>
 		canvas {
@@ -16,8 +16,8 @@
     </head>
     <body>
         <div id="legend" style="position: absolute; top: 10px; right: 10px; background-color: white; padding: 10px; z-index: 1; max-width: 300px; max-height: 400px; overflow: auto;">
-          <h3>Legend/Explanation</h3>
-          <p>This is a sample legend/explanation text. You can replace this with your own text.</p>
+          <h3>Inteliflow</h3>
+          <p> x = sentiment; y= activity; z = scale ranging -5 to 5 with 5 being the lowest. Model: gpt-3.5-turbo. The cube is calculated by findind the average of the sphere co-ordinates as if they are vectors and then making it negative. Then, the model predicts a story that would fit with those co-ordinates. </p>
         </div>
 
         <div id="info" style="position: absolute; top: 10px; left: 10px; z-index: 1; max-width: 300px; max-height: 400px; overflow: auto;">
