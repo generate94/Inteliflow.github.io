@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>aaInteliflow app</title>
+        <title>Inteliflow app</title>
 	<meta http-equiv="Permissions-Policy" content="geolocation=(self 'https://trusted-site.example')">
         <style>
 		canvas {
@@ -206,12 +206,13 @@ document.addEventListener('click', (event) => {
 
 		
 let coords;
-
-fetch(`https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/IA%20Calc!A8?key=${apiKey}`)
+		
+fetch(`https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/IA%20Calc!E2:D2?key=${apiKey}`)
   .then(response => response.json())
   .then(data => {
     const coords = data.values[0][0].split(',').map(parseFloat);
     console.log('coords:', coords);
+    const text = data.values[0][1];
 
     // Create the cube
     const geometry = new THREE.BoxGeometry(1, 1, 1);
@@ -223,24 +224,12 @@ fetch(`https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/IA%20Calc
       inverseCoords: '',
       url: '',
       title: '',
-      summary: '',
+      summary: text,
       keywords: '',
       actionWords: '',
       imageUrl: ''
     };
     scene.add(cube);
-  })
-  .catch(error => {
-    console.error('Error fetching data:', error);
-  });
-
-fetch(`https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/IA%20Calc!D2?key=${apiKey}`)
-  .then(response => response.json())
-  .then(data => {
-    const title = data.values[0][0].substring(8, data.values[0][0].length - 2);
-    console.log('title:', title);
-    const cube = scene.children[0];
-    cube.userData.title = title;
   })
   .catch(error => {
     console.error('Error fetching data:', error);
