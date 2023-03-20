@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>dddInteliflow app</title>
+        <title>sssInteliflow app</title>
 	<meta http-equiv="Permissions-Policy" content="geolocation=(self 'https://trusted-site.example')">
         <style>
 		canvas {
@@ -211,7 +211,8 @@ fetch(`https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/IA%20Calc
   .then(data => {
     const coords = data.values[0][4].split(',').map(parseFloat);
     console.log('coords:', coords);
-    const url = data.values[0][3];
+    const inverseCoords = new THREE.Vector3(-coords[0], -coords[1], -coords[2]);
+    const title = data.values[0][3];
     console.log('url:', url);
 
     // Create the cube
@@ -221,13 +222,13 @@ fetch(`https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/IA%20Calc
     cube.position.set(...coords);
     cube.userData = {
       coords: coords,
-      inverseCoords: '',
-      url: url,
-      title: "This story is made up using the inverse average of the other spheres",
-      summary: '',
+      inverseCoords: inverseCoords,
+      url: '',
+      title: title,
+      summary: "This story is made up by AI to represent the content of an article fitting the inverse average of the other spheres.",
       keywords: '',
       actionWords: '',
-      imageUrl: ''
+      imageUrl: '',
     };
     scene.add(cube);
   })
