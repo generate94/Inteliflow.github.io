@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>Inteliflow app</title>
+        <title>vvInteliflow app</title>
 	<meta http-equiv="Permissions-Policy" content="geolocation=(self 'https://trusted-site.example')">
         <style>
 		canvas {
@@ -151,7 +151,6 @@ summary.innerHTML = `<strong>Summary:</strong> ${mesh.userData.summary}`;
 
 const sheetId = '1JHX3ghJYFD2DbbZI0Af5H1Urd1lg238j6lWbK23EFMc';
 const sphereSheetRange = 'Sheet1!A2:K';
-const cubeSheetRange = 'IA Calc!A8:D8';
 const apiKey = 'AIzaSyB4WCgKCsz13xzw13Ln2kP1ZWuBWQYTj24';
 
 fetch(`https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${sphereSheetRange}?key=${apiKey}`)
@@ -207,12 +206,12 @@ document.addEventListener('click', (event) => {
 		
 let coords;
 		
-fetch(`https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/IA%20Calc!E2:D2?key=${apiKey}`)
+fetch(`https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/IA%20Calc!D2:E2?key=${apiKey}`)
   .then(response => response.json())
   .then(data => {
-    const coords = data.values[0][0].split(',').map(parseFloat);
+    const coords = data.values[0][1].split(',').map(parseFloat);
     console.log('coords:', coords);
-    const text = data.values[0][1];
+    const text = data.values[1][0];
 
     // Create the cube
     const geometry = new THREE.BoxGeometry(1, 1, 1);
@@ -224,16 +223,23 @@ fetch(`https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/IA%20Calc
       inverseCoords: '',
       url: '',
       title: '',
-      summary: text,
+      summary: '',
       keywords: '',
       actionWords: '',
       imageUrl: ''
     };
     scene.add(cube);
+
+    const summary = data.values[0][0];
+    console.log('summary:', summary);
+    const cube = scene.children[0];
+    cube.userData.summary = summary;
   })
   .catch(error => {
     console.error('Error fetching data:', error);
   });
+
+
 
 
 
