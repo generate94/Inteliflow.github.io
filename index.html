@@ -104,66 +104,6 @@ scene.add(xAxis);
 scene.add(yAxis);
 scene.add(zAxis);
 		
-		// Create the text materials for the labels
-const textMaterialPlus = new THREE.MeshBasicMaterial({ color: 0xffffff });
-const textMaterialMinus = new THREE.MeshBasicMaterial({ color: 0x999999 });
-
-// Create the text geometries for the labels
-const textGeometryPlusX = new THREE.TextGeometry("+X", {
-  font: new THREE.FontLoader().load('https://threejs.org/examples/fonts/helvetiker_regular.typeface.json'),
-  size: 0.5,
-  height: 0.1
-});
-const textGeometryMinusX = new THREE.TextGeometry("-X", {
-  font: new THREE.FontLoader().load('https://threejs.org/examples/fonts/helvetiker_regular.typeface.json'),
-  size: 0.5,
-  height: 0.1
-});
-const textGeometryPlusY = new THREE.TextGeometry("+Y", {
-  font: new THREE.FontLoader().load('https://threejs.org/examples/fonts/helvetiker_regular.typeface.json'),
-  size: 0.5,
-  height: 0.1
-});
-const textGeometryMinusY = new THREE.TextGeometry("-Y", {
-  font: new THREE.FontLoader().load('https://threejs.org/examples/fonts/helvetiker_regular.typeface.json'),
-  size: 0.5,
-  height: 0.1
-});
-const textGeometryPlusZ = new THREE.TextGeometry("+Z", {
-  font: new THREE.FontLoader().load('https://threejs.org/examples/fonts/helvetiker_regular.typeface.json'),
-  size: 0.5,
-  height: 0.1
-});
-const textGeometryMinusZ = new THREE.TextGeometry("-Z", {
-  font: new THREE.FontLoader().load('https://threejs.org/examples/fonts/helvetiker_regular.typeface.json'),
-  size: 0.5,
-  height: 0.1
-});
-
-// Create the text meshes for the labels
-const textMeshPlusX = new THREE.Mesh(textGeometryPlusX, textMaterialPlus);
-const textMeshMinusX = new THREE.Mesh(textGeometryMinusX, textMaterialMinus);
-const textMeshPlusY = new THREE.Mesh(textGeometryPlusY, textMaterialPlus);
-const textMeshMinusY = new THREE.Mesh(textGeometryMinusY, textMaterialMinus);
-const textMeshPlusZ = new THREE.Mesh(textGeometryPlusZ, textMaterialPlus);
-const textMeshMinusZ = new THREE.Mesh(textGeometryMinusZ, textMaterialMinus);
-
-// Position the text meshes for the labels
-textMeshPlusX.position.set(5.5, 0, 0);
-textMeshMinusX.position.set(-6, 0, 0);
-textMeshPlusY.position.set(0, 5.5, 0);
-textMeshMinusY.position.set(0, -6, 0);
-textMeshPlusZ.position.set(0, 0, 5.5);
-textMeshMinusZ.position.set(0, 0, -6);
-
-// Add the text meshes for the labels to the scene
-scene.add(textMeshPlusX);
-scene.add(textMeshMinusX);
-scene.add(textMeshPlusY);
-scene.add(textMeshMinusY);
-scene.add(textMeshPlusZ);
-scene.add(textMeshMinusZ);
-
 
             // Add ambient light
             const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
