@@ -259,9 +259,14 @@ renderer.render(scene, camera);
 });
 
 function animate() {
-requestAnimationFrame(animate);
-renderer.render(scene, camera);
+    requestAnimationFrame(animate);
+    
+    // Rotate the scene around the Y-axis
+    scene.rotation.y += 0.005;
+
+    renderer.render(scene, camera);
 }
+
 
 animate();
 		</script>
