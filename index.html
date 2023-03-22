@@ -258,11 +258,19 @@ camera.position.set(0, 0, 20)
 renderer.render(scene, camera);
 });
 
+// Add directional light
+const dirLight = new THREE.DirectionalLight(0xffffff, 1);
+dirLight.position.set(0, 1, 1).normalize();
+scene.add(dirLight);
+
 function animate() {
     requestAnimationFrame(animate);
-    
+
     // Rotate the scene around the Y-axis
     scene.rotation.y += 0.005;
+
+    // Update directional light position to match scene rotation
+    dirLight.position.copy(camera.position);
 
     renderer.render(scene, camera);
 }
