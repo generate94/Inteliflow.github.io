@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>vInteliflow</title>
+        <title>qInteliflow</title>
 	<meta http-equiv="Permissions-Policy" content="geolocation=(self 'https://trusted-site.example')">
         <style>
 		canvas {
@@ -256,17 +256,17 @@ fetch(`https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/IA%20Calc
 
 
 
-<div id="wolfram-div"></div>
-<script>
-  const wolframDiv = document.getElementById("wolfram-div");
-  const wolframAPIUrl = "http://api.wolframalpha.com/v1/simple?appid=Y8W4KQ-6G8T5VWULE&i=pi";
-  const iframe = document.createElement("iframe");
-  iframe.src = wolframAPIUrl;
-  iframe.width = "100%";
-  iframe.height = "500px";
-  wolframDiv.appendChild(iframe);
-</script>
-
+<div id="wolfram-div">
+  <script>
+    const wolframDiv = document.getElementById("wolfram-div");
+    const wolframAPIUrl = "http://api.wolframalpha.com/v1/simple?appid=Y8W4KQ-6G8T5VWULE&i=pi";
+    const iframe = document.createElement("iframe");
+    iframe.src = wolframAPIUrl;
+    iframe.width = "100%";
+    iframe.height = "500px";
+    wolframDiv.appendChild(iframe);
+  </script>
+</div>
 
 
 
