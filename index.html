@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>tInteliflow</title>
+        <title>mInteliflow</title>
 	<meta http-equiv="Permissions-Policy" content="geolocation=(self 'https://trusted-site.example')">
         <style>
 		canvas {
@@ -33,17 +33,18 @@
           <div id="summary"></div>
           <img id="image" />
         </div>
-	       <div id="wolfram-div">
+	      <div id="wolfram-div" style="position: absolute; top: 10px; right: 10px; background-color: white; padding: 10px; z-index: 1; max-width: 300px; max-height: 400px; overflow: auto;">
   <script>
     const wolframDiv = document.getElementById("wolfram-div");
     const wolframAPIUrl = "https://api.wolframalpha.com/v1/simple?appid=Y8W4KQ-6G8T5VWULE&i=pi";
     const iframe = document.createElement("iframe");
     iframe.src = wolframAPIUrl;
     iframe.width = "100%";
-    iframe.height = "500px";
+    iframe.height = "100%";
     wolframDiv.appendChild(iframe);
   </script>
 </div>
+
 
 
         <script type="module">
