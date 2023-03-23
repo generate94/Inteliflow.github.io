@@ -33,29 +33,21 @@
           <div id="summary"></div>
           <img id="image" />
         </div>
-
 <div id="wolfram-div"></div>
 <script>
-  // Get all sphere positions
-  const spherePositions = [];
-  const sphereObjects = scene.children.filter(child => child instanceof THREE.Mesh && child.geometry instanceof THREE.SphereGeometry);
+  // Convert the coords array to a string in the format "{{x,y,z},{x,y,z},...}"
+  const coordsString = coords.map(({ x, y, z }) => `{${x},${y},${z}}`).join("");
 
-  sphereObjects.forEach(sphere => {
-    spherePositions.push(sphere.position.toArray());
-  });
-
-  // Convert sphere positions to a string in the correct format for the Wolfram API
-  const spherePositionsString = spherePositions.map(position => `{${position.join(',')}}`).join(',');
-
-  // Call the Wolfram API with the sphere positions string as the input
+  // Call the Wolfram API with the coords string as the input
   const wolframDiv = document.getElementById("wolfram-div");
-  const wolframUrl = `http://api.wolframalpha.com/v1/simple?appid=DEMO&i=${encodeURIComponent(spherePositionsString)}`;
+  const wolframUrl = `http://api.wolframalpha.com/v1/simple?appid=DEMO&i=${encodeURIComponent(coordsString)}`;
   const iframe = document.createElement("iframe");
   iframe.src = wolframUrl;
   iframe.width = "100%";
   iframe.height = "500px";
   wolframDiv.appendChild(iframe);
 </script>
+
 
         <script type="module">
             import * as THREE from 'https://unpkg.com/three/build/three.module.js';
