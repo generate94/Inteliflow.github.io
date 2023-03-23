@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>qInteliflow</title>
+        <title>yInteliflow</title>
 	<meta http-equiv="Permissions-Policy" content="geolocation=(self 'https://trusted-site.example')">
         <style>
 		canvas {
@@ -33,21 +33,33 @@
           <div id="summary"></div>
           <img id="image" />
         </div>
+
 <div id="wolfram-div"></div>
 <script>
-  // Convert the coords array to a string in the format "{{x,y,z},{x,y,z},...}"
-  const coordsString = coords.map(({ x, y, z }) => `{${x},${y},${z}}`).join("");
+  // Create an array to hold the sphere positions
+  const spherePositions = [];
 
-  // Call the Wolfram API with the coords string as the input
+  // Iterate through all sphere objects in the scene and add their positions to the array
+  scene.traverse((object) => {
+    if (object instanceof THREE.Mesh && object.geometry instanceof THREE.SphereGeometry) {
+      spherePositions.push(object.position.toArray());
+    }
+  });
+
+  // Convert the sphere positions array to a string in the format "{{x,y,z},{x,y,z},...}"
+  const spherePositionsString = spherePositions.map(position => `{${position.join(',')}}`).join(',');
+
+  // Call the Wolfram API with the sphere positions string as the input
+  const wolframAPIUrl = `http://api.wolframalpha.com/v1/simple?appid=DEMO&i=${encodeURIComponent(spherePositionsString)}`;
+
   const wolframDiv = document.getElementById("wolfram-div");
-  const wolframUrl = `http://api.wolframalpha.com/v1/simple?appid=DEMO&i=${encodeURIComponent(coordsString)}`;
   const iframe = document.createElement("iframe");
-  iframe.src = wolframUrl;
+  iframe.src = wolframAPIUrl;
   iframe.width = "100%";
   iframe.height = "500px";
   wolframDiv.appendChild(iframe);
 </script>
-</div>
+
 
 
         <script type="module">
