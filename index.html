@@ -17,7 +17,7 @@
     <body>
         <div id="legend" style="position: absolute; top: 10px; right: 10px; background-color: white; padding: 10px; z-index: 1; max-width: 300px; max-height: 400px; overflow: auto;">
           <h3>Inteliflow</h3>
-          <p>x = sentiment; y = activity; z = scale (-5 to 5).</p>
+          <p><span style="color: #ff0000">x = sentiment;</span> <span style="color: #00ff00">y = activity;</span> <span style="color: #0000ff">z = scale</span> (-5 to 5).</p>
 <p>Model: gpt-3.5-turbo.</p>
 <p>Inteliflow is a tool that analyzes news articles and creates 3D environments to present stories in an engaging way. It suggests potential news stories to balance out others and helps us better understand and connect with the news.</p>
 
@@ -94,6 +94,16 @@
             const renderer = new THREE.WebGLRenderer();
             renderer.setSize(window.innerWidth, window.innerHeight);
             document.body.appendChild(renderer.domElement);
+		
+		const xAxis = new THREE.ArrowHelper(new THREE.Vector3(1, 0, 0), new THREE.Vector3(0, 0, 0), 5, 0xff0000);
+const yAxis = new THREE.ArrowHelper(new THREE.Vector3(0, 1, 0), new THREE.Vector3(0, 0, 0), 5, 0x00ff00);
+const zAxis = new THREE.ArrowHelper(new THREE.Vector3(0, 0, 1), new THREE.Vector3(0, 0, 0), 5, 0x0000ff);
+
+// Add the arrow helpers to the scene
+scene.add(xAxis);
+scene.add(yAxis);
+scene.add(zAxis);
+		
 
             // Add ambient light
             const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
@@ -258,11 +268,19 @@ camera.position.set(0, 0, 20)
 renderer.render(scene, camera);
 });
 
+// Add directional light
+const dirLight = new THREE.DirectionalLight(0xffffff, 1);
+dirLight.position.set(0, 1, 1).normalize();
+scene.add(dirLight);
+
 function animate() {
     requestAnimationFrame(animate);
-    
+
     // Rotate the scene around the Y-axis
     scene.rotation.y += 0.005;
+
+    // Update directional light position to match scene rotation
+    dirLight.position.copy(camera.position);
 
     renderer.render(scene, camera);
 }
