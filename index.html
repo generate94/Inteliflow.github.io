@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>qqqInteliflow</title>
+        <title>q2Inteliflow</title>
 	<meta http-equiv="Permissions-Policy" content="geolocation=(self 'https://trusted-site.example')">
         <style>
 		canvas {
@@ -259,6 +259,7 @@ fetch(`https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/IA%20Calc
 
 
 <div id="wolfram-div"></div>
+
 <script>
   // Create an array to hold the sphere positions
   const spherePositions = [];
@@ -283,25 +284,19 @@ fetch(`https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/IA%20Calc
   iframe.height = "500px";
   wolframDiv.appendChild(iframe);
 </script>
-</div>
 
+<script>
+  camera.position.set(0, 0, 20);
+  const cameraControl = new CameraControl(renderer, camera, () => {
+    renderer.render(scene, camera);
+  });
 
+  // Add directional light
+  const dirLight = new THREE.DirectionalLight(0xffffff, 1);
+  dirLight.position.set(0, 1, 1).normalize();
+  scene.add(dirLight);
 
-
-
-
-
-camera.position.set(0, 0, 20)
-		const cameraControl = new CameraControl(renderer, camera, () => {
-renderer.render(scene, camera);
-});
-
-// Add directional light
-const dirLight = new THREE.DirectionalLight(0xffffff, 1);
-dirLight.position.set(0, 1, 1).normalize();
-scene.add(dirLight);
-
-function animate() {
+  function animate() {
     requestAnimationFrame(animate);
 
     // Rotate the scene around the Y-axis
@@ -311,11 +306,11 @@ function animate() {
     dirLight.position.copy(camera.position);
 
     renderer.render(scene, camera);
-}
+  }
 
-
-animate();
-		</script>
-	</body>
+  animate();
+</script>
+</body>
 </html>
+
 
