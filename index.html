@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>2Inteliflow</title>
+        <title>Inteliflow</title>
 	<meta http-equiv="Permissions-Policy" content="geolocation=(self 'https://trusted-site.example')">
         <style>
 		canvas {
@@ -17,7 +17,7 @@
     <body>
         <div id="legend" style="position: absolute; top: 10px; right: 10px; background-color: white; padding: 10px; z-index: 1; max-width: 300px; max-height: 400px; overflow: auto;">
           <h3>Inteliflow</h3>
-          <p><span style="color: #ff0000">x = sentiment;</span> <span style="color: #00ff00">y = activity;</span> <span style="color: #0000ff">z = scale</span> (-5 to 5).</p>
+          <p>x = sentiment; y = activity; z = scale (-5 to 5).</p>
 <p>Model: gpt-3.5-turbo.</p>
 <p>Inteliflow is a tool that analyzes news articles and creates 3D environments to present stories in an engaging way. It suggests potential news stories to balance out others and helps us better understand and connect with the news.</p>
 
@@ -33,9 +33,6 @@
           <div id="summary"></div>
           <img id="image" />
         </div>
-
-
-
 
         <script type="module">
             import * as THREE from 'https://unpkg.com/three/build/three.module.js';
@@ -97,16 +94,6 @@
             const renderer = new THREE.WebGLRenderer();
             renderer.setSize(window.innerWidth, window.innerHeight);
             document.body.appendChild(renderer.domElement);
-		
-		const xAxis = new THREE.ArrowHelper(new THREE.Vector3(1, 0, 0), new THREE.Vector3(0, 0, 0), 5, 0xff0000);
-const yAxis = new THREE.ArrowHelper(new THREE.Vector3(0, 1, 0), new THREE.Vector3(0, 0, 0), 5, 0x00ff00);
-const zAxis = new THREE.ArrowHelper(new THREE.Vector3(0, 0, 1), new THREE.Vector3(0, 0, 0), 5, 0x0000ff);
-
-// Add the arrow helpers to the scene
-scene.add(xAxis);
-scene.add(yAxis);
-scene.add(zAxis);
-		
 
             // Add ambient light
             const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
@@ -258,35 +245,14 @@ fetch(`https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/IA%20Calc
   });
 
 
-<div id="wolfram-div"></div>
 
-<script>
-  // Create an array to hold the sphere positions
-  const spherePositions = [];
 
-  // Iterate through all sphere objects in the scene and add their positions to the array
-  scene.traverse((object) => {
-    if (object instanceof THREE.Mesh && object.geometry instanceof THREE.SphereGeometry) {
-      spherePositions.push(object.position.toArray());
-    }
-  });
 
-  // Convert the sphere positions array to a string in the format "{{x,y,z},{x,y,z},...}"
-  const spherePositionsString = spherePositions.map(position => `{${position.join(',')}}`).join(',');
 
-  // Call the Wolfram API with the sphere positions string as the input
-  const wolframAPIUrl = `http://api.wolframalpha.com/v1/simple?appid=Y8W4KQ-6G8T5VWULE&i=${encodeURIComponent(spherePositionsString)}`;
 
-  const wolframDiv = document.getElementById("wolfram-div");
-  const iframe = document.createElement("iframe");
-  iframe.src = wolframAPIUrl;
-  iframe.width = "100%";
-  iframe.height = "500px";
-  wolframDiv.appendChild(iframe);
-</script>
 
-<script>
-	
+
+
 camera.position.set(0, 0, 20)
 		const cameraControl = new CameraControl(renderer, camera, () => {
 renderer.render(scene, camera);
@@ -306,5 +272,3 @@ animate();
 		</script>
 	</body>
 </html>
-
-
