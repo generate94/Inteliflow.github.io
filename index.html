@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>nInteliflow</title>
+        <title>tInteliflow</title>
 	<meta http-equiv="Permissions-Policy" content="geolocation=(self 'https://trusted-site.example')">
         <style>
 		canvas {
@@ -34,16 +34,17 @@
           <img id="image" />
         </div>
 	       <div id="wolfram-div">
-      <script>
-        const wolframDiv = document.getElementById("wolfram-div");
-        const wolframAPIUrl = "http://api.wolframalpha.com/v1/simple?appid=Y8W4KQ-6G8T5VWULE&i=pi";
-        const iframe = document.createElement("iframe");
-        iframe.src = wolframAPIUrl;
-        iframe.width = "100%";
-        iframe.height = "500px";
-        wolframDiv.appendChild(iframe);
-      </script>
-    </div>
+  <script>
+    const wolframDiv = document.getElementById("wolfram-div");
+    const wolframAPIUrl = "https://api.wolframalpha.com/v1/simple?appid=Y8W4KQ-6G8T5VWULE&i=pi";
+    const iframe = document.createElement("iframe");
+    iframe.src = wolframAPIUrl;
+    iframe.width = "100%";
+    iframe.height = "500px";
+    wolframDiv.appendChild(iframe);
+  </script>
+</div>
+
 
         <script type="module">
             import * as THREE from 'https://unpkg.com/three/build/three.module.js';
