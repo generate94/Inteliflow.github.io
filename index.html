@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>kInteliflow</title>
+        <title>jInteliflow</title>
 	<meta http-equiv="Permissions-Policy" content="geolocation=(self 'https://trusted-site.example')">
         <style>
 		canvas {
@@ -18,7 +18,7 @@
 <div id="legend" style="position: absolute; top: 10px; right: 10px; background-color: white; padding: 10px; z-index: 1; max-width: 300px; max-height: 400px; overflow: auto; box-sizing: border-box;">
   <h3>Inteliflow</h3>
           <p><span style="color: #ff0000">x = sentiment;</span> <span style="color: #00ff00">y = activity;</span> <span style="color: #0000ff">z = scale</span> (-5 to 5).</p>
-<p>Model: gpt-3.5-turbo.</p>
+<p>Model: gpt-3.5-turbo</p>
 <p>Inteliflow is a tool that analyzes news articles and creates 3D environments to present stories in an engaging way. It suggests potential news stories to balance out others and helps us better understand and connect with the news.</p>
 
         </div>
@@ -33,7 +33,7 @@
           <div id="summary"></div>
           <img id="image" />
         </div>
-<div id="wolfram-div" style="position: absolute; bottom: 10px; right: 10px; background-color: white; padding: 10px; z-index: 1; max-width: 300px; max-height: 400px; overflow: auto; box-sizing: border-box;">
+<div id="wolfram-div" style="position: absolute; bottom: 10px; right: 10px; background-color: white; padding: 10px; z-index: 1; max-width: 300px; height: calc(100% - 110px); overflow: auto; box-sizing: border-box;">
   <script>
     const wolframDiv = document.getElementById("wolfram-div");
     const wolframAPIUrl = "https://api.wolframalpha.com/v1/simple?appid=Y8W4KQ-6G8T5VWULE&i=pi";
