@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>vvInteliflow</title>
+        <title>mmInteliflow</title>
 	<meta http-equiv="Permissions-Policy" content="geolocation=(self 'https://trusted-site.example')">
         <style>
 		canvas {
@@ -59,7 +59,7 @@
     }
 
     getCoordinates().then(coords => {
-      const wolframAPIUrl = `https://api.wolframalpha.com/v1/simple?appid=Y8W4KQ-6G8T5VWULE&i=$"Process the following as a matrix"+{coords}`;
+      const wolframAPIUrl = `https://api.wolframalpha.com/v1/simple?appid=Y8W4KQ-6G8T5VWULE&i=Process the following as a matrix ${coords}`;
       const iframe = document.createElement("iframe");
       iframe.src = wolframAPIUrl;
       iframe.width = "100%";
