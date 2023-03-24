@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>qqInteliflow</title>
+        <title>vvInteliflow</title>
 	<meta http-equiv="Permissions-Policy" content="geolocation=(self 'https://trusted-site.example')">
         <style>
 		canvas {
@@ -33,31 +33,33 @@
           <div id="summary"></div>
           <img id="image" />
         </div>
+	    
+	    
+	    
 	  
-<div id="wolfram-div" style="position: absolute; bottom: 10px; right: 10px;top: 300px; background-color: white; padding: 10px; z-index: 1; max-width: 300px; max-height: 400; overflow: auto; box-sizing: border-box;">
+<div id="wolfram-div" style="position: absolute; bottom: 10px; right: 10px;top: 300px; background-color: white; padding: 10px; z-index: 1; max-width: 300px; max-height: 400; overflow: auto; box-sizing: border-box; overflow-x: hidden;">
   <script>
     const wolframDiv = document.getElementById("wolfram-div");
     const sheetId = "1JHX3ghJYFD2DbbZI0Af5H1Urd1lg238j6lWbK23EFMc";
     const apiKey = "AIzaSyB4WCgKCsz13xzw13Ln2kP1ZWuBWQYTj24";
 
     function formatCoordinates(coords) {
-      return coords.split(",").map(Number).join("|");
+      return coords.split(",").map(Number).join(",");
     }
 
     function formatInput(inputArr) {
-      const matrix = inputArr.map(row => formatCoordinates(row)).join("\n");
-      return `input matrix ${matrix} | dimensions | matrix plot | matrix rank | nullity | pseudoinverse`;
+      return "{" + inputArr.map(formatCoordinates).join("},{") + "}";
     }
 
     function getCoordinates() {
       return fetch(`https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/Sheet1!I2:I6?key=${apiKey}`)
         .then(response => response.json())
-        .then(data => data.values)
+        .then(data => data.values.map(row => row[0]))
         .then(formatInput);
     }
 
     getCoordinates().then(coords => {
-      const wolframAPIUrl = `https://api.wolframalpha.com/v1/simple?appid=Y8W4KQ-6G8T5VWULE&i=${coords}`;
+      const wolframAPIUrl = `https://api.wolframalpha.com/v1/simple?appid=YOUR_APP_ID&i=$"Process the following as a matrix"+{coords}`;
       const iframe = document.createElement("iframe");
       iframe.src = wolframAPIUrl;
       iframe.width = "100%";
