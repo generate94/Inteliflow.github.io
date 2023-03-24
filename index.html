@@ -33,17 +33,42 @@
           <div id="summary"></div>
           <img id="image" />
         </div>
+	    // wolframdiv
 <div id="wolfram-div" style="position: absolute; bottom: 10px; right: 10px;top: 300px; background-color: white; padding: 10px; z-index: 1; max-width: 300px; max-height: 400; overflow: auto; box-sizing: border-box;">
   <script>
-    const wolframDiv = document.getElementById("wolfram-div");
-    const wolframAPIUrl = "https://api.wolframalpha.com/v1/simple?appid=Y8W4KQ-6G8T5VWULE&i=pi&width=200";
-    const iframe = document.createElement("iframe");
-    iframe.src = wolframAPIUrl;
-    iframe.width = "100%";
-    iframe.height = "100%";
-    wolframDiv.appendChild(iframe);
+    // Google Sheets API key and spreadsheet ID
+    const apiKey = "AIzaSyB4WCgKCsz13xzw13Ln2kP1ZWuBWQYTj24";
+    const spreadsheetId = "1JHX3ghJYFD2DbbZI0Af5H1Urd1lg238j6lWbK23EFMc";
+
+    // Get coordinates from Google Sheets
+    const sheetName = "Sheet1";
+    const startRow = 2;
+    const endRow = 6;
+    const column = "I";
+    const sheetUrl = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${sheetName}!${column}${startRow}:${column}${endRow}?key=${apiKey}`;
+    fetch(sheetUrl)
+      .then(response => response.json())
+      .then(data => {
+        const coordinates = data.values.map(row => {
+          const [x, y, z] = row[0].split(",");
+          return `{${x},${y},${z}}`;
+        }).join(",");
+        
+        // Format coordinates for Wolfram Alpha API input
+        const wolframAPIUrl = `https://api.wolframalpha.com/v1/simple?appid=Y8W4KQ-6G8T5VWULE&i={{${coordinates}}}&width=200`;
+
+        // Create and append iframe
+        const wolframDiv = document.getElementById("wolfram-div");
+        const iframe = document.createElement("iframe");
+        iframe.src = wolframAPIUrl;
+        iframe.width = "100%";
+        iframe.height = "100%";
+        wolframDiv.appendChild(iframe);
+      })
+      .catch(error => console.error(error));
   </script>
 </div>
+
 
 
         <script type="module">
