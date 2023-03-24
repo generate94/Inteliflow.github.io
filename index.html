@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>Inteliflow</title>
+        <title>qInteliflow</title>
 	<meta http-equiv="Permissions-Policy" content="geolocation=(self 'https://trusted-site.example')">
         <style>
 		canvas {
@@ -36,38 +36,36 @@
 	    // wolframdiv
 <div id="wolfram-div" style="position: absolute; bottom: 10px; right: 10px;top: 300px; background-color: white; padding: 10px; z-index: 1; max-width: 300px; max-height: 400; overflow: auto; box-sizing: border-box;">
   <script>
-    // Google Sheets API key and spreadsheet ID
+    const wolframDiv = document.getElementById("wolfram-div");
+    const sheetId = "1JHX3ghJYFD2DbbZI0Af5H1Urd1lg238j6lWbK23EFMc";
     const apiKey = "AIzaSyB4WCgKCsz13xzw13Ln2kP1ZWuBWQYTj24";
-    const spreadsheetId = "1JHX3ghJYFD2DbbZI0Af5H1Urd1lg238j6lWbK23EFMc";
 
-    // Get coordinates from Google Sheets
-    const sheetName = "Sheet1";
-    const startRow = 2;
-    const endRow = 6;
-    const column = "I";
-    const sheetUrl = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${sheetName}!${column}${startRow}:${column}${endRow}?key=${apiKey}`;
-    fetch(sheetUrl)
-      .then(response => response.json())
-      .then(data => {
-        const coordinates = data.values.map(row => {
-          const [x, y, z] = row[0].split(",");
-          return `{${x},${y},${z}}`;
-        }).join(",");
-        
-        // Format coordinates for Wolfram Alpha API input
-        const wolframAPIUrl = `https://api.wolframalpha.com/v1/simple?appid=Y8W4KQ-6G8T5VWULE&i={{${coordinates}}}&width=200`;
+    function formatCoordinates(coords) {
+      return coords.split(",").map(Number).join(",");
+    }
 
-        // Create and append iframe
-        const wolframDiv = document.getElementById("wolfram-div");
-        const iframe = document.createElement("iframe");
-        iframe.src = wolframAPIUrl;
-        iframe.width = "100%";
-        iframe.height = "100%";
-        wolframDiv.appendChild(iframe);
-      })
-      .catch(error => console.error(error));
+    function formatInput(inputArr) {
+      return "{" + inputArr.map(formatCoordinates).join("},{") + "}";
+    }
+
+    function getCoordinates() {
+      return fetch(`https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/Sheet1!I2:I6?key=${apiKey}`)
+        .then(response => response.json())
+        .then(data => data.values.map(row => row[0]))
+        .then(formatInput);
+    }
+
+    getCoordinates().then(coords => {
+      const wolframAPIUrl = `https://api.wolframalpha.com/v1/simple?appid=Y8W4KQ-6G8T5VWULE&i=ListPointPlot3D[${coords}]`;
+      const iframe = document.createElement("iframe");
+      iframe.src = wolframAPIUrl;
+      iframe.width = "100%";
+      iframe.height = "100%";
+      wolframDiv.appendChild(iframe);
+    });
   </script>
 </div>
+
 
 
 
